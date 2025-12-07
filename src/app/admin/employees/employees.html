@@ -1,0 +1,124 @@
+<div class="page-layout">
+
+
+<!-- FILTER SIDEBAR -->
+<div class="filter-column">
+  <div class="filters-card">
+
+    <div class="filter-header">
+      <h2>Filters</h2>
+      <button class="reset-btn" (click)="clearFilters()">Reset ✦</button>
+    </div>
+
+    <!-- STACK FILTER -->
+    <div class="filter-group">
+      <label class="filter-label">
+        <span> Stack</span>
+      </label>
+      <select [(ngModel)]="selectedStackId" (change)="onStackChange($event)">
+        <option value="">All Stacks</option>
+        <option *ngFor="let stack of stacks" [value]="stack.id">{{ stack.name }}</option>
+      </select>
+    </div>
+
+    <!-- CATEGORY FILTER -->
+    <div class="filter-group">
+      <label class="filter-label"> Category</label>
+      <select [(ngModel)]="selectedCategoryId" (change)="onCategoryChange($event)" [disabled]="!filteredCategories.length">
+        <option value="">All Categories</option>
+        <option *ngFor="let category of filteredCategories" [value]="category.id">{{ category.name }}</option>
+      </select>
+    </div>
+
+    <!-- SKILL FILTER -->
+    <div class="filter-group">
+      <label class="filter-label"> Skill</label>
+      <select [(ngModel)]="selectedSkillId" (change)="onSkillChangeDropdown($event)" [disabled]="!filteredSkills.length">
+        <option value="">All Skills</option>
+        <option *ngFor="let skill of filteredSkills" [value]="skill.id">{{ skill.name }}</option>
+      </select>
+    </div>
+
+    <!-- DATE FILTER -->
+    <div class="filter-group">
+      <label class="filter-label">Last Used</label>
+      <input type="date" [(ngModel)]="selectedLastUsedDate" (change)="filterEmployees()" />
+    </div>
+
+    <!-- POSITION FILTER -->
+    <div class="filter-group">
+      <label class="filter-label"> Position</label>
+      <select [(ngModel)]="selectedPosition" (change)="onPositionDropdownChange($event)">
+        <option value="">All Positions</option>
+        <option *ngFor="let pos of positions" [value]="pos.name">{{ pos.name }}</option>
+      </select>
+    </div>
+    <!-- TEAM FILTER -->
+<div class="filter-group">
+  <label class="filter-label">Team</label>
+  <select [(ngModel)]="selectedTeam" (change)="onTeamChange($event)">
+    <option value="">All Teams</option>
+    <option *ngFor="let t of teamNames" [value]="t">{{ t }}</option>
+  </select>
+</div>
+
+<!-- PRODUCT FILTER -->
+<div class="filter-group">
+  <label class="filter-label">Product</label>
+  <select [(ngModel)]="selectedProduct" (change)="onProductChange($event)">
+    <option value="">All Products</option>
+    <option *ngFor="let p of productNames" [value]="p">{{ p }}</option>
+  </select>
+</div>
+
+
+    <!-- SEARCH FILTER -->
+    <div class="filter-group">
+      <label class="filter-label"> Search</label>
+      <div class="input-wrapper">
+        <input type="text" placeholder="Search by name/email..." [(ngModel)]="searchText" (input)="onSearch()" />
+        <span class="input-icon"></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+  <!-- Right: Employees Table -->
+  <div class="table-column">
+    <div class="table-container">
+      <div class="employee-header">
+        <h2>Employee List</h2>
+      </div>
+
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Employee #</th>
+            <th>Email</th>
+            <th>Position</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of filteredEmployees">
+            <td>{{ employee.firstName }}</td>
+            <td>{{ employee.lastName }}</td>
+            <td>{{ employee.employeeNumber }}</td>
+            <td>{{ employee.email }}</td>
+            <td>{{ employee.position }}</td>
+            <td>
+              <button class="view-btn" (click)="viewProfile(employee.id)">View</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p *ngIf="filteredEmployees.length === 0" class="no-data">No employees found.</p>
+    </div>
+  </div>
+
+</div>

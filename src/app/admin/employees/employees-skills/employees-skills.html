@@ -1,0 +1,123 @@
+<div class="page-layout">
+  <!-- Left Filter Column -->
+  <div class="filter-column">
+    <div class="filters-card">
+      <div class="filter-header">
+        <h2>Filters</h2>
+        <button class="reset-btn" (click)="clearFilters()">Reset</button>
+      </div>
+
+<!-- Stack Filter -->
+<div class="filter-group">
+  <label class="filter-label">Stack</label>
+  <select [(ngModel)]="selectedStackId" (change)="onStackChange($event)">
+    <option [value]="null">Select Stack</option>
+    <option *ngFor="let stack of stacks" [value]="stack.id">{{ stack.name }}</option>
+  </select>
+</div>
+
+<!-- Category Filter -->
+<div class="filter-group">
+  <label class="filter-label">Category</label>
+  <select [(ngModel)]="selectedCategoryId" (change)="onCategoryChange($event)">
+    <option [value]="null">Select Category</option>
+    <option *ngFor="let cat of filteredCategories" [value]="cat.id">{{ cat.name }}</option>
+  </select>
+</div>
+
+<!-- Skill Filter -->
+<div class="filter-group">
+  <label class="filter-label">Skill</label>
+  <select [(ngModel)]="selectedSkillId" (change)="onSkillChangeDropdown($event)">
+    <option [value]="null">Select Skill</option>
+    <option *ngFor="let skill of filteredSkills" [value]="skill.id">{{ skill.name }}</option>
+  </select>
+</div>
+
+<!-- Position Filter -->
+<div class="filter-group">
+  <label class="filter-label">Position</label>
+  <select [(ngModel)]="selectedPosition" (change)="onPositionDropdownChange($event)">
+    <option value="">Select Position</option>
+    <option *ngFor="let pos of positions">{{ pos.name }}</option>
+  </select>
+</div>
+
+<!-- Team Filter -->
+<div class="filter-group">
+  <label class="filter-label">Team</label>
+  <select [(ngModel)]="selectedTeam" (change)="onTeamChange($event)">
+    <option value="">Select Team</option>
+    <option *ngFor="let team of teamNames">{{ team }}</option>
+  </select>
+</div>
+
+<!-- Product Filter -->
+<div class="filter-group">
+  <label class="filter-label">Product</label>
+  <select [(ngModel)]="selectedProduct" (change)="onProductChange($event)">
+    <option value="">Select Product</option>
+    <option *ngFor="let product of productNames">{{ product }}</option>
+  </select>
+</div>
+
+<!-- Last Used -->
+<div class="filter-group">
+  <label class="filter-label">Last Used</label>
+  <input type="date" [(ngModel)]="selectedLastUsedDate" (change)="filterEmployees()" />
+</div>
+
+<!-- Search -->
+<div class="autocomplete-wrapper">
+  <input type="text" placeholder="Search name..." [formControl]="nameControl" />
+
+  <!-- <ul *ngIf="filteredNames.length > 0" class="autocomplete-list">
+    <li *ngFor="let name of filteredNames" (click)="selectName(name)">
+      {{ name }}
+    </li>
+  </ul> -->
+</div>
+
+
+    </div>
+  </div>
+
+  <!-- Right Table Column -->
+<div class="table-column">
+  <div class="table-container">
+    <div class="employee-header">
+      <h2>Employees</h2>
+    </div>
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Employee Name</th>
+          <th>Skill Name</th>
+          <th>Last Used</th>
+          <th>Self Rating</th>
+          <th>Years of Experience</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let emp of filteredEmployees">
+          <tr *ngFor="let skill of emp.employeeSkills">
+            <td>{{ emp.firstName }} {{ emp.lastName }}</td>
+            <td>{{ skill.skillName  }}</td>
+            <td>{{ skill.lastUsed ? (skill.lastUsed | date:'yyyy-MM-dd') : 'N/A' }}</td>
+            <td>{{ skill.selfRating ?? 'N/A' }}</td>
+            <td>{{ skill.yearsOfExperience ?? 'N/A' }}</td>
+            <td>{{ skill.notes ?? '-' }}</td>
+          </tr>
+        </ng-container>
+
+        <!-- No Data -->
+        <tr *ngIf="filteredEmployees.length === 0">
+          <td colspan="6" class="no-data">No employees found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div>

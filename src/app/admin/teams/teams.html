@@ -1,0 +1,86 @@
+<div class="page-layout">
+
+  <!-- LEFT: Add / Edit Form (Admin only) -->
+  <div class="form-column" *ngIf="userRole === 'Admin'">
+    <h3>{{ isEditMode ? 'Edit Team' : 'Add New Team' }}</h3>
+
+    <form (ngSubmit)="submitForm()">
+
+      <div class="form-group">
+        <label>Team Name:</label>
+        <input type="text" [(ngModel)]="form.name" name="name" required placeholder="Enter team name">
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" [(ngModel)]="form.isActive" name="isActive" id="isActive">
+        <label for="isActive">Active</label>
+      </div>
+
+      <button class="submit-btn" type="submit" [disabled]="!isFormValid()">
+        {{ isEditMode ? 'Update Team' : 'Add Team' }}
+      </button>
+
+      <button 
+        class="cancel-btn" 
+        type="button" 
+        (click)="resetForm()" 
+        *ngIf="isEditMode">
+        Cancel
+      </button>
+
+    </form>
+  </div>
+
+  <!-- RIGHT: Teams Table -->
+  <div class="table-column">
+    <div class="table-container">
+
+      <h2>Teams List</h2>
+
+      <!-- SEARCH -->
+      <input
+        type="text"
+        placeholder="Search by team name..."
+        [(ngModel)]="searchText"
+        (input)="applyFilter()"
+        class="search-input"
+      />
+
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Active</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let team of filteredTeams">
+            <td>{{ team.name }}</td>
+            <td>{{ team.isActive ? 'Yes' : 'No' }}</td>
+            <td>
+              <ng-container *ngIf="userRole === 'Admin'">
+                <button class="icon-btn edit-icon" (click)="edit(team)">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="icon-btn delete-icon" (click)="delete(team.id!)">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+                <button class="icon-btn members-icon" (click)="getMemebers(team.id!)">
+                  <i class="bi bi-people-fill"></i>
+                </button>
+              </ng-container>
+            </td>
+          </tr>
+
+          <tr *ngIf="filteredTeams.length === 0">
+            <td colspan="3" class="no-data">No teams found.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>

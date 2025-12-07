@@ -1,0 +1,141 @@
+/* Page Layout */
+.page-layout {
+  display: flex;
+  gap: 30px;
+  max-width: 1300px;
+  margin: 40px auto;
+  flex-wrap: wrap;
+  font-family: 'Inter', sans-serif;
+  color: #334155;
+}
+
+/* Filter Column */
+.filter-column {
+  flex: 0 0 300px;
+  position: sticky;
+  top: 20px;
+}
+
+.filters-card {
+  background-color: #f9fafb;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-header h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.reset-btn {
+  background-color: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.reset-btn:hover {
+  background-color: #dc2626;
+}
+
+.filter-group {
+  margin-bottom: 15px;
+}
+
+.filter-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+select, input[type="text"], input[type="date"] {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+}
+
+select:focus, input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Table Column */
+.table-column {
+  flex: 1;
+}
+
+.table-container {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  padding: 20px;
+}
+
+.employee-header h2 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.95rem;
+}
+
+.custom-table th, .custom-table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 12px 15px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.custom-table th {
+  background-color: #f1f5f9;
+  font-weight: 600;
+}
+
+.custom-table tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+
+.custom-table tr:hover td {
+  background-color: #e0f2fe;
+}
+
+.no-data {
+  text-align: center;
+  color: #64748b;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .page-layout {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .filter-column {
+    position: static;
+  }
+}

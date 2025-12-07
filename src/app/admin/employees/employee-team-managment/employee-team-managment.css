@@ -1,0 +1,138 @@
+/* Page title */
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2d3d;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Loading text */
+.loading-text {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 30px;
+  color: #444;
+}
+
+/* Grid layout */
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 25px;
+}
+
+/* Team cards */
+.team-card {
+  background: #ffffff;
+  padding: 22px 24px;
+  border-radius: 18px;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.08);
+  border-left: 6px solid #2575fc;
+  transition: all 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 38px rgba(0,0,0,0.12);
+}
+
+/* Header row */
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.team-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2d3d;
+  margin: 0;
+}
+
+/* Status badges */
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.joined {
+  background: rgba(0, 170, 70, 0.15);
+  color: #0a9b4a;
+}
+
+.status-badge.not-joined {
+  background: rgba(235, 87, 87, 0.15);
+  color: #d64040;
+}
+
+/* Team description */
+.team-body {
+  margin-top: 18px;
+}
+
+.team-desc {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 22px;
+}
+
+/* Buttons container */
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Join button */
+.join-btn {
+  flex: 1;
+  padding: 10px 0;
+  background: #2575fc;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.join-btn:hover {
+  background: #1a5ddb;
+  transform: scale(1.05);
+}
+
+/* Leave button */
+.leave-btn {
+  flex: 1;
+  padding: 10px 0;
+  background: #e63946;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.leave-btn:hover {
+  background: #c72d38;
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .team-card {
+    padding: 18px;
+  }
+
+  .page-title {
+    font-size: 22px;
+  }
+}

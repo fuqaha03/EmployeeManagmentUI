@@ -1,0 +1,24 @@
+<div class="form-container">
+  <h2>Add New Employee</h2>
+  <form (ngSubmit)="addEmployee()" #employeeForm="ngForm">
+
+    <input type="text" placeholder="First Name" [(ngModel)]="newEmployee.firstName" name="firstName" required />
+    <input type="text" placeholder="Last Name" [(ngModel)]="newEmployee.lastName" name="lastName" required />
+
+    <!-- Row for Employee Number and Position -->
+    <div class="form-row">
+      <input type="number" placeholder="Employee Number" [(ngModel)]="newEmployee.employeeNumber" name="employeeNumber" />
+      <select [(ngModel)]="newEmployee.positionId" name="positionId" required>
+        <option value="" disabled selected>Select Position</option>
+        <option *ngFor="let pos of positions" [value]="pos.id">{{ pos.name }}</option>
+      </select>
+    </div>
+
+    <input type="text" placeholder="Email" [(ngModel)]="newEmployee.email" name="email" />
+    <input type="text" placeholder="User Name" [(ngModel)]="newEmployee.userName" name="userName" />
+    <input type="text" placeholder="Phone Number" [(ngModel)]="newEmployee.phoneNumber" name="phoneNumber" />
+    <input type="password" placeholder="Password" [(ngModel)]="newEmployee.password" name="password" />
+
+    <button type="submit" [disabled]="employeeForm.invalid">Add Employee</button>
+  </form>
+</div>

@@ -1,0 +1,53 @@
+<div class="page-layout">
+
+  <h2 class="page-title">My Teams</h2>
+
+  <div *ngIf="loading" class="loading-text">Loading...</div>
+
+  <div *ngIf="!loading" class="teams-grid">
+
+    <div *ngFor="let team of teams" class="team-card">
+
+      <div class="team-header">
+        <h3>{{ team.name }}</h3>
+
+        <span class="status-badge"
+              [ngClass]="team.isJoined ? 'joined' : 'not-joined'">
+          {{ team.isJoined ? 'Joined' : 'Not Joined' }}
+        </span>
+      </div>
+
+      <div class="team-body">
+
+        <p class="team-desc">
+          {{ team.isJoined ? 'You are currently part of this team.' 
+                           : 'You are not a member of this team yet.' }}
+        </p>
+
+        <div class="actions">
+
+          <!-- Join -->
+          <button
+            *ngIf="!team.isJoined"
+            class="join-btn"
+            (click)="joinTeam(team.id)">
+            Join Team
+          </button>
+
+          <!-- Leave -->
+          <button
+            *ngIf="team.isJoined"
+            class="leave-btn"
+            (click)="leaveTeam(team.id)">
+            Leave Team
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

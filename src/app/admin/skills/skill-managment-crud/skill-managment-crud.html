@@ -1,0 +1,111 @@
+<div class="page-layout">
+
+  <!-- LEFT: Add / Edit Form -->
+  <div class="form-column">
+    <h3>{{ isEditMode ? "Update Skill" : "Add Skill" }}</h3>
+
+    <form (ngSubmit)="submitForm()">
+
+      <div class="form-group">
+        <label>Stack:</label>
+        <select [(ngModel)]="selectedStackId" name="stack" (change)="onStackChange()">
+          <option [value]="0">All Stacks</option>
+          <option *ngFor="let s of stacks" [value]="s.id">{{ s.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Category:</label>
+        <select [(ngModel)]="form.categoryId" name="categoryId" required>
+          <option value="0" disabled>Select Category</option>
+          <option *ngFor="let c of filteredCategories" [value]="c.id">{{ c.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Skill Name:</label>
+        <input type="text" [(ngModel)]="form.name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Description:</label>
+        <textarea [(ngModel)]="form.description" name="description"></textarea>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" [(ngModel)]="form.isActive" name="isActive">
+        <label>Active</label>
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="!isFormValid()">
+        {{ isEditMode ? 'Update Skill' : 'Add Skill' }}
+      </button>
+
+      <button type="button" class="cancel-btn" (click)="resetForm()" *ngIf="isEditMode">
+        Cancel
+      </button>
+
+    </form>
+  </div>
+
+  <!-- RIGHT: Table -->
+  <div class="table-column">
+    <div class="table-container">
+      <h2>Skills List</h2>
+
+      <!-- SEARCH -->
+      <input 
+        type="text" 
+        placeholder="Search by name or description..." 
+        [(ngModel)]="searchText" 
+        (input)="applyFilter()"
+        class="search-input"
+      />
+
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Active</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let s of filteredSkills">
+            <td>{{ s.name }}</td>
+            <td>{{ s.description }}</td>
+            <td>{{ s.isActive ? 'Yes' : 'No' }}</td>
+            <td class="action-buttons">
+              <button class="icon-btn edit" (click)="edit(s)" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button class="icon-btn delete" (click)="delete(s.id)" title="Delete">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="filteredSkills.length === 0" class="no-data">
+        No skills found.
+      </div>
+
+      <!-- PAGINATION -->
+      <div class="pagination" *ngIf="totalPages > 1">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+        <button 
+          *ngFor="let page of [].constructor(totalPages); let i = index" 
+          [class.active]="currentPage === i + 1" 
+          (click)="goToPage(i + 1)">
+          {{ i + 1 }}
+        </button>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

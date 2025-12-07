@@ -1,0 +1,46 @@
+<div class="page-layout">
+
+  <!-- LEFT: Form or Info Panel -->
+  <div class="form-column">
+    <h3>Update Team Members</h3>
+
+    <!-- Search Box -->
+    <div class="form-group">
+      <input 
+        type="text" 
+        placeholder="Search by name..." 
+        [(ngModel)]="searchTerm"
+      />
+    </div>
+
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Employee</th>
+          <th>In Team</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of filteredEmployees()">
+          <td>{{ emp.firstName }} {{ emp.lastName }}</td>
+          <td>
+            <div class="checkbox-group">
+              <input 
+                type="checkbox" 
+                [checked]="emp.isJoined" 
+                (change)="onCheckboxChange(emp, $event)"
+              />
+            </div>
+          </td>
+        </tr>
+
+        <tr *ngIf="filteredEmployees().length === 0">
+          <td colspan="2" class="no-data">No employees found.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="submit-btn" (click)="saveChanges()">Save Changes</button>
+  </div>
+
+</div>

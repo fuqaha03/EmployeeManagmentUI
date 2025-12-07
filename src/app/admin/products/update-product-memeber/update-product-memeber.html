@@ -1,0 +1,35 @@
+<div class="page-layout">
+  <h2>Update Product Members</h2>
+
+  <input
+    type="text"
+    placeholder="Search employees..."
+    [(ngModel)]="searchTerm"
+    class="search-input"
+  />
+
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Assigned</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of filteredEmployees()">
+        <td>{{ emp.firstName }} {{ emp.lastName }}</td>
+        <td>{{ emp.email }}</td>
+        <td>
+          <input
+            type="checkbox"
+            [checked]="emp.isJoined"
+            (change)="onCheckboxChange(emp, $event)"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="submit-btn" (click)="saveChanges()">Save Changes</button>
+</div>

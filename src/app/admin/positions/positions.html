@@ -1,0 +1,90 @@
+<div class="page-layout">
+
+  <!-- LEFT: Add / Edit Form -->
+  <div class="form-column">
+    <h3>{{ isEditMode ? 'Edit Position' : 'Add New Position' }}</h3>
+
+    <form (ngSubmit)="submitForm()">
+
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" [(ngModel)]="form.name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Description:</label>
+        <textarea [(ngModel)]="form.description" name="description" required></textarea>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" [(ngModel)]="form.isActive" name="isActive">
+        <label>Active</label>
+      </div>
+
+      <button class="submit-btn" type="submit" [disabled]="!isFormValid()">
+        {{ isEditMode ? 'Update Position' : 'Add Position' }}
+      </button>
+
+      <button 
+        class="cancel-btn" 
+        type="button" 
+        (click)="resetForm()" 
+        *ngIf="isEditMode">
+        Cancel
+      </button>
+
+    </form>
+  </div>
+
+  <!-- RIGHT: Table -->
+  <div class="table-column">
+    <div class="table-container">
+
+      <h2>Positions List</h2>
+
+     <!-- Search -->
+<input 
+  type="text" 
+  placeholder="Search by name or description..." 
+  [(ngModel)]="searchText" 
+  (input)="applyFilter()"
+  class="search-input"
+/>
+
+
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Active</th>
+            <th style="width: 160px;">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let pos of filteredPositions">
+            <td>{{ pos.name }}</td>
+            <td>{{ pos.description }}</td>
+            <td>{{ pos.isActive ? 'Yes' : 'No' }}</td>
+            <td>
+              <button class="icon-btn edit-icon" (click)="edit(pos)">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+
+              <button class="icon-btn delete-icon" (click)="delete(pos.id!)">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="filteredPositions.length === 0">
+            <td colspan="4" class="no-data">No positions found.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>

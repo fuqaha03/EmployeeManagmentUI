@@ -1,0 +1,51 @@
+@if (isLoginedIn()) {
+<header class="app-header">
+
+  <!-- Left: Logo -->
+  <div class="header-left">
+    <div class="logo">Skills Management</div>
+  </div>
+
+  <!-- Center: Navigation -->
+  <nav>
+    <div class="nav-links">
+
+      @if (authService.isEmployee()) {
+        <a routerLink="/employee/profile" routerLinkActive="active">Profile</a>
+        <a routerLink="/employee/skills-managment" routerLinkActive="active">Skills</a>
+      }
+
+      @if (authService.isAdmin()) {
+<a 
+  routerLink="/admin/employees" 
+  routerLinkActive="active" 
+  [routerLinkActiveOptions]="{ exact: true }"
+>
+  Manage Employees
+</a>
+
+<a 
+  routerLink="/admin/employees/employees-skills" 
+  routerLinkActive="active" 
+  [routerLinkActiveOptions]="{ exact: true }"
+>
+  Employees & Skills
+</a>
+
+        <a routerLink="/admin/accounts/employee" routerLinkActive="active">Add Employee</a>
+        <a routerLink="/admin/positions" routerLinkActive="active">Positions</a>
+        <a routerLink="/admin/skills" routerLinkActive="active">Skills</a>
+        <a routerLink="/admin/products" routerLinkActive="active">Products</a>
+        <a routerLink="/admin/teams" routerLinkActive="active">Teams</a>
+      }
+
+    </div>
+  </nav>
+
+  <!-- Right: Logout -->
+  <div class="logout-container">
+    <a (click)="logout()" class="logout-btn">Logout</a>
+  </div>
+
+</header>
+}

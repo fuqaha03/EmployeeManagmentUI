@@ -1,0 +1,152 @@
+/* ===== PAGE LAYOUT ===== */
+.page-layout {
+  display: flex;
+  justify-content: center;
+  margin: 40px auto;
+  max-width: 900px;
+  padding: 0 15px;
+}
+
+/* ===== FORM / TABLE CARD ===== */
+.form-column {
+  width: 100%;
+  background: #ffffff;
+  padding: 25px 20px;
+  border-radius: 16px;
+  box-shadow: 0px 12px 40px rgba(0,0,0,0.07);
+  transition: all 0.3s ease;
+}
+
+.form-column:hover {
+  transform: translateY(-2px);
+}
+
+.form-column h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 20px;
+}
+
+/* ===== TABLE ===== */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.custom-table thead {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: white;
+  font-weight: 600;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.custom-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: all 0.25s ease;
+}
+
+.custom-table tbody tr:hover {
+  background-color: #f3f4ff;
+  transform: translateX(2px);
+  box-shadow: inset 0 0 8px rgba(59, 130, 246, 0.1);
+}
+
+.custom-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Checkboxes */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #3b82f6;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.checkbox-group input[type="checkbox"]:hover {
+  transform: scale(1.1);
+}
+
+/* No data text */
+.no-data {
+  text-align: center;
+  font-style: italic;
+  color: #6b7280;
+  padding: 15px 0;
+}
+
+/* Save button */
+.submit-btn {
+  width: 100%;
+  padding: 12px 15px;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+}
+/* ===== SEARCH BOX ===== */
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: 1px solid #d1d5db; /* light gray */
+  border-radius: 12px;
+  outline: none;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.form-group input[type="text"]:focus {
+  border-color: #3b82f6; /* blue on focus */
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.2);
+}
+
+.form-group input[type="text"]::placeholder {
+  color: #9ca3af; /* gray placeholder */
+  font-style: italic;
+}
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .custom-table th, .custom-table td {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .form-column h3 {
+    font-size: 20px;
+  }
+
+  .submit-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+}

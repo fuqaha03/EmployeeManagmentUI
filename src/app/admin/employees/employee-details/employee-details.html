@@ -1,0 +1,109 @@
+<div class="profile-container" *ngIf="employee">
+
+  <!-- HEADER -->
+  <div class="profile-header">
+    <div class="header-background"></div>
+
+    <div class="header-content">
+      <div class="avatar-wrapper">
+        <div class="avatar">{{ employee.firstName[0] }}{{ employee.lastName[0] }}</div>
+      </div>
+
+      <div class="employee-info">
+        <h1>{{ employee.firstName }} {{ employee.lastName }}</h1>
+        <p class="position"><i class="fas fa-briefcase"></i> {{ employee.position }}</p>
+
+        <div class="contact-info">
+          <p class="email"><i class="fas fa-envelope"></i> {{ employee.email }}</p>
+          <p class="number"><i class="fas fa-id-badge"></i> Employee #{{ employee.employeeNumber }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="profile-body">
+
+    <!-- SKILLS -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="left">
+          <h3><i class="fas fa-code"></i> Skills</h3>
+          <span class="badge">{{ employee.employeeSkills.length }}</span>
+        </div>
+        <button class="btn-manage" 
+                [routerLink]="['/admin/employees/employees-skills']" 
+                [queryParams]="{ name: employee.firstName + ' ' + employee.lastName }">
+          <i class="fas fa-edit"></i> Details
+        </button>
+      </div>
+
+      <div *ngIf="employee.employeeSkills.length > 0; else noSkills" class="skills-container">
+        <div *ngFor="let skill of employee.employeeSkills;" class="skill-tag">
+          <i class="fas fa-check-circle"></i> {{ skill.skillName }}
+        </div>
+      </div>
+
+      <ng-template #noSkills>
+        <div class="empty-state">
+          <i class="fas fa-code"></i>
+          <p>No skills assigned yet</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- ROW: TEAMS + PRODUCTS -->
+    <div class="row">
+
+      <!-- TEAMS -->
+      <div class="section-card half">
+        <div class="section-header">
+          <div class="left">
+            <h3><i class="fas fa-users"></i> Teams</h3>
+            <span class="badge">{{ employee.teamEmployees.length }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="employee.teamEmployees.length > 0; else noTeams" class="list-container">
+          <div *ngFor="let team of employee.teamEmployees;" class="list-item team-item">
+            <div class="team-icon"><i class="fas fa-users"></i></div>
+            <span>{{ team.teamName }}</span>
+          </div>
+        </div>
+
+        <ng-template #noTeams>
+          <div class="empty-state">
+            <i class="fas fa-users"></i>
+            <p>No teams assigned</p>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="section-card half">
+        <div class="section-header">
+          <div class="left">
+            <h3><i class="fas fa-cube"></i> Products</h3>
+            <span class="badge">{{ employee.employeeProducts.length }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="employee.employeeProducts.length > 0; else noProducts" class="list-container">
+          <div *ngFor="let prod of employee.employeeProducts;" class="list-item product-item">
+            <div class="product-icon"><i class="fas fa-cube"></i></div>
+            <span>{{ prod.productName }}</span>
+          </div>
+        </div>
+
+        <ng-template #noProducts>
+          <div class="empty-state">
+            <i class="fas fa-cube"></i>
+            <p>No products assigned</p>
+          </div>
+        </ng-template>
+      </div>
+
+    </div>
+
+  </div>
+</div>
