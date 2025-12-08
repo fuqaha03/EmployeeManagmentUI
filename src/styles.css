@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+/* AZM Theme is imported via angular.json */
+
 /* Reset default margin and padding */
 * {
   margin: 0;
@@ -13,6 +15,7 @@ html, body {
   height: 100%;
   overflow-x: hidden; /* Prevent horizontal scroll */
 }
+
 * {
   font-family: "Poppins", sans-serif;
 }

@@ -28,8 +28,21 @@ export class SkillsManagementComponent implements OnInit {
   allSkills: Skill[] = [];
   assignedSkills: Skill[] = [];
   filteredSkills: Skill[] = [];
+  displayedSkills: Skill[] = [];
 
   loading = false;
+  saving = false;
+  successMessage = '';
+  errorMessage = '';
+
+  // ----------------------
+  // SEARCH & FILTERS
+  // ----------------------
+  searchText: string = '';
+  filterStack: string = '';
+  filterCategory: string = '';
+  filterRating: number | null = null;
+  viewMode: 'cards' | 'table' = 'cards';
 
   // ----------------------
   // FORM SETTINGS
@@ -42,14 +55,42 @@ export class SkillsManagementComponent implements OnInit {
   // PAGINATION SETTINGS
   // ----------------------
   currentPage: number = 1;
-  pageSize: number = 5; // Number of skills per page
+  pageSize: number = 6; // Number of skills per page
   totalPages: number = 0;
+
+  Math = Math; // Expose Math to template
 
   constructor(private skillsService: SkillsService, private authServices: AuthService) {}
 
   ngOnInit(): void {
     this.fetchSkills();
     this.isAdmin = this.authServices.isAdmin();
+  }
+
+  // -------------------------------------
+  // STATISTICS
+  // -------------------------------------
+  get totalSkills(): number {
+    return this.assignedSkills.length;
+  }
+
+  get averageRating(): number {
+    if (this.assignedSkills.length === 0) return 0;
+    const sum = this.assignedSkills.reduce((acc, s) => acc + (s.selfRating || 0), 0);
+    return Math.round((sum / this.assignedSkills.length) * 10) / 10;
+  }
+
+  get totalExperience(): number {
+    return this.assignedSkills.reduce((acc, s) => acc + (s.yearsOfExperience || 0), 0);
+  }
+
+  get skillsByStackCount(): { stack: string; count: number }[] {
+    const counts: { [key: string]: number } = {};
+    this.assignedSkills.forEach(s => {
+      const stack = s.stack || 'Other';
+      counts[stack] = (counts[stack] || 0) + 1;
+    });
+    return Object.entries(counts).map(([stack, count]) => ({ stack, count }));
   }
 
   // -------------------------------------
@@ -84,11 +125,14 @@ export class SkillsManagementComponent implements OnInit {
       next: (data: Skill[]) => {
         this.allSkills = data;
         this.assignedSkills = data.filter(s => s.isAssigned);
-        this.updateTotalPages();
-        this.currentPage = 1;
+        this.applyFilters();
         this.loading = false;
+        this.showSuccessMessage('Skills loaded successfully!');
       },
-      error: () => (this.loading = false)
+      error: () => {
+        this.loading = false;
+        this.showErrorMessage('Failed to load skills. Please try again.');
+      }
     });
 
     // ALL STACKS
@@ -186,7 +230,13 @@ export class SkillsManagementComponent implements OnInit {
   // SAVE FORM (ADD OR UPDATE)
   // -------------------------------------
   saveForm() {
-    if (!this.form) return;
+    if (!this.form || !this.isFormValid()) {
+      this.showErrorMessage('Please fill in all required fields.');
+      return;
+    }
+
+    this.saving = true;
+    this.clearMessages();
 
     // Clamp selfRating between 1 and 5
     if (this.form.selfRating === undefined || this.form.selfRating < 1) this.form.selfRating = 1;
@@ -194,16 +244,30 @@ export class SkillsManagementComponent implements OnInit {
 
     if (this.isEditMode) {
       this.skillsService.updateSkill(this.form).subscribe({
-        next: () => this.syncSkillsToBackend(),
-        error: err => console.error('Failed to update skill', err)
+        next: () => {
+          this.syncSkillsToBackend();
+          this.showSuccessMessage('Skill updated successfully!');
+          this.saving = false;
+        },
+        error: err => {
+          console.error('Failed to update skill', err);
+          this.showErrorMessage('Failed to update skill. Please try again.');
+          this.saving = false;
+        }
       });
     } else {
       this.skillsService.addSkill(this.form).subscribe({
         next: (res: any) => {
           this.form.id = res.id;
           this.syncSkillsToBackend();
+          this.showSuccessMessage('Skill added successfully!');
+          this.saving = false;
         },
-        error: err => console.error('Failed to add skill', err)
+        error: err => {
+          console.error('Failed to add skill', err);
+          this.showErrorMessage('Failed to add skill. Please try again.');
+          this.saving = false;
+        }
       });
     }
 
@@ -214,10 +278,16 @@ export class SkillsManagementComponent implements OnInit {
   // DELETE SKILL
   // -------------------------------------
   deleteSkill(skillId: number) {
-    if (confirm('Delete this skill?')) {
+    if (confirm('Are you sure you want to remove this skill?')) {
       this.skillsService.deleteSkill(skillId).subscribe({
-        next: () => this.syncSkillsToBackend(),
-        error: err => console.error('Failed to delete skill', err)
+        next: () => {
+          this.syncSkillsToBackend();
+          this.showSuccessMessage('Skill removed successfully!');
+        },
+        error: err => {
+          console.error('Failed to delete skill', err);
+          this.showErrorMessage('Failed to remove skill. Please try again.');
+        }
       });
     }
   }
@@ -243,22 +313,127 @@ export class SkillsManagementComponent implements OnInit {
   }
 
   // -------------------------------------
+  // SEARCH & FILTER METHODS
+  // -------------------------------------
+  applyFilters() {
+    let filtered = [...this.assignedSkills];
+
+    // Search filter
+    if (this.searchText.trim()) {
+      const search = this.searchText.toLowerCase();
+      filtered = filtered.filter(s =>
+        s.name.toLowerCase().includes(search) ||
+        s.category?.toLowerCase().includes(search) ||
+        s.stack?.toLowerCase().includes(search) ||
+        s.notes?.toLowerCase().includes(search)
+      );
+    }
+
+    // Stack filter
+    if (this.filterStack) {
+      filtered = filtered.filter(s => s.stack === this.filterStack);
+    }
+
+    // Category filter
+    if (this.filterCategory) {
+      filtered = filtered.filter(s => s.category === this.filterCategory);
+    }
+
+    // Rating filter
+    if (this.filterRating !== null) {
+      filtered = filtered.filter(s => s.selfRating === this.filterRating);
+    }
+
+    this.filteredSkills = filtered;
+    this.updateTotalPages();
+    this.currentPage = 1;
+    this.updateDisplayedSkills();
+  }
+
+  clearFilters() {
+    this.searchText = '';
+    this.filterStack = '';
+    this.filterCategory = '';
+    this.filterRating = null;
+    this.applyFilters();
+  }
+
+  // -------------------------------------
   // PAGINATION METHODS
   // -------------------------------------
-  get paginatedSkills(): Skill[] {
+  updateDisplayedSkills() {
     const start = (this.currentPage - 1) * this.pageSize;
-    return this.assignedSkills.slice(start, start + this.pageSize);
+    this.displayedSkills = this.filteredSkills.slice(start, start + this.pageSize);
   }
 
   updateTotalPages() {
-    this.totalPages = Math.ceil(this.assignedSkills.length / this.pageSize);
+    this.totalPages = Math.ceil(this.filteredSkills.length / this.pageSize);
   }
 
   nextPage() {
-    if (this.currentPage < this.totalPages) this.currentPage++;
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updateDisplayedSkills();
+    }
   }
 
   prevPage() {
-    if (this.currentPage > 1) this.currentPage--;
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updateDisplayedSkills();
+    }
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updateDisplayedSkills();
+    }
+  }
+
+  // -------------------------------------
+  // MESSAGE METHODS
+  // -------------------------------------
+  showSuccessMessage(message: string) {
+    this.successMessage = message;
+    this.errorMessage = '';
+    setTimeout(() => this.successMessage = '', 5000);
+  }
+
+  showErrorMessage(message: string) {
+    this.errorMessage = message;
+    this.successMessage = '';
+    setTimeout(() => this.errorMessage = '', 5000);
+  }
+
+  clearMessages() {
+    this.successMessage = '';
+    this.errorMessage = '';
+  }
+
+  // -------------------------------------
+  // UTILITY METHODS
+  // -------------------------------------
+  getRatingStars(rating: number | undefined): string {
+    if (!rating) return '☆☆☆☆☆';
+    const fullStars = '★'.repeat(Math.floor(rating));
+    const emptyStars = '☆'.repeat(5 - Math.floor(rating));
+    return fullStars + emptyStars;
+  }
+
+  getRatingColor(rating: number | undefined): string {
+    if (!rating) return '#9ca3af';
+    if (rating >= 4) return '#10b981';
+    if (rating >= 3) return '#f59e0b';
+    return '#ef4444';
+  }
+
+  formatDate(date: string | undefined): string {
+    if (!date) return 'N/A';
+    try {
+      return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    } catch {
+      return date;
+    }
   }
 }

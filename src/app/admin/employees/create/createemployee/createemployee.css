@@ -41,9 +41,9 @@
 /* Focus effect */
 .form-container input:focus,
 .form-container select:focus {
-  border-color: #4a8afc;
+  border-color: #0094D8;
   background: #fff;
-  box-shadow: 0 0 8px rgba(74, 138, 252, 0.35);
+  box-shadow: 0 0 8px rgba(0, 148, 216, 0.35);
   outline: none;
   transform: scale(1.02);
 }
@@ -73,7 +73,7 @@
 .form-container button {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #4a8afc, #2563eb);
+  background: #0094D8;
   color: #fff;
   font-size: 16px;
   font-weight: 600;
@@ -85,11 +85,12 @@
 
 .form-container button:hover:not(:disabled) {
   transform: translateY(-3px);
-  background: linear-gradient(135deg, #316fea, #1e4fcf);
+  background: #007bb8;
+  box-shadow: 0 6px 20px rgba(0, 58, 112, 0.3);
 }
 
 .form-container button:disabled {
-  background: #a9c8ff;
+  background: rgba(0, 148, 216, 0.4);
   cursor: not-allowed;
 }
 

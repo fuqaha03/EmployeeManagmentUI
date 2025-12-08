@@ -38,7 +38,7 @@
 }
 
 .custom-table thead {
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  background: #0094D8;
   color: white;
   font-weight: 600;
 }
@@ -76,7 +76,7 @@
 .checkbox-group input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: #3b82f6;
+  accent-color: #0094D8;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -97,7 +97,7 @@
 .submit-btn {
   width: 100%;
   padding: 12px 15px;
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  background: #0094D8;
   color: white;
   font-weight: 600;
   font-size: 15px;
@@ -109,7 +109,8 @@
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  background: #007bb8;
+  box-shadow: 0 6px 20px rgba(0, 58, 112, 0.3);
 }
 /* ===== SEARCH BOX ===== */
 .form-group input[type="text"] {
@@ -124,7 +125,7 @@
 }
 
 .form-group input[type="text"]:focus {
-  border-color: #3b82f6; /* blue on focus */
+  border-color: #0094D8; /* AZM blue on focus */
   box-shadow: 0 0 8px rgba(59, 130, 246, 0.2);
 }
 

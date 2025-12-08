@@ -26,8 +26,8 @@
 
 .search-input:focus {
   background: #fff;
-  border-color: #3b82f6;
-  box-shadow: 0 0 8px rgba(59,130,246,0.45);
+  border-color: #0094D8;
+  box-shadow: 0 0 8px rgba(0, 148, 216, 0.45);
   transform: scale(1.02);
 }
 
@@ -92,8 +92,8 @@
 
 .form-group input:focus {
   background: #fff;
-  border-color: #3b82f6;
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.45);
+  border-color: #0094D8;
+  box-shadow: 0 0 8px rgba(0, 148, 216, 0.45);
   transform: scale(1.02);
 }
 
@@ -107,7 +107,7 @@
 .checkbox-group input {
   width: 18px;
   height: 18px;
-  accent-color: #3b82f6;
+  accent-color: #0094D8;
 }
 
 /* Buttons */
@@ -125,13 +125,14 @@
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  background: #0094D8;
   color: white;
 }
 
 .submit-btn:hover {
   transform: translateY(-3px);
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  background: #007bb8;
+  box-shadow: 0 6px 20px rgba(0, 58, 112, 0.3);
 }
 
 .cancel-btn {
@@ -172,7 +173,7 @@
 }
 
 .custom-table thead {
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  background: #003A70;
   color: white;
   font-size: 15px;
   font-weight: 600;
@@ -191,9 +192,9 @@
 }
 
 .custom-table tbody tr:hover {
-  background-color: #f3f4ff;
+  background-color: rgba(0, 148, 216, 0.1);
   transform: translateX(4px);
-  box-shadow: inset 0 0 8px rgba(59, 130, 246, 0.2);
+  box-shadow: inset 0 0 8px rgba(0, 148, 216, 0.2);
 }
 
 .custom-table tbody tr:nth-child(even) {
@@ -218,11 +219,11 @@
 
 /* Edit (blue) */
 .edit-icon {
-  background-color: #2575fc;
+  background-color: #0094D8;
 }
 
 .edit-icon:hover {
-  background-color: #1a5ddb;
+  background-color: #007bb8;
   transform: scale(1.08);
 }
 

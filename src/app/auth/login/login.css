@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(125deg, #5c16c5, #1d6cd6);
+  background: #003A70;
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -16,9 +16,9 @@
   padding: 45px 35px;
   background: #ffffff;
   border-radius: 18px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 12px 35px rgba(0, 58, 112, 0.25);
   animation: fadeIn 0.9s ease;
-  border-top: 5px solid #2575fc;
+  border-top: 5px solid #0094D8;
 }
 
 /* Titles */
@@ -57,16 +57,16 @@
 
 .input-group input:focus {
   outline: none;
-  border-color: #2575fc;
+  border-color: #0094D8;
   background: #fff;
-  box-shadow: 0 0 8px rgba(37, 117, 252, 0.4);
+  box-shadow: 0 0 8px rgba(0, 148, 216, 0.4);
 }
 
 /* Login Button */
 .login-btn {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(90deg, #2575fc, #6a11cb);
+  background: #0094D8;
   border: none;
   border-radius: 10px;
   color: #fff;
@@ -74,6 +74,10 @@
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.login-btn:hover {
+  background: #007bb8;
 }
 
 .login-btn:hover {

@@ -1,0 +1,262 @@
+/* =========================================
+   AZM Saudi Digital - Color Palette
+   ========================================= */
+
+:root {
+  /* Primary Colors */
+  --azm-blue-dark: #003A70;
+  --azm-blue-light: #0094D8;
+  
+  /* Accent Color */
+  --azm-purple: #7F3F98;
+  
+  /* Optional Shades */
+  --azm-blue-dark-80: rgba(0, 58, 112, 0.8);
+  --azm-blue-dark-60: rgba(0, 58, 112, 0.6);
+  --azm-blue-light-20: rgba(0, 148, 216, 0.2);
+  
+  /* Gradient */
+  --azm-gradient: linear-gradient(90deg, #003A70 0%, #0094D8 100%);
+  --azm-gradient-vertical: linear-gradient(135deg, #003A70 0%, #0094D8 100%);
+  --azm-gradient-purple: linear-gradient(135deg, #003A70 0%, #7F3F98 100%);
+  
+  /* Semantic Colors */
+  --azm-success: #10b981;
+  --azm-error: #ef4444;
+  --azm-warning: #f59e0b;
+  --azm-info: #0094D8;
+  
+  /* Neutral Colors */
+  --azm-text-primary: #1f2937;
+  --azm-text-secondary: #6b7280;
+  --azm-bg-primary: #ffffff;
+  --azm-bg-secondary: #f9fafb;
+  --azm-border: #e5e7eb;
+}
+
+/* =========================================
+   Shared Form Styles
+   ========================================= */
+
+/* Form Container */
+.azm-form-container {
+  background: var(--azm-bg-primary);
+  border-radius: 18px;
+  box-shadow: 0px 12px 40px rgba(0, 58, 112, 0.08);
+  padding: 28px;
+  transition: all 0.3s ease;
+}
+
+.azm-form-container:hover {
+  box-shadow: 0px 16px 50px rgba(0, 58, 112, 0.12);
+}
+
+/* Form Groups */
+.azm-form-group {
+  margin-bottom: 20px;
+}
+
+.azm-form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--azm-text-primary);
+  margin-bottom: 8px;
+}
+
+/* Form Inputs */
+.azm-form-input,
+.azm-form-select,
+.azm-form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--azm-border);
+  border-radius: 10px;
+  font-size: 14px;
+  background: var(--azm-bg-secondary);
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.azm-form-input:focus,
+.azm-form-select:focus,
+.azm-form-textarea:focus {
+  outline: none;
+  border-color: var(--azm-blue-light);
+  background: var(--azm-bg-primary);
+  box-shadow: 0 0 0 4px var(--azm-blue-light-20);
+}
+
+.azm-form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Buttons */
+.azm-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.azm-btn-primary {
+  background: var(--azm-gradient);
+  color: white;
+}
+
+.azm-btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 58, 112, 0.3);
+}
+
+.azm-btn-secondary {
+  background: var(--azm-bg-secondary);
+  color: var(--azm-text-primary);
+  border: 2px solid var(--azm-border);
+}
+
+.azm-btn-secondary:hover:not(:disabled) {
+  background: var(--azm-border);
+}
+
+.azm-btn-danger {
+  background: var(--azm-error);
+  color: white;
+}
+
+.azm-btn-danger:hover:not(:disabled) {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+.azm-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Search Input */
+.azm-search-input {
+  width: 100%;
+  padding: 12px 16px 12px 48px;
+  border: 2px solid var(--azm-border);
+  border-radius: 12px;
+  font-size: 14px;
+  background: var(--azm-bg-secondary);
+  transition: all 0.3s ease;
+}
+
+.azm-search-input:focus {
+  outline: none;
+  border-color: var(--azm-blue-light);
+  background: var(--azm-bg-primary);
+  box-shadow: 0 0 0 4px var(--azm-blue-light-20);
+}
+
+/* Table Styles */
+.azm-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.azm-table thead {
+  background: var(--azm-gradient);
+  color: white;
+}
+
+.azm-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.azm-table td {
+  padding: 16px;
+  font-size: 14px;
+  color: var(--azm-text-primary);
+  border-bottom: 1px solid var(--azm-border);
+}
+
+.azm-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.azm-table tbody tr:hover {
+  background: var(--azm-blue-light-20);
+}
+
+/* Card Styles */
+.azm-card {
+  background: var(--azm-bg-primary);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 58, 112, 0.08);
+  transition: all 0.3s ease;
+}
+
+.azm-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 58, 112, 0.12);
+}
+
+/* Badge Styles */
+.azm-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.azm-badge-primary {
+  background: var(--azm-blue-light-20);
+  color: var(--azm-blue-dark);
+}
+
+/* Circular Logo */
+.azm-logo-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.azm-logo-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Utility Classes */
+.azm-text-primary {
+  color: var(--azm-text-primary);
+}
+
+.azm-text-secondary {
+  color: var(--azm-text-secondary);
+}
+
+.azm-bg-gradient {
+  background: var(--azm-gradient);
+}
+
+.azm-border-gradient {
+  border: 2px solid transparent;
+  background: var(--azm-gradient);
+  background-clip: padding-box;
+}
+

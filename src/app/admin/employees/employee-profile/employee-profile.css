@@ -12,7 +12,7 @@
 /* HEADER */
 .profile-header {
   position: relative;
-  background: linear-gradient(135deg, #4c6ef5, #15aabf);
+  background: #0094D8;
   color: white;
   padding: 45px 35px;
 }
@@ -87,7 +87,7 @@
 
 /* BADGES */
 .badge {
-  background: linear-gradient(135deg, #4c6ef5, #15aabf);
+  background: #0094D8;
   padding: 6px 14px;
   border-radius: 15px;
   font-size: 14px;

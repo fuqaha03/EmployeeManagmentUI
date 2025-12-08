@@ -1,157 +1,470 @@
-<div class="page-layout">
-
-  <!-- LEFT: Add / Edit Form -->
-  <div class="form-column" *ngIf="showForm && !isAdmin">
-    <h3>{{ isEditMode ? "Edit Skill" : "Add Skill" }}</h3>
-
-    <form (ngSubmit)="saveForm()">
-
-      <!-- STACK DROPDOWN -->
-      <div class="form-group" *ngIf="!isEditMode">
-        <label>Stack:</label>
-        <select
-          name="stack"
-          [(ngModel)]="selectedStack"
-          required
-          (change)="onStackChange($event)">
-          <option value="">-- Select Stack --</option>
-          <option *ngFor="let stack of stacks" [value]="stack">
-            {{ stack }}
-          </option>
-        </select>
-      </div>
-
-      <!-- CATEGORY DROPDOWN -->
-      <div class="form-group" *ngIf="!isEditMode && categoriesByStack.length > 0">
-        <label>Category:</label>
-        <select
-          name="category"
-          [(ngModel)]="selectedCategory"
-          required
-          (change)="onCategoryChange($event)">
-          <option value="">-- Select Category --</option>
-          <option *ngFor="let cat of categoriesByStack" [value]="cat">
-            {{ cat }}
-          </option>
-        </select>
-      </div>
-
-      <!-- SKILL DROPDOWN -->
-      <div class="form-group" *ngIf="!isEditMode && filteredSkills.length > 0">
-        <label>Skill:</label>
-        <select
-          name="skill"
-          [(ngModel)]="form.name"
-          required
-          (change)="onSkillSelect($event)">
-          <option value="">-- Select Skill --</option>
-          <option *ngFor="let skill of filteredSkills" [value]="skill.name">
-            {{ skill.name }}
-          </option>
-        </select>
-      </div>
-
-      <!-- SELF RATING -->
-      <div class="form-group">
-        <label>Self Rating (1-5):</label>
-        <input
-          type="number"
-          min="1" max="5"
-          name="selfRating"
-          [(ngModel)]="form.selfRating"
-          (ngModelChange)="validateSelfRating()"
-          required />
-      </div>
-
-      <!-- EXPERIENCE -->
-      <div class="form-group">
-        <label>Years of Experience:</label>
-        <input
-          type="number"
-          min="0"
-          name="yearsOfExperience"
-          [(ngModel)]="form.yearsOfExperience"
-          required />
-      </div>
-
-      <!-- LAST USED -->
-      <div class="form-group">
-        <label>Last Used:</label>
-        <input
-          type="date"
-          name="lastUsed"
-          [(ngModel)]="form.lastUsed"
-          required />
-      </div>
-
-      <!-- NOTES -->
-      <div class="form-group">
-        <label>Notes:</label>
-        <textarea name="notes" [(ngModel)]="form.notes"></textarea>
-      </div>
-
-      <!-- BUTTONS -->
-      <div class="button-row">
-        <button class="submit-btn" type="submit">
-          {{ isEditMode ? "Update" : "Add" }}
-        </button>
-        <button class="cancel-btn" type="button" (click)="closeForm()">
-          Cancel
-        </button>
-      </div>
-
-    </form>
-  </div>
-
-  <!-- RIGHT: Table -->
-  <div class="table-column">
-    <h2>My Skills</h2>
-
-    <!-- Add Skill Button -->
-    <button *ngIf="!isAdmin" class="submit-btn add-btn" (click)="openAddForm()">
-      + Add Skill
-    </button>
-
-    <table class="custom-table">
-      <thead>
-        <tr>
-          <th>Skill</th>
-          <th>Category</th>
-          <th>Stack</th>
-          <th>Rating</th>
-          <th>Experience</th>
-          <th>Last Used</th>
-          <th>Notes</th>
-          <th *ngIf="!isAdmin">Actions</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let s of paginatedSkills">
-          <td>{{ s.name }}</td>
-          <td>{{ s.category }}</td>
-          <td>{{ s.stack }}</td>
-          <td>{{ s.selfRating }}</td>
-          <td>{{ s.yearsOfExperience }}</td>
-          <td>{{ s.lastUsed | date }}</td>
-          <td>{{ s.notes }}</td>
-          <td *ngIf="!isAdmin">
-            <button class="edit-btn" (click)="openEditForm(s)">Edit</button>
-            <button class="delete-btn" (click)="deleteSkill(s.id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p *ngIf="assignedSkills.length === 0">No skills found.</p>
-
-    <!-- Pagination Controls -->
-    <div class="pagination" *ngIf="totalPages > 1">
-      <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
-      <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+<div class="skills-management-container">
+  
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="header-content">
+      <h1 class="page-title">
+        <span class="icon">🎯</span>
+        My Skills Management
+      </h1>
+      <p class="page-subtitle">Manage and showcase your technical skills</p>
     </div>
-
+    <button *ngIf="!isAdmin && !showForm" class="btn-primary add-skill-btn" (click)="openAddForm()">
+      <span class="btn-icon">+</span>
+      Add New Skill
+    </button>
   </div>
 
+  <!-- Statistics Cards -->
+  <div class="stats-container">
+    <div class="stat-card">
+      <div class="stat-icon stat-icon-1">
+        📊
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">{{ totalSkills }}</div>
+        <div class="stat-label">Total Skills</div>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon stat-icon-2">
+        ⭐
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">{{ averageRating }}</div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon stat-icon-3">
+        💼
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">{{ totalExperience }}</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon stat-icon-4">
+        🚀
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">{{ skillsByStackCount.length }}</div>
+        <div class="stat-label">Technology Stacks</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div class="messages-container">
+    <div *ngIf="successMessage" class="message success-message">
+      <span class="message-icon">✓</span>
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="message error-message">
+      <span class="message-icon">✕</span>
+      {{ errorMessage }}
+    </div>
+  </div>
+
+  <!-- Modal Overlay for Add/Edit Skill Form -->
+  <div class="modal-overlay" *ngIf="showForm && !isAdmin" (click)="closeForm()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ isEditMode ? '✏️ Edit Skill' : '➕ Add New Skill' }}</h3>
+        <button class="modal-close-btn" (click)="closeForm()" type="button" aria-label="Close">
+          <span>×</span>
+        </button>
+      </div>
+
+      <form (ngSubmit)="saveForm()" class="skill-form">
+        <!-- Stack Dropdown -->
+        <div class="form-group" *ngIf="!isEditMode">
+          <label class="form-label">
+            <span class="label-icon">📚</span>
+            Technology Stack
+          </label>
+          <select
+            name="stack"
+            [(ngModel)]="selectedStack"
+            (change)="onStackChange($event)"
+            class="form-select"
+            required>
+            <option value="">-- Select Stack --</option>
+            <option *ngFor="let stack of stacks" [value]="stack">
+              {{ stack }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="form-group" *ngIf="!isEditMode && categoriesByStack.length > 0">
+          <label class="form-label">
+            <span class="label-icon">📁</span>
+            Category
+          </label>
+          <select
+            name="category"
+            [(ngModel)]="selectedCategory"
+            (change)="onCategoryChange($event)"
+            class="form-select"
+            required>
+            <option value="">-- Select Category --</option>
+            <option *ngFor="let cat of categoriesByStack" [value]="cat">
+              {{ cat }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Skill Dropdown -->
+        <div class="form-group" *ngIf="!isEditMode && filteredSkills.length > 0">
+          <label class="form-label">
+            <span class="label-icon">⚡</span>
+            Skill
+          </label>
+          <select
+            name="skill"
+            [(ngModel)]="form.name"
+            (change)="onSkillSelect($event)"
+            class="form-select"
+            required>
+            <option value="">-- Select Skill --</option>
+            <option *ngFor="let skill of filteredSkills" [value]="skill.name">
+              {{ skill.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Skill Name (Edit Mode) -->
+        <div class="form-group" *ngIf="isEditMode">
+          <label class="form-label">
+            <span class="label-icon">⚡</span>
+            Skill Name
+          </label>
+          <input
+            type="text"
+            [(ngModel)]="form.name"
+            name="skillName"
+            class="form-input"
+            readonly>
+        </div>
+
+        <!-- Self Rating -->
+        <div class="form-group">
+          <label class="form-label">
+            <span class="label-icon">⭐</span>
+            Self Rating (1-5)
+          </label>
+          <div class="rating-input-container">
+            <input
+              type="number"
+              min="1"
+              max="5"
+              [(ngModel)]="form.selfRating"
+              name="selfRating"
+              (ngModelChange)="validateSelfRating()"
+              class="form-input rating-input"
+              required>
+            <div class="rating-preview" [style.color]="getRatingColor(form.selfRating)">
+              {{ getRatingStars(form.selfRating) }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Years of Experience -->
+        <div class="form-group">
+          <label class="form-label">
+            <span class="label-icon">📅</span>
+            Years of Experience
+          </label>
+          <input
+            type="number"
+            min="0"
+            step="0.5"
+            [(ngModel)]="form.yearsOfExperience"
+            name="yearsOfExperience"
+            class="form-input"
+            required>
+        </div>
+
+        <!-- Last Used -->
+        <div class="form-group">
+          <label class="form-label">
+            <span class="label-icon">📆</span>
+            Last Used
+          </label>
+          <input
+            type="date"
+            [(ngModel)]="form.lastUsed"
+            name="lastUsed"
+            class="form-input"
+            required>
+        </div>
+
+        <!-- Notes -->
+        <div class="form-group">
+          <label class="form-label">
+            <span class="label-icon">📝</span>
+            Notes
+          </label>
+          <textarea
+            [(ngModel)]="form.notes"
+            name="notes"
+            class="form-textarea"
+            placeholder="Add any additional notes about this skill..."></textarea>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button
+            type="submit"
+            class="btn-submit"
+            [disabled]="!isFormValid() || saving">
+            <span *ngIf="!saving">{{ isEditMode ? '💾 Update Skill' : '➕ Add Skill' }}</span>
+            <span *ngIf="saving">⏳ Saving...</span>
+          </button>
+          <button
+            type="button"
+            class="btn-cancel"
+            (click)="closeForm()"
+            [disabled]="saving">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Content Layout -->
+  <div class="main-layout">
+    <!-- Content Area: Skills Display -->
+    <div class="content-area">
+      
+      <!-- Filters and Search Bar -->
+      <div class="filters-section">
+        <div class="search-container">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            [(ngModel)]="searchText"
+            (input)="applyFilters()"
+            placeholder="Search skills by name, category, or stack..."
+            class="search-input">
+          <button *ngIf="searchText || filterStack || filterCategory || filterRating !== null" 
+                  class="clear-filter-btn" 
+                  (click)="clearFilters()">
+            ✕ Clear
+          </button>
+        </div>
+
+        <div class="filter-controls">
+          <select
+            [(ngModel)]="filterStack"
+            (change)="applyFilters()"
+            class="filter-select">
+            <option value="">All Stacks</option>
+            <option *ngFor="let stack of stacks" [value]="stack">
+              {{ stack }}
+            </option>
+          </select>
+
+          <select
+            [(ngModel)]="filterCategory"
+            (change)="applyFilters()"
+            class="filter-select">
+            <option value="">All Categories</option>
+            <option *ngFor="let cat of categoriesByStack" [value]="cat">
+              {{ cat }}
+            </option>
+          </select>
+
+          <select
+            [(ngModel)]="filterRating"
+            (change)="applyFilters()"
+            class="filter-select">
+            <option [value]="null">All Ratings</option>
+            <option [value]="5">5 Stars</option>
+            <option [value]="4">4 Stars</option>
+            <option [value]="3">3 Stars</option>
+            <option [value]="2">2 Stars</option>
+            <option [value]="1">1 Star</option>
+          </select>
+
+          <div class="view-toggle">
+            <button
+              class="view-btn"
+              [class.active]="viewMode === 'cards'"
+              (click)="viewMode = 'cards'">
+              🎴 Cards
+            </button>
+            <button
+              class="view-btn"
+              [class.active]="viewMode === 'table'"
+              (click)="viewMode = 'table'">
+              📋 Table
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Loading your skills...</p>
+      </div>
+
+      <!-- Skills Cards View -->
+      <div *ngIf="!loading && viewMode === 'cards'" class="skills-grid">
+        <div *ngFor="let skill of displayedSkills" class="skill-card">
+          <div class="skill-card-header">
+            <div class="skill-badge" [style.background]="getRatingColor(skill.selfRating) + '20'">
+              <span class="skill-name">{{ skill.name }}</span>
+            </div>
+            <div class="skill-rating" [style.color]="getRatingColor(skill.selfRating)">
+              {{ getRatingStars(skill.selfRating) }}
+            </div>
+          </div>
+          
+          <div class="skill-card-body">
+            <div class="skill-meta">
+              <span class="meta-item">
+                <span class="meta-icon">📚</span>
+                {{ skill.stack || 'N/A' }}
+              </span>
+              <span class="meta-item">
+                <span class="meta-icon">📁</span>
+                {{ skill.category || 'N/A' }}
+              </span>
+            </div>
+            
+            <div class="skill-details">
+              <div class="detail-row">
+                <span class="detail-label">Experience:</span>
+                <span class="detail-value">{{ skill.yearsOfExperience || 0 }} years</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Last Used:</span>
+                <span class="detail-value">{{ formatDate(skill.lastUsed) }}</span>
+              </div>
+              <div class="detail-row" *ngIf="skill.notes">
+                <span class="detail-label">Notes:</span>
+                <span class="detail-value notes-text">{{ skill.notes }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="skill-card-actions" *ngIf="!isAdmin">
+            <button class="action-btn edit-action" (click)="openEditForm(skill)">
+              ✏️ Edit
+            </button>
+            <button class="action-btn delete-action" (click)="deleteSkill(skill.id)">
+              🗑️ Remove
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="displayedSkills.length === 0 && !loading" class="empty-state">
+          <div class="empty-icon">📭</div>
+          <h3>No skills found</h3>
+          <p *ngIf="searchText || filterStack || filterCategory || filterRating !== null">
+            Try adjusting your filters or search terms.
+          </p>
+          <p *ngIf="!searchText && !filterStack && !filterCategory && filterRating === null">
+            Start by adding your first skill!
+          </p>
+          <button *ngIf="!isAdmin" class="btn-primary" (click)="openAddForm()">
+            + Add Your First Skill
+          </button>
+        </div>
+      </div>
+
+      <!-- Skills Table View -->
+      <div *ngIf="!loading && viewMode === 'table'" class="table-container">
+        <table class="skills-table">
+          <thead>
+            <tr>
+              <th>Skill</th>
+              <th>Stack</th>
+              <th>Category</th>
+              <th>Rating</th>
+              <th>Experience</th>
+              <th>Last Used</th>
+              <th *ngIf="!isAdmin">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let skill of displayedSkills">
+              <td class="skill-name-cell">
+                <strong>{{ skill.name }}</strong>
+                <div *ngIf="skill.notes" class="skill-notes-preview">{{ skill.notes }}</div>
+              </td>
+              <td>{{ skill.stack || 'N/A' }}</td>
+              <td>{{ skill.category || 'N/A' }}</td>
+              <td>
+                <span class="rating-badge" [style.color]="getRatingColor(skill.selfRating)">
+                  {{ getRatingStars(skill.selfRating) }}
+                </span>
+              </td>
+              <td>{{ skill.yearsOfExperience || 0 }} yrs</td>
+              <td>{{ formatDate(skill.lastUsed) }}</td>
+              <td *ngIf="!isAdmin" class="actions-cell">
+                <button class="table-action-btn edit-action" (click)="openEditForm(skill)">
+                  ✏️
+                </button>
+                <button class="table-action-btn delete-action" (click)="deleteSkill(skill.id)">
+                  🗑️
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="displayedSkills.length === 0">
+              <td [attr.colspan]="isAdmin ? 6 : 7" class="empty-table-cell">
+                <div class="empty-state">
+                  <div class="empty-icon">📭</div>
+                  <h3>No skills found</h3>
+                  <p>Try adjusting your filters or add a new skill.</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div *ngIf="totalPages > 1 && !loading" class="pagination-container">
+        <button
+          class="pagination-btn"
+          (click)="prevPage()"
+          [disabled]="currentPage === 1">
+          ← Previous
+        </button>
+        
+        <div class="pagination-pages">
+          <button
+            *ngFor="let page of [].constructor(totalPages); let i = index"
+            class="page-number"
+            [class.active]="currentPage === i + 1"
+            (click)="goToPage(i + 1)">
+            {{ i + 1 }}
+          </button>
+        </div>
+        
+        <button
+          class="pagination-btn"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages">
+          Next →
+        </button>
+        
+        <div class="pagination-info">
+          Showing {{ (currentPage - 1) * pageSize + 1 }} - 
+          {{ Math.min(currentPage * pageSize, filteredSkills.length) }} 
+          of {{ filteredSkills.length }} skills
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

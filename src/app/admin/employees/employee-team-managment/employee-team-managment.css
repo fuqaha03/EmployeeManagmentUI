@@ -29,7 +29,7 @@
   padding: 22px 24px;
   border-radius: 18px;
   box-shadow: 0 14px 32px rgba(0,0,0,0.08);
-  border-left: 6px solid #2575fc;
+  border-left: 6px solid #0094D8;
   transition: all 0.3s ease;
 }
 
@@ -92,7 +92,7 @@
 .join-btn {
   flex: 1;
   padding: 10px 0;
-  background: #2575fc;
+  background: #0094D8;
   border: none;
   color: #fff;
   border-radius: 10px;

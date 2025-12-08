@@ -118,7 +118,7 @@
 
 .search-box:focus {
   outline: none;
-  border-color: #2575fc;
+  border-color: #0094D8;
   box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.15);
 }
 
@@ -139,7 +139,7 @@
 }
 
 .custom-table thead {
-  background: linear-gradient(135deg, #2575fc, #7a90ff);
+  background: #0094D8;
   color: #fff;
   font-size: 15px;
 }
@@ -164,7 +164,7 @@
 /* Action button */
 .view-btn {
   padding: 6px 12px;
-  background: #2575fc;
+  background: #0094D8;
   color: #fff;
   border: none;
   border-radius: 8px;
