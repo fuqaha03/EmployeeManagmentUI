@@ -2,29 +2,135 @@
    PrimeNG AZM Theme Customization
    ========================================= */
 
-/* Primary Colors */
+/* Primary Colors - Override PrimeNG theme variables */
 :root {
   --azm-blue-dark: #003A70;
   --azm-blue-light: #0094D8;
   --azm-purple: #7F3F98;
+  
+  /* PrimeNG default button variables - use dark blue */
+  --p-primary-color: #003A70;
+  --p-primary-color-text: #ffffff;
+  --p-highlight-color: #0094D8;
+  --p-highlight-text-color: #ffffff;
+  
+  /* Override PrimeNG green colors with blue - Set before PrimeNG references them */
+  --p-green-50: #e6f5fc;
+  --p-green-100: #b3e0f5;
+  --p-green-200: #80cbee;
+  --p-green-300: #4db6e7;
+  --p-green-400: #1aa1e0;
+  --p-green-500: #0094D8;
+  --p-green-600: #0076ad;
+  --p-green-700: #005882;
+  --p-green-800: #003a57;
+  --p-green-900: #001c2c;
+  
+  /* Override PrimeNG emerald colors (used by primary) with dark blue */
+  --p-emerald-50: #e6f0f8;
+  --p-emerald-100: #b3d1e8;
+  --p-emerald-200: #80b2d8;
+  --p-emerald-300: #4d93c8;
+  --p-emerald-400: #1a74b8;
+  --p-emerald-500: #003A70;
+  --p-emerald-600: #002e5a;
+  --p-emerald-700: #002244;
+  --p-emerald-800: #00162e;
+  --p-emerald-900: #000a18;
+  --p-emerald-950: #000a18;
+  
+  /* Override PrimeNG primary colors to use dark blue directly - Break the var() chain */
+  --p-primary-50: #e6f0f8;
+  --p-primary-100: #b3d1e8;
+  --p-primary-200: #80b2d8;
+  --p-primary-300: #4d93c8;
+  --p-primary-400: #1a74b8;
+  --p-primary-500: #003A70;
+  --p-primary-600: #002e5a;
+  --p-primary-700: #002244;
+  --p-primary-800: #00162e;
+  --p-primary-900: #000a18;
+  --p-primary-950: #000a18;
+  
+  /* Override PrimeNG success/tag colors to use blue - Break the var() chain */
+  --p-tag-success-background: #b3e0f5;
+  --p-tag-success-color: #005882;
+  
+  /* Override button text success colors - Break the var() chain */
+  --p-button-text-success-hover-background: #e6f5fc;
+  --p-button-text-success-active-background: #b3e0f5;
+  --p-button-text-success-color: #0094D8;
+  
+  /* Override toast success colors */
+  --p-toast-success-background: color-mix(in srgb, #e6f5fc, transparent 5%);
+  --p-toast-success-border-color: #80cbee;
+  --p-toast-success-color: #0076ad;
+  --p-toast-success-detail-color: var(--p-surface-700);
+  --p-toast-success-shadow: 0px 4px 8px 0px color-mix(in srgb, #0094D8, transparent 96%);
+  --p-toast-success-close-button-hover-background: #b3e0f5;
+  --p-toast-success-close-button-focus-ring-color: #0076ad;
+  
+  /* Override success color variables */
+  --p-success-color: #0094D8;
+  --p-success-contrast-color: #ffffff;
 }
 
-/* Override PrimeNG Primary Colors */
+/* Force override PrimeNG variable references - Load after PrimeNG theme */
+:root:root {
+  /* Break PrimeNG's var() chain by overriding the final variables */
+  --p-primary-50: #e6f0f8;
+  --p-primary-100: #b3d1e8;
+  --p-primary-200: #80b2d8;
+  --p-primary-300: #4d93c8;
+  --p-primary-400: #1a74b8;
+  --p-primary-500: #003A70;
+  --p-primary-600: #002e5a;
+  --p-primary-700: #002244;
+  --p-primary-800: #00162e;
+  --p-primary-900: #000a18;
+  --p-primary-950: #000a18;
+  
+  --p-tag-success-background: #b3e0f5;
+  --p-tag-success-color: #005882;
+  
+  --p-button-text-success-hover-background: #e6f5fc;
+  --p-button-text-success-active-background: #b3e0f5;
+  --p-button-text-success-color: #0094D8;
+}
+
+/* Default .p-button uses dark blue - Match buttons.css selector */
+.p-button:not(.p-button-primary):not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warning):not(.p-button-info):not(.p-button-text):not(.p-button-outlined):not([severity]) {
+  background: var(--p-button-primary-background, var(--p-primary-color, #003A70)) !important;
+  border-color: var(--p-button-primary-border-color, var(--p-primary-color, #003A70)) !important;
+  color: var(--p-button-primary-color, var(--p-primary-color-text, #ffffff)) !important;
+}
+
+.p-button:not(.p-button-primary):not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warning):not(.p-button-info):not(.p-button-text):not(.p-button-outlined):not([severity]):hover:not(:disabled) {
+  background: var(--p-button-primary-hover-background, #002e5a) !important;
+  border-color: var(--p-button-primary-hover-background, #002e5a) !important;
+}
+
+.p-button:not(.p-button-primary):not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warning):not(.p-button-info):not(.p-button-text):not(.p-button-outlined):not([severity]):focus:not(:disabled) {
+  box-shadow: 0 0 0 0.2rem rgba(0, 58, 112, 0.5) !important;
+}
+
+/* Override PrimeNG Primary Colors - Using CSS Variables */
 .p-button-primary,
 .p-button.p-button-primary {
-  background: #0094D8;
-  border-color: #0094D8;
+  background: var(--p-button-primary-background, #003A70);
+  border-color: var(--p-button-primary-border-color, #003A70);
+  color: var(--p-button-primary-color, #ffffff);
 }
 
-.p-button-primary:hover,
-.p-button.p-button-primary:hover {
-  background: #007bb8;
-  border-color: #007bb8;
+.p-button-primary:hover:not(:disabled),
+.p-button.p-button-primary:hover:not(:disabled) {
+  background: var(--p-button-primary-hover-background, #002e5a);
+  border-color: var(--p-button-primary-hover-background, #002e5a);
 }
 
-.p-button-primary:focus,
-.p-button.p-button-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(0, 148, 216, 0.5);
+.p-button-primary:focus:not(:disabled),
+.p-button.p-button-primary:focus:not(:disabled) {
+  box-shadow: 0 0 0 0.2rem rgba(0, 58, 112, 0.5);
 }
 
 /* Dialog Header */
@@ -253,10 +359,16 @@ p-confirmdialog .p-dialog-header {
   border-color: rgba(0, 148, 216, 0.2);
 }
 
-/* Tag */
+/* Tag - Override green with blue */
 .p-tag.p-tag-success {
-  background: #0094D8;
-  color: white;
+  background: var(--p-tag-success-background, #b3e0f5) !important;
+  color: var(--p-tag-success-color, #005882) !important;
+}
+
+/* Ensure all success tags use blue */
+.p-tag[severity="success"] {
+  background: var(--p-tag-success-background, #b3e0f5) !important;
+  color: var(--p-tag-success-color, #005882) !important;
 }
 
 .p-tag.p-tag-warning {
@@ -285,6 +397,21 @@ p-confirmdialog .p-dialog-header {
   border-color: #007bb8;
 }
 
+/* Add spacing between checkbox and label */
+.p-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.p-checkbox .p-checkbox-box {
+  margin-right: 0.5rem;
+}
+
+.p-checkbox .p-checkbox-label {
+  margin-left: 0;
+}
+
 /* Toggle Button */
 .p-togglebutton.p-button.p-highlight {
   background: #0094D8;
@@ -295,5 +422,52 @@ p-confirmdialog .p-dialog-header {
 .p-togglebutton.p-button.p-highlight:hover {
   background: #007bb8;
   border-color: #007bb8;
+}
+
+/* =========================================
+   GLOBAL OVERRIDE - NO GREEN COLORS
+   Replace all green with blue across PrimeNG components
+   ========================================= */
+
+/* Override any component using green success colors */
+.p-component[style*="green"],
+.p-component[style*="#10b981"],
+.p-component[style*="#28a745"],
+.p-component[style*="#059669"] {
+  background: var(--p-success-color, #0094D8) !important;
+  border-color: var(--p-success-color, #0094D8) !important;
+  color: var(--p-success-contrast-color, #ffffff) !important;
+}
+
+/* Override any element with green background */
+[style*="background: #10b981"],
+[style*="background:#10b981"],
+[style*="background: #28a745"],
+[style*="background:#28a745"],
+[style*="background: #059669"],
+[style*="background:#059669"],
+[style*="background-color: #10b981"],
+[style*="background-color:#10b981"],
+[style*="background-color: #28a745"],
+[style*="background-color:#28a745"],
+[style*="background-color: #059669"],
+[style*="background-color:#059669"] {
+  background: var(--p-success-color, #0094D8) !important;
+}
+
+/* Override any element with green border */
+[style*="border-color: #10b981"],
+[style*="border-color:#10b981"],
+[style*="border-color: #28a745"],
+[style*="border-color:#28a745"] {
+  border-color: var(--p-success-color, #0094D8) !important;
+}
+
+/* Override any element with green color/text */
+[style*="color: #10b981"],
+[style*="color:#10b981"],
+[style*="color: #28a745"],
+[style*="color:#28a745"] {
+  color: var(--p-success-color, #0094D8) !important;
 }
 

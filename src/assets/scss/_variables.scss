@@ -63,6 +63,50 @@ $warning: #ffc107;
 $info: $secondary-blue;
 
 // ============================================
+// Button Variables
+// ============================================
+// Default button uses dark blue (primary-blue)
+$button-primary-bg: $primary-blue;
+$button-primary-hover-bg: $primary-blue-600;
+$button-primary-color: $white;
+$button-primary-border: $primary-blue;
+
+$button-secondary-bg: #6b7280;
+$button-secondary-hover-bg: #4b5563;
+$button-secondary-color: $white;
+$button-secondary-border: #6b7280;
+
+$button-danger-bg: #ef4444;
+$button-danger-hover-bg: #dc2626;
+$button-danger-color: $white;
+$button-danger-border: #ef4444;
+
+$button-success-bg: $secondary-blue;
+$button-success-hover-bg: $secondary-blue-600;
+$button-success-color: $white;
+$button-success-border: $secondary-blue;
+
+$button-warning-bg: #f59e0b;
+$button-warning-hover-bg: #d97706;
+$button-warning-color: $white;
+$button-warning-border: #f59e0b;
+
+$button-info-bg: $secondary-blue;
+$button-info-hover-bg: $secondary-blue-600;
+$button-info-color: $white;
+$button-info-border: $secondary-blue;
+
+$button-text-color: #6b7280;
+$button-text-hover-bg: #f3f4f6;
+$button-text-hover-color: #374151;
+
+$button-padding-x: 20px;
+$button-padding-y: 10px;
+$button-border-radius: 8px;
+$button-font-weight: 500;
+$button-transition: all 0.3s ease;
+
+// ============================================
 // Typography Variables
 // ============================================
 $font-family-primary: 'Almarai', sans-serif;

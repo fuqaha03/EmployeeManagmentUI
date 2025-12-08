@@ -107,6 +107,117 @@ html, body {
   --accent-700: #{$accent-purple-700};
   --accent-800: #{$accent-purple-800};
   --accent-900: #{$accent-purple-900};
+  
+  // PrimeNG Core Variables - Default buttons use dark blue
+  --p-primary-color: #{$primary-blue};
+  --p-primary-color-text: #{$white};
+  --p-highlight-color: #{$secondary-blue};
+  --p-highlight-text-color: #{$white};
+  
+  // PrimeNG Button Variables - Default buttons use dark blue
+  --p-button-primary-background: #{$button-primary-bg};
+  --p-button-primary-hover-background: #{$button-primary-hover-bg};
+  --p-button-primary-color: #{$button-primary-color};
+  --p-button-primary-border-color: #{$button-primary-border};
+  
+  // Additional PrimeNG button variables
+  --p-button-gap: 0.5rem;
+  
+  --p-button-secondary-background: #{$button-secondary-bg};
+  --p-button-secondary-hover-background: #{$button-secondary-hover-bg};
+  --p-button-secondary-color: #{$button-secondary-color};
+  --p-button-secondary-border-color: #{$button-secondary-border};
+  
+  --p-button-danger-background: #{$button-danger-bg};
+  --p-button-danger-hover-background: #{$button-danger-hover-bg};
+  --p-button-danger-color: #{$button-danger-color};
+  --p-button-danger-border-color: #{$button-danger-border};
+  
+  --p-button-success-background: #{$button-success-bg};
+  --p-button-success-hover-background: #{$button-success-hover-bg};
+  --p-button-success-color: #{$button-success-color};
+  --p-button-success-border-color: #{$button-success-border};
+  
+  --p-button-warning-background: #{$button-warning-bg};
+  --p-button-warning-hover-background: #{$button-warning-hover-bg};
+  --p-button-warning-color: #{$button-warning-color};
+  --p-button-warning-border-color: #{$button-warning-border};
+  
+  --p-button-info-background: #{$button-info-bg};
+  --p-button-info-hover-background: #{$button-info-hover-bg};
+  --p-button-info-color: #{$button-info-color};
+  --p-button-info-border-color: #{$button-info-border};
+  
+  --p-button-text-color: #{$button-text-color};
+  --p-button-text-hover-background: #{$button-text-hover-bg};
+  --p-button-text-hover-color: #{$button-text-hover-color};
+  
+  --p-button-padding-x: #{$button-padding-x};
+  --p-button-padding-y: #{$button-padding-y};
+  --p-button-border-radius: #{$button-border-radius};
+  --p-button-font-weight: #{$button-font-weight};
+  --p-button-transition-duration: 0.3s;
+  --p-button-gap: 0.5rem;
+  
+  // Override PrimeNG green colors with blue - Set before PrimeNG references them
+  --p-green-50: #{$secondary-blue-50};
+  --p-green-100: #{$secondary-blue-100};
+  --p-green-200: #{$secondary-blue-200};
+  --p-green-300: #{$secondary-blue-300};
+  --p-green-400: #{$secondary-blue-400};
+  --p-green-500: #{$secondary-blue-500};
+  --p-green-600: #{$secondary-blue-600};
+  --p-green-700: #{$secondary-blue-700};
+  --p-green-800: #{$secondary-blue-800};
+  --p-green-900: #{$secondary-blue-900};
+  
+  // Override PrimeNG emerald colors (used by primary) with blue
+  --p-emerald-50: #{$primary-blue-50};
+  --p-emerald-100: #{$primary-blue-100};
+  --p-emerald-200: #{$primary-blue-200};
+  --p-emerald-300: #{$primary-blue-300};
+  --p-emerald-400: #{$primary-blue-400};
+  --p-emerald-500: #{$primary-blue-500};
+  --p-emerald-600: #{$primary-blue-600};
+  --p-emerald-700: #{$primary-blue-700};
+  --p-emerald-800: #{$primary-blue-800};
+  --p-emerald-900: #{$primary-blue-900};
+  --p-emerald-950: #{$primary-blue-900};
+  
+  // Override PrimeNG primary colors to use dark blue directly - Break the var() chain
+  --p-primary-50: #{$primary-blue-50};
+  --p-primary-100: #{$primary-blue-100};
+  --p-primary-200: #{$primary-blue-200};
+  --p-primary-300: #{$primary-blue-300};
+  --p-primary-400: #{$primary-blue-400};
+  --p-primary-500: #{$primary-blue-500};
+  --p-primary-600: #{$primary-blue-600};
+  --p-primary-700: #{$primary-blue-700};
+  --p-primary-800: #{$primary-blue-800};
+  --p-primary-900: #{$primary-blue-900};
+  --p-primary-950: #{$primary-blue-900};
+  
+  // Override PrimeNG success/tag colors to use blue - Break the var() chain
+  --p-tag-success-background: #{$secondary-blue-100};
+  --p-tag-success-color: #{$secondary-blue-700};
+  
+  // Override button text success colors - Break the var() chain
+  --p-button-text-success-hover-background: #{$secondary-blue-50};
+  --p-button-text-success-active-background: #{$secondary-blue-100};
+  --p-button-text-success-color: #{$secondary-blue-500};
+  
+  // Override toast success colors
+  --p-toast-success-background: color-mix(in srgb, #{$secondary-blue-50}, transparent 5%);
+  --p-toast-success-border-color: #{$secondary-blue-200};
+  --p-toast-success-color: #{$secondary-blue-600};
+  --p-toast-success-detail-color: var(--p-surface-700);
+  --p-toast-success-shadow: 0px 4px 8px 0px color-mix(in srgb, #{$secondary-blue-500}, transparent 96%);
+  --p-toast-success-close-button-hover-background: #{$secondary-blue-100};
+  --p-toast-success-close-button-focus-ring-color: #{$secondary-blue-600};
+  
+  // Override any other green-related variables
+  --p-success-color: #{$secondary-blue};
+  --p-success-contrast-color: #{$white};
 }
 
 // Override PrimeNG theme variables
@@ -114,23 +225,30 @@ html, body {
   font-family: $font-family-primary;
 }
 
-.p-button {
-  background: $primary-blue;
-  border-color: $primary-blue;
+// Default .p-button uses dark blue - Direct override for PrimeNG
+.p-button:not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warning):not(.p-button-info):not(.p-button-text):not(.p-button-outlined):not([severity]) {
+  background: var(--p-button-primary-background, var(--p-primary-color, #{$primary-blue})) !important;
+  border-color: var(--p-button-primary-border-color, var(--p-primary-color, #{$primary-blue})) !important;
+  color: var(--p-button-primary-color, var(--p-primary-color-text, #{$white})) !important;
   
-  &:hover {
-    background: $primary-blue-600;
-    border-color: $primary-blue-600;
+  &:hover:not(:disabled) {
+    background: var(--p-button-primary-hover-background, #{$primary-blue-600}) !important;
+    border-color: var(--p-button-primary-hover-background, #{$primary-blue-600}) !important;
+  }
+  
+  &:focus:not(:disabled) {
+    box-shadow: 0 0 0 0.2rem rgba(0, 58, 112, 0.5) !important;
   }
 }
 
 .p-button-secondary {
-  background: $secondary-blue;
-  border-color: $secondary-blue;
+  background: var(--p-button-secondary-background);
+  border-color: var(--p-button-secondary-border-color);
+  color: var(--p-button-secondary-color);
   
-  &:hover {
-    background: $secondary-blue-600;
-    border-color: $secondary-blue-600;
+  &:hover:not(:disabled) {
+    background: var(--p-button-secondary-hover-background);
+    border-color: var(--p-button-secondary-hover-background);
   }
 }
 

@@ -55,9 +55,19 @@
   margin-bottom: 18px;
 }
 
-.form-row input,
-.form-row select {
+.form-row input {
   flex: 1;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.form-row ::ng-deep p-select {
+  flex: 1;
+  min-width: 0;
+}
+
+.form-row ::ng-deep p-select .p-select {
+  width: 100% !important;
 }
 
 /* --- CUSTOM SELECT DROPDOWN --- */

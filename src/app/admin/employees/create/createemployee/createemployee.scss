@@ -94,31 +94,33 @@
 
 .submit-btn ::ng-deep .p-button {
   flex: 1;
-  background: $primary-blue;
-  border-color: $primary-blue;
+  background: var(--p-button-primary-background, $button-primary-bg);
+  border-color: var(--p-button-primary-border-color, $button-primary-border);
+  color: var(--p-button-primary-color, $button-primary-color);
   padding: $spacing-md;
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
   border-radius: $border-radius-md;
   
   &:hover:not(:disabled) {
-    background: $primary-blue-600;
-    border-color: $primary-blue-600;
+    background: var(--p-button-primary-hover-background, $button-primary-hover-bg);
+    border-color: var(--p-button-primary-hover-background, $button-primary-hover-bg);
   }
 }
 
 .cancel-btn ::ng-deep .p-button {
   flex: 1;
-  background: $gray-600;
-  border-color: $gray-600;
+  background: var(--p-button-secondary-background, $button-secondary-bg);
+  border-color: var(--p-button-secondary-border-color, $button-secondary-border);
+  color: var(--p-button-secondary-color, $button-secondary-color);
   padding: $spacing-md;
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
   border-radius: $border-radius-md;
   
-  &:hover {
-    background: $gray-700;
-    border-color: $gray-700;
+  &:hover:not(:disabled) {
+    background: var(--p-button-secondary-hover-background, $button-secondary-hover-bg);
+    border-color: var(--p-button-secondary-hover-background, $button-secondary-hover-bg);
   }
 }
 

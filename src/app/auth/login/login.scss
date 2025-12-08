@@ -96,16 +96,17 @@
 
 .login-btn ::ng-deep .p-button {
   width: 100%;
-  background: $primary-blue;
-  border-color: $primary-blue;
+  background: var(--p-button-primary-background, $button-primary-bg);
+  border-color: var(--p-button-primary-border-color, $button-primary-border);
+  color: var(--p-button-primary-color, $button-primary-color);
   padding: $spacing-md;
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
   border-radius: $border-radius-md;
   
   &:hover:not(:disabled) {
-    background: $primary-blue-600;
-    border-color: $primary-blue-600;
+    background: var(--p-button-primary-hover-background, $button-primary-hover-bg);
+    border-color: var(--p-button-primary-hover-background, $button-primary-hover-bg);
   }
   
   &:disabled {

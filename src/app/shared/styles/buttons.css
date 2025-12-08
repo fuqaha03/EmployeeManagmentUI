@@ -1,21 +1,41 @@
 /* =========================================
    Global Button Styles - Consistent UI
+   Using CSS Variables for maintainability
    ========================================= */
 
-/* Primary/Confirm/Save Button - Standard Blue */
+/* Default .p-button uses dark blue - Override PrimeNG defaults with high specificity */
+.p-button:not(.p-button-primary):not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warning):not(.p-button-info):not(.p-button-text):not(.p-button-outlined):not([severity]),
+button.p-button:not(.p-button-primary):not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warning):not(.p-button-info):not(.p-button-text):not(.p-button-outlined):not([severity]) {
+  background: var(--p-button-primary-background, var(--p-primary-color, #003A70)) !important;
+  border-color: var(--p-button-primary-border-color, var(--p-primary-color, #003A70)) !important;
+  color: var(--p-button-primary-color, var(--p-primary-color-text, #ffffff)) !important;
+}
+
+.p-button:not(.p-button-primary):not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warning):not(.p-button-info):not(.p-button-text):not(.p-button-outlined):not([severity]):hover:not(:disabled),
+button.p-button:not(.p-button-primary):not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warning):not(.p-button-info):not(.p-button-text):not(.p-button-outlined):not([severity]):hover:not(:disabled) {
+  background: var(--p-button-primary-hover-background, #002e5a) !important;
+  border-color: var(--p-button-primary-hover-background, #002e5a) !important;
+}
+
+.p-button:not(.p-button-primary):not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warning):not(.p-button-info):not(.p-button-text):not(.p-button-outlined):not([severity]):focus:not(:disabled),
+button.p-button:not(.p-button-primary):not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warning):not(.p-button-info):not(.p-button-text):not(.p-button-outlined):not([severity]):focus:not(:disabled) {
+  box-shadow: 0 0 0 0.2rem rgba(0, 58, 112, 0.5) !important;
+}
+
+/* Primary/Confirm/Save Button - Dark Blue */
 .p-button-primary,
 .p-button[style*="background: #0094D8"],
 .p-button[style*="background:#0094D8"],
 .p-button.confirm-btn,
 .p-button.save-btn,
 .p-button.submit-btn {
-  background: #0094D8 !important;
-  border-color: #0094D8 !important;
-  color: #ffffff !important;
-  padding: 10px 20px !important;
-  border-radius: 8px !important;
-  font-weight: 500 !important;
-  transition: all 0.3s ease !important;
+  background: var(--p-button-primary-background) !important;
+  border-color: var(--p-button-primary-border-color) !important;
+  color: var(--p-button-primary-color) !important;
+  padding: var(--p-button-padding-y) var(--p-button-padding-x) !important;
+  border-radius: var(--p-button-border-radius) !important;
+  font-weight: var(--p-button-font-weight, 500) !important;
+  transition: var(--p-button-transition-duration, 0.3s) ease !important;
 }
 
 .p-button-primary:hover:not(:disabled),
@@ -24,8 +44,8 @@
 .p-button.confirm-btn:hover:not(:disabled),
 .p-button.save-btn:hover:not(:disabled),
 .p-button.submit-btn:hover:not(:disabled) {
-  background: #007bb8 !important;
-  border-color: #007bb8 !important;
+  background: var(--p-button-primary-hover-background) !important;
+  border-color: var(--p-button-primary-hover-background) !important;
   transform: translateY(-2px) !important;
   box-shadow: 0 4px 12px rgba(0, 148, 216, 0.3) !important;
 }
@@ -41,20 +61,20 @@
 .p-button-secondary,
 .p-button.cancel-btn,
 .p-button[severity="secondary"]:not(.p-button-text) {
-  background: #6b7280 !important;
-  border-color: #6b7280 !important;
-  color: #ffffff !important;
-  padding: 10px 20px !important;
-  border-radius: 8px !important;
-  font-weight: 500 !important;
-  transition: all 0.3s ease !important;
+  background: var(--p-button-secondary-background) !important;
+  border-color: var(--p-button-secondary-border-color) !important;
+  color: var(--p-button-secondary-color) !important;
+  padding: var(--p-button-padding-y) var(--p-button-padding-x) !important;
+  border-radius: var(--p-button-border-radius) !important;
+  font-weight: var(--p-button-font-weight, 500) !important;
+  transition: var(--p-button-transition-duration, 0.3s) ease !important;
 }
 
 .p-button-secondary:hover:not(:disabled),
 .p-button.cancel-btn:hover:not(:disabled),
 .p-button[severity="secondary"]:not(.p-button-text):hover:not(:disabled) {
-  background: #4b5563 !important;
-  border-color: #4b5563 !important;
+  background: var(--p-button-secondary-hover-background) !important;
+  border-color: var(--p-button-secondary-hover-background) !important;
   transform: translateY(-2px) !important;
   box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3) !important;
 }
@@ -69,37 +89,37 @@
 .p-button.p-button-text {
   background: transparent !important;
   border: none !important;
-  color: #6b7280 !important;
-  padding: 10px 20px !important;
-  border-radius: 8px !important;
-  font-weight: 500 !important;
-  transition: all 0.3s ease !important;
+  color: var(--p-button-text-color) !important;
+  padding: var(--p-button-padding-y) var(--p-button-padding-x) !important;
+  border-radius: var(--p-button-border-radius) !important;
+  font-weight: var(--p-button-font-weight, 500) !important;
+  transition: var(--p-button-transition-duration, 0.3s) ease !important;
 }
 
 .p-button-text:hover:not(:disabled),
 .p-button.p-button-text:hover:not(:disabled) {
-  background: #f3f4f6 !important;
-  color: #374151 !important;
+  background: var(--p-button-text-hover-background) !important;
+  color: var(--p-button-text-hover-color) !important;
 }
 
 /* Danger/Delete Button */
 .p-button-danger,
 .p-button[severity="danger"]:not(.p-button-text),
 .p-button.delete-btn {
-  background: #ef4444 !important;
-  border-color: #ef4444 !important;
-  color: #ffffff !important;
-  padding: 10px 20px !important;
-  border-radius: 8px !important;
-  font-weight: 500 !important;
-  transition: all 0.3s ease !important;
+  background: var(--p-button-danger-background) !important;
+  border-color: var(--p-button-danger-border-color) !important;
+  color: var(--p-button-danger-color) !important;
+  padding: var(--p-button-padding-y) var(--p-button-padding-x) !important;
+  border-radius: var(--p-button-border-radius) !important;
+  font-weight: var(--p-button-font-weight, 500) !important;
+  transition: var(--p-button-transition-duration, 0.3s) ease !important;
 }
 
 .p-button-danger:hover:not(:disabled),
 .p-button[severity="danger"]:not(.p-button-text):hover:not(:disabled),
 .p-button.delete-btn:hover:not(:disabled) {
-  background: #dc2626 !important;
-  border-color: #dc2626 !important;
+  background: var(--p-button-danger-hover-background) !important;
+  border-color: var(--p-button-danger-hover-background) !important;
   transform: translateY(-2px) !important;
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
 }
@@ -107,19 +127,19 @@
 /* Success Button - Using Logo Color */
 .p-button-success,
 .p-button[severity="success"]:not(.p-button-text) {
-  background: #0094D8 !important;
-  border-color: #0094D8 !important;
-  color: #ffffff !important;
-  padding: 10px 20px !important;
-  border-radius: 8px !important;
-  font-weight: 500 !important;
-  transition: all 0.3s ease !important;
+  background: var(--p-button-success-background) !important;
+  border-color: var(--p-button-success-border-color) !important;
+  color: var(--p-button-success-color) !important;
+  padding: var(--p-button-padding-y) var(--p-button-padding-x) !important;
+  border-radius: var(--p-button-border-radius) !important;
+  font-weight: var(--p-button-font-weight, 500) !important;
+  transition: var(--p-button-transition-duration, 0.3s) ease !important;
 }
 
 .p-button-success:hover:not(:disabled),
 .p-button[severity="success"]:not(.p-button-text):hover:not(:disabled) {
-  background: #007bb8 !important;
-  border-color: #007bb8 !important;
+  background: var(--p-button-success-hover-background) !important;
+  border-color: var(--p-button-success-hover-background) !important;
   transform: translateY(-2px) !important;
   box-shadow: 0 4px 12px rgba(0, 148, 216, 0.3) !important;
 }
@@ -127,19 +147,19 @@
 /* Info Button */
 .p-button-info,
 .p-button[severity="info"]:not(.p-button-text) {
-  background: #0094D8 !important;
-  border-color: #0094D8 !important;
-  color: #ffffff !important;
-  padding: 10px 20px !important;
-  border-radius: 8px !important;
-  font-weight: 500 !important;
-  transition: all 0.3s ease !important;
+  background: var(--p-button-info-background) !important;
+  border-color: var(--p-button-info-border-color) !important;
+  color: var(--p-button-info-color) !important;
+  padding: var(--p-button-padding-y) var(--p-button-padding-x) !important;
+  border-radius: var(--p-button-border-radius) !important;
+  font-weight: var(--p-button-font-weight, 500) !important;
+  transition: var(--p-button-transition-duration, 0.3s) ease !important;
 }
 
 .p-button-info:hover:not(:disabled),
 .p-button[severity="info"]:not(.p-button-text):hover:not(:disabled) {
-  background: #007bb8 !important;
-  border-color: #007bb8 !important;
+  background: var(--p-button-info-hover-background) !important;
+  border-color: var(--p-button-info-hover-background) !important;
   transform: translateY(-2px) !important;
   box-shadow: 0 4px 12px rgba(0, 148, 216, 0.3) !important;
 }
@@ -147,19 +167,19 @@
 /* Warning Button */
 .p-button-warning,
 .p-button[severity="warning"]:not(.p-button-text) {
-  background: #f59e0b !important;
-  border-color: #f59e0b !important;
-  color: #ffffff !important;
-  padding: 10px 20px !important;
-  border-radius: 8px !important;
-  font-weight: 500 !important;
-  transition: all 0.3s ease !important;
+  background: var(--p-button-warning-background) !important;
+  border-color: var(--p-button-warning-border-color) !important;
+  color: var(--p-button-warning-color) !important;
+  padding: var(--p-button-padding-y) var(--p-button-padding-x) !important;
+  border-radius: var(--p-button-border-radius) !important;
+  font-weight: var(--p-button-font-weight, 500) !important;
+  transition: var(--p-button-transition-duration, 0.3s) ease !important;
 }
 
 .p-button-warning:hover:not(:disabled),
 .p-button[severity="warning"]:not(.p-button-text):hover:not(:disabled) {
-  background: #d97706 !important;
-  border-color: #d97706 !important;
+  background: var(--p-button-warning-hover-background) !important;
+  border-color: var(--p-button-warning-hover-background) !important;
   transform: translateY(-2px) !important;
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3) !important;
 }
@@ -214,8 +234,8 @@
 .p-button[style*="background-color:#28a745"],
 .p-button[style*="background-color: #059669"],
 .p-button[style*="background-color:#059669"] {
-  background: #0094D8 !important;
-  border-color: #0094D8 !important;
+  background: var(--p-button-success-background) !important;
+  border-color: var(--p-button-success-border-color) !important;
 }
 
 .p-button[style*="background: #10b981"]:hover,
@@ -230,7 +250,6 @@
 .p-button[style*="background-color:#28a745"]:hover,
 .p-button[style*="background-color: #059669"]:hover,
 .p-button[style*="background-color:#059669"]:hover {
-  background: #007bb8 !important;
-  border-color: #007bb8 !important;
+  background: var(--p-button-success-hover-background) !important;
+  border-color: var(--p-button-success-hover-background) !important;
 }
-
