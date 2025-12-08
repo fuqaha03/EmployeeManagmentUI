@@ -373,9 +373,6 @@
           <p *ngIf="!searchForm.get('searchText')?.value && !filterStack && !filterCategory && filterRating === null">
             Start by adding your first skill!
           </p>
-          <button *ngIf="!isAdmin" class="btn-primary" (click)="openAddForm()">
-            + Add Your First Skill
-          </button>
         </div>
       </div>
 
@@ -449,13 +446,6 @@
                   <div class="empty-icon">📭</div>
                   <h3>No skills found</h3>
                   <p>Try adjusting your filters or add a new skill.</p>
-                  <p-button 
-                    *ngIf="!isAdmin"
-                    label="Add Your First Skill" 
-                    icon="pi pi-plus" 
-                    (onClick)="openAddForm()"
-                    [style]="{'margin-top': '20px'}">
-                  </p-button>
                 </div>
               </td>
             </tr>
