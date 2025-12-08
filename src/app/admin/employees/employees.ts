@@ -6,12 +6,20 @@ import { Router } from '@angular/router';
 import { SkillsService } from '../../core/services/skill';
 import { Position } from '../../core/services/position';
 import { FormsModule } from '@angular/forms';
+import { SelectModule } from 'primeng/select';
+import { DatePickerModule } from 'primeng/datepicker';
+import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.html',
   styleUrls: ['./employees.css'],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SelectModule, DatePickerModule, InputTextModule, TableModule, ButtonModule, TooltipModule, InputGroupModule, InputGroupAddonModule],
 })
 export class EmployeesComponent implements OnInit {
   employees: any[] = [];
@@ -88,12 +96,12 @@ this.productNames = [
   });
 }
 onTeamChange(event: any) {
-  this.selectedTeam = event.target.value;
+  this.selectedTeam = event.value || '';
   this.filterEmployees();
 }
 
 onProductChange(event: any) {
-  this.selectedProduct = event.target.value;
+  this.selectedProduct = event.value || '';
   this.filterEmployees();
 }
 
@@ -135,7 +143,7 @@ onProductChange(event: any) {
 
   // ===== Dropdown Handlers =====
   onStackChange(event: any) {
-    this.selectedStackId = +event.target.value || null;
+    this.selectedStackId = event.value || null;
 
     // Filter categories by stack
     if (this.selectedStackId) {
@@ -154,7 +162,7 @@ onProductChange(event: any) {
   }
 
   onCategoryChange(event: any) {
-    this.selectedCategoryId = +event.target.value || null;
+    this.selectedCategoryId = event.value || null;
 
     // Filter skills by category
     if (this.selectedCategoryId) {
@@ -170,12 +178,12 @@ onProductChange(event: any) {
   }
 
   onSkillChangeDropdown(event: any) {
-    this.selectedSkillId = +event.target.value || null;
+    this.selectedSkillId = event.value || null;
     this.filterEmployees();
   }
 
   onPositionDropdownChange(event: any) {
-    this.selectedPosition = event.target.value;
+    this.selectedPosition = event.value || '';
     this.filterEmployees();
   }
 

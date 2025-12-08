@@ -1,6 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
 /* AZM Theme is imported via angular.json */
 
+/* =========================================
+   ALMARAI FONT FACE
+   ========================================= */
+@font-face {
+  font-family: 'Almarai';
+  src: url('assets/fonts/AlmaraiRegular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Almarai';
+  src: url('assets/fonts/AlmaraiBold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Reset default margin and padding */
 * {
   margin: 0;
@@ -17,5 +36,334 @@ html, body {
 }
 
 * {
-  font-family: "Poppins", sans-serif;
+  font-family: "Almarai", "Poppins", sans-serif;
+}
+
+/* =========================================
+   PAGE LAYOUT STYLES - GLOBAL
+   ========================================= */
+.page-layout {
+  display: flex !important;
+  gap: 35px;
+  max-width: 1250px;
+  margin: 45px auto;
+  padding: 0 15px;
+  flex-wrap: wrap;
+}
+
+.page-layout.no-filter-column {
+  padding: 0 40px !important;
+  justify-content: center !important;
+}
+
+.page-layout.no-filter-column .table-column {
+  max-width: 100% !important;
+  flex: 1 1 100% !important;
+}
+
+.table-column {
+  flex: 1;
+  min-width: 0;
+}
+
+.table-container {
+  background: #ffffff;
+  padding: 30px 25px;
+  border-radius: 18px;
+  box-shadow: 0px 12px 40px rgba(0, 0, 0, 0.07);
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.table-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  flex: 1;
+}
+
+.table-header p-button {
+  flex-shrink: 0;
+}
+
+/* Search Form Group */
+.search-form-group,
+form[formGroup] {
+  width: 100%;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.search-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 8px;
+}
+
+.search-form-group .p-input-icon-left,
+form[formGroup] .p-input-icon-left {
+  width: 100%;
+  position: relative;
+  display: block;
+}
+
+.search-form-group .p-input-icon-left i,
+form[formGroup] .p-input-icon-left i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  z-index: 1;
+}
+
+.search-form-group .p-input-icon-left input,
+form[formGroup] .p-input-icon-left input {
+  width: 100%;
+  padding: 10px 14px 10px 40px;
+  border: 1px solid #d2d6dc;
+  border-radius: 10px;
+  font-size: 14px;
+  background: #fafafa;
+  transition: all 0.25s ease;
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+}
+
+.search-form-group .p-input-icon-left input:focus,
+form[formGroup] .p-input-icon-left input:focus {
+  background: #fff;
+  border-color: #0094D8;
+  box-shadow: 0 0 8px rgba(0, 148, 216, 0.2);
+  outline: none;
+}
+
+.search-form-group .p-input-icon-left input::placeholder,
+form[formGroup] .p-input-icon-left input::placeholder {
+  color: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .page-layout {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .page-layout.no-filter-column {
+    padding: 0 20px !important;
+  }
+
+  .table-column {
+    flex: 1 1 100%;
+  }
+
+  .table-container {
+    padding: 20px 15px;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .table-header h2 {
+    font-size: 22px;
+  }
+
+  .table-header p-button {
+    width: 100%;
+  }
+}
+
+/* =========================================
+   ACTION BUTTONS - SPACING & HEIGHT
+   ========================================= */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+
+.action-buttons p-button,
+.action-buttons .p-button {
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-buttons p-button .p-button,
+.action-buttons .p-button {
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
+  padding: 0;
+  margin: 0;
+}
+
+/* =========================================
+   CONFIRM DIALOG - NO BACKGROUND
+   ========================================= */
+.p-confirm-dialog-mask {
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.p-confirm-dialog-overlay {
+  background: transparent !important;
+}
+
+.p-confirm-dialog .p-dialog-header,
+.p-confirmdialog .p-dialog-header,
+p-confirmdialog .p-dialog-header {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #1f2937 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.p-confirm-dialog .p-dialog-header .p-dialog-title,
+.p-confirmdialog .p-dialog-header .p-dialog-title {
+  color: #1f2937 !important;
+}
+
+.p-confirm-dialog .p-dialog-header .p-dialog-header-icon,
+.p-confirmdialog .p-dialog-header .p-dialog-header-icon {
+  color: #6b7280 !important;
+}
+
+.p-confirm-dialog .p-dialog-header .p-dialog-header-icon:hover,
+.p-confirmdialog .p-dialog-header .p-dialog-header-icon:hover {
+  background: #f3f4f6 !important;
+  color: #1f2937 !important;
+}
+
+.p-confirm-dialog .p-dialog-content,
+.p-confirmdialog .p-dialog-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: none !important;
+  padding-top: 1rem !important;
+}
+
+/* Center confirm dialog footer buttons */
+.p-confirm-dialog .p-dialog-footer,
+.p-confirmdialog .p-dialog-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Style confirm dialog buttons with different colors */
+.p-confirm-dialog .p-confirmdialog-reject-button,
+.p-confirmdialog .p-confirmdialog-reject-button {
+  background: #6b7280 !important;
+  border-color: #6b7280 !important;
+  color: #ffffff !important;
+}
+
+.p-confirm-dialog .p-confirmdialog-reject-button:hover,
+.p-confirmdialog .p-confirmdialog-reject-button:hover {
+  background: #4b5563 !important;
+  border-color: #4b5563 !important;
+}
+
+.p-confirm-dialog .p-confirmdialog-accept-button,
+.p-confirmdialog .p-confirmdialog-accept-button {
+  background: #ef4444 !important;
+  border-color: #ef4444 !important;
+  color: #ffffff !important;
+}
+
+.p-confirm-dialog .p-confirmdialog-accept-button:hover,
+.p-confirmdialog .p-confirmdialog-accept-button:hover {
+  background: #dc2626 !important;
+  border-color: #dc2626 !important;
+}
+
+@media (max-width: 600px) {
+  .page-layout {
+    padding: 0 10px;
+    margin: 20px auto;
+  }
+
+  .page-layout.no-filter-column {
+    padding: 0 15px !important;
+  }
+
+  .table-container {
+    padding: 15px 12px;
+    border-radius: 12px;
+  }
+
+  .table-header h2 {
+    font-size: 20px;
+  }
+
+  .table-header p-button {
+    width: 100%;
+  }
+}
+
+/* =========================================
+   ACTION BUTTONS - SPACING & HEIGHT
+   ========================================= */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+
+.action-buttons p-button,
+.action-buttons .p-button {
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-buttons p-button .p-button,
+.action-buttons .p-button {
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
+  padding: 0;
+  margin: 0;
+}
+
+/* =========================================
+   CONFIRM DIALOG - NO BACKGROUND
+   ========================================= */
+.p-confirm-dialog-mask {
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.p-confirm-dialog-overlay {
+  background: transparent !important;
+}
+
+.p-confirm-dialog .p-dialog-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }

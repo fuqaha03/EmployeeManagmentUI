@@ -10,72 +10,114 @@
 <!-- Stack Filter -->
 <div class="filter-group">
   <label class="filter-label">Stack</label>
-  <select [(ngModel)]="selectedStackId" (change)="onStackChange($event)">
-    <option [value]="null">Select Stack</option>
-    <option *ngFor="let stack of stacks" [value]="stack.id">{{ stack.name }}</option>
-  </select>
+  <p-select 
+    [(ngModel)]="selectedStackId" 
+    [options]="stacks" 
+    optionLabel="name" 
+    optionValue="id"
+    placeholder="Select Stack"
+    (onChange)="onStackChange($event)"
+    styleClass="filter-select"
+    [style]="{'width': '100%'}">
+  </p-select>
 </div>
 
 <!-- Category Filter -->
 <div class="filter-group">
   <label class="filter-label">Category</label>
-  <select [(ngModel)]="selectedCategoryId" (change)="onCategoryChange($event)">
-    <option [value]="null">Select Category</option>
-    <option *ngFor="let cat of filteredCategories" [value]="cat.id">{{ cat.name }}</option>
-  </select>
+  <p-select 
+    [(ngModel)]="selectedCategoryId" 
+    [options]="filteredCategories" 
+    optionLabel="name" 
+    optionValue="id"
+    placeholder="Select Category"
+    (onChange)="onCategoryChange($event)"
+    styleClass="filter-select"
+    [style]="{'width': '100%'}">
+  </p-select>
 </div>
 
 <!-- Skill Filter -->
 <div class="filter-group">
   <label class="filter-label">Skill</label>
-  <select [(ngModel)]="selectedSkillId" (change)="onSkillChangeDropdown($event)">
-    <option [value]="null">Select Skill</option>
-    <option *ngFor="let skill of filteredSkills" [value]="skill.id">{{ skill.name }}</option>
-  </select>
+  <p-select 
+    [(ngModel)]="selectedSkillId" 
+    [options]="filteredSkills" 
+    optionLabel="name" 
+    optionValue="id"
+    placeholder="Select Skill"
+    (onChange)="onSkillChangeDropdown($event)"
+    styleClass="filter-select"
+    [style]="{'width': '100%'}">
+  </p-select>
 </div>
 
 <!-- Position Filter -->
 <div class="filter-group">
   <label class="filter-label">Position</label>
-  <select [(ngModel)]="selectedPosition" (change)="onPositionDropdownChange($event)">
-    <option value="">Select Position</option>
-    <option *ngFor="let pos of positions">{{ pos.name }}</option>
-  </select>
+  <p-select 
+    [(ngModel)]="selectedPosition" 
+    [options]="positions" 
+    optionLabel="name" 
+    optionValue="name"
+    placeholder="Select Position"
+    (onChange)="onPositionDropdownChange($event)"
+    styleClass="filter-select"
+    [style]="{'width': '100%'}">
+  </p-select>
 </div>
 
 <!-- Team Filter -->
 <div class="filter-group">
   <label class="filter-label">Team</label>
-  <select [(ngModel)]="selectedTeam" (change)="onTeamChange($event)">
-    <option value="">Select Team</option>
-    <option *ngFor="let team of teamNames">{{ team }}</option>
-  </select>
+  <p-select 
+    [(ngModel)]="selectedTeam" 
+    [options]="teamNames" 
+    placeholder="Select Team"
+    (onChange)="onTeamChange($event)"
+    styleClass="filter-select"
+    [style]="{'width': '100%'}">
+  </p-select>
 </div>
 
 <!-- Product Filter -->
 <div class="filter-group">
   <label class="filter-label">Product</label>
-  <select [(ngModel)]="selectedProduct" (change)="onProductChange($event)">
-    <option value="">Select Product</option>
-    <option *ngFor="let product of productNames">{{ product }}</option>
-  </select>
+  <p-select 
+    [(ngModel)]="selectedProduct" 
+    [options]="productNames" 
+    placeholder="Select Product"
+    (onChange)="onProductChange($event)"
+    styleClass="filter-select"
+    [style]="{'width': '100%'}">
+  </p-select>
 </div>
 
 <!-- Last Used -->
 <div class="filter-group">
   <label class="filter-label">Last Used</label>
-  <input type="date" [(ngModel)]="selectedLastUsedDate" (change)="filterEmployees()" />
+  <p-datepicker 
+    [(ngModel)]="selectedLastUsedDate" 
+    dateFormat="yy-mm-dd"
+    [showIcon]="true"
+    placeholder="Select Date"
+    (onSelect)="filterEmployees()"
+    [style]="{'width': '100%'}">
+  </p-datepicker>
 </div>
 
 <!-- Search -->
-<div class="autocomplete-wrapper">
-  <input type="text" placeholder="Search name..." [formControl]="nameControl" />
-
-  <!-- <ul *ngIf="filteredNames.length > 0" class="autocomplete-list">
-    <li *ngFor="let name of filteredNames" (click)="selectName(name)">
-      {{ name }}
-    </li>
-  </ul> -->
+<div class="filter-group">
+  <label class="filter-label">Search Name</label>
+  <span class="p-input-icon-left" style="width: 100%;">
+    <i class="pi pi-search"></i>
+    <input 
+      type="text" 
+      pInputText 
+      placeholder="Search name..." 
+      [formControl]="nameControl"
+      style="width: 100%; padding-left: 40px;" />
+  </span>
 </div>
 
 
@@ -85,11 +127,22 @@
   <!-- Right Table Column -->
 <div class="table-column">
   <div class="table-container">
-    <div class="employee-header">
+    <div class="table-header">
       <h2>Employees</h2>
     </div>
-    <table class="custom-table">
-      <thead>
+    
+    <p-table 
+      [value]="tableData" 
+      [paginator]="true" 
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 25, 50, 100]"
+      styleClass="p-datatable-striped"
+      [loading]="loading"
+      [tableStyle]="{'min-width': '50rem'}">
+      
+      <ng-template pTemplate="header">
         <tr>
           <th>Employee Name</th>
           <th>Skill Name</th>
@@ -98,25 +151,27 @@
           <th>Years of Experience</th>
           <th>Notes</th>
         </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let emp of filteredEmployees">
-          <tr *ngFor="let skill of emp.employeeSkills">
-            <td>{{ emp.firstName }} {{ emp.lastName }}</td>
-            <td>{{ skill.skillName  }}</td>
-            <td>{{ skill.lastUsed ? (skill.lastUsed | date:'yyyy-MM-dd') : 'N/A' }}</td>
-            <td>{{ skill.selfRating ?? 'N/A' }}</td>
-            <td>{{ skill.yearsOfExperience ?? 'N/A' }}</td>
-            <td>{{ skill.notes ?? '-' }}</td>
-          </tr>
-        </ng-container>
+      </ng-template>
 
-        <!-- No Data -->
-        <tr *ngIf="filteredEmployees.length === 0">
-          <td colspan="6" class="no-data">No employees found</td>
+      <ng-template pTemplate="body" let-row>
+        <tr>
+          <td>{{ row.employeeName }}</td>
+          <td>{{ row.skillName }}</td>
+          <td>{{ row.lastUsed ? (row.lastUsed | date:'yyyy-MM-dd') : 'N/A' }}</td>
+          <td>{{ row.selfRating }}</td>
+          <td>{{ row.yearsOfExperience }}</td>
+          <td>{{ row.notes }}</td>
         </tr>
-      </tbody>
-    </table>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6" style="text-align: center; padding: 20px;">
+            <div class="no-data">No employees found</div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
 </div>
 

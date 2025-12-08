@@ -1,0 +1,145 @@
+// ============================================
+// Color Variables
+// ============================================
+
+// Primary Colors
+$primary-blue: #003A70;
+$primary-blue-50: #e6f0f8;
+$primary-blue-100: #b3d1e8;
+$primary-blue-200: #80b2d8;
+$primary-blue-300: #4d93c8;
+$primary-blue-400: #1a74b8;
+$primary-blue-500: #003A70;
+$primary-blue-600: #002e5a;
+$primary-blue-700: #002244;
+$primary-blue-800: #00162e;
+$primary-blue-900: #000a18;
+
+// Secondary Colors
+$secondary-blue: #0094D8;
+$secondary-blue-50: #e6f5fc;
+$secondary-blue-100: #b3e0f5;
+$secondary-blue-200: #80cbee;
+$secondary-blue-300: #4db6e7;
+$secondary-blue-400: #1aa1e0;
+$secondary-blue-500: #0094D8;
+$secondary-blue-600: #0076ad;
+$secondary-blue-700: #005882;
+$secondary-blue-800: #003a57;
+$secondary-blue-900: #001c2c;
+
+// Accent Colors
+$accent-purple: #7F3F98;
+$accent-purple-50: #f3e8f5;
+$accent-purple-100: #d9b8e3;
+$accent-purple-200: #bf88d1;
+$accent-purple-300: #a558bf;
+$accent-purple-400: #8b28ad;
+$accent-purple-500: #7F3F98;
+$accent-purple-600: #66327a;
+$accent-purple-700: #4d255c;
+$accent-purple-800: #33183e;
+$accent-purple-900: #1a0b20;
+
+// Neutral Colors
+$white: #ffffff;
+$black: #000000;
+$gray-50: #fafafa;
+$gray-100: #f5f5f5;
+$gray-200: #eeeeee;
+$gray-300: #e0e0e0;
+$gray-400: #bdbdbd;
+$gray-500: #9e9e9e;
+$gray-600: #757575;
+$gray-700: #616161;
+$gray-800: #424242;
+$gray-900: #212121;
+
+// Semantic Colors
+$success: #0094D8;
+$error: #dc3545;
+$danger: #dc3545; // Alias for error
+$warning: #ffc107;
+$info: $secondary-blue;
+
+// ============================================
+// Typography Variables
+// ============================================
+$font-family-primary: 'Almarai', sans-serif;
+$font-family-almarai: 'Almarai', sans-serif;
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-base: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-2xl: 24px;
+$font-size-3xl: 28px;
+$font-size-4xl: 32px;
+
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// ============================================
+// Spacing Variables
+// ============================================
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+$spacing-3xl: 64px;
+
+// ============================================
+// Border Variables
+// ============================================
+$border-radius-sm: 8px;
+$border-radius-md: 10px;
+$border-radius-lg: 12px;
+$border-radius-xl: 18px;
+$border-radius-full: 9999px;
+
+$border-width: 1px;
+$border-color: $gray-300;
+
+// ============================================
+// Shadow Variables
+// ============================================
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+$shadow-xl: 0 12px 35px rgba(0, 0, 0, 0.22);
+$shadow-2xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+// ============================================
+// Transition Variables
+// ============================================
+$transition-fast: 0.15s ease;
+$transition-base: 0.25s ease;
+$transition-slow: 0.3s ease;
+
+// ============================================
+// Z-Index Variables
+// ============================================
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+$z-index-toast: 1080;
+
+// ============================================
+// Breakpoint Variables
+// ============================================
+$breakpoint-xs: 0;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-2xl: 1400px;
+

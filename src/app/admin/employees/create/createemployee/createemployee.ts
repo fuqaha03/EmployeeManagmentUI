@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Position } from '../../../../core/services/position';
 import { OnInit } from '@angular/core';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   standalone: true,
   selector: 'app-createemployee',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SelectModule],
   templateUrl: './createemployee.html',
   styleUrl: './createemployee.css',
 })

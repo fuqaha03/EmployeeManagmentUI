@@ -6,41 +6,63 @@
 
     <!-- Search Box -->
     <div class="form-group">
-      <input 
-        type="text" 
-        placeholder="Search by name..." 
-        [(ngModel)]="searchTerm"
-      />
+      <span class="p-input-icon-left" style="width: 100%;">
+        <i class="pi pi-search"></i>
+        <input 
+          type="text" 
+          pInputText
+          placeholder="Search by name..." 
+          [(ngModel)]="searchTerm"
+          (input)="applyFilter()"
+          style="width: 100%;" />
+      </span>
     </div>
 
-    <table class="custom-table">
-      <thead>
+    <p-table 
+      [value]="filteredEmployees" 
+      [paginator]="true" 
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} employees"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      styleClass="p-datatable-striped"
+      [tableStyle]="{'min-width': '50rem'}">
+      
+      <ng-template pTemplate="header">
         <tr>
           <th>Employee</th>
-          <th>In Team</th>
+          <th style="width: 150px;">In Team</th>
         </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let emp of filteredEmployees()">
+      </ng-template>
+
+      <ng-template pTemplate="body" let-emp>
+        <tr>
           <td>{{ emp.firstName }} {{ emp.lastName }}</td>
           <td>
-            <div class="checkbox-group">
-              <input 
-                type="checkbox" 
-                [checked]="emp.isJoined" 
-                (change)="onCheckboxChange(emp, $event)"
-              />
-            </div>
+            <p-checkbox 
+              [(ngModel)]="emp.isJoined" 
+              [binary]="true"
+              (onChange)="onCheckboxChange(emp, $event)">
+            </p-checkbox>
           </td>
         </tr>
+      </ng-template>
 
-        <tr *ngIf="filteredEmployees().length === 0">
-          <td colspan="2" class="no-data">No employees found.</td>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="2" style="text-align: center; padding: 20px;">
+            <div class="no-data">No employees found.</div>
+          </td>
         </tr>
-      </tbody>
-    </table>
+      </ng-template>
+    </p-table>
 
-    <button class="submit-btn" (click)="saveChanges()">Save Changes</button>
+    <p-button 
+      label="Save Changes" 
+      icon="pi pi-check"
+      (onClick)="saveChanges()"
+      [style]="{'margin-top': '20px'}">
+    </p-button>
   </div>
 
 </div>

@@ -1,0 +1,207 @@
+@use '../../../assets/scss/variables' as *;
+@use 'sass:color';
+
+// Page Layout
+.page-layout {
+  display: flex;
+  gap: $spacing-lg;
+  padding: $spacing-lg;
+  background: var(--bg-color, $gray-100);
+  min-height: 100vh;
+  font-family: $font-family-almarai;
+}
+
+// Form Column
+.form-column {
+  width: 380px;
+  background: var(--card-bg, $white);
+  padding: $spacing-lg;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-lg;
+  animation: fadeIn 0.3s ease-out;
+  
+  h3 {
+    margin-bottom: $spacing-md;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $gray-900;
+    font-family: $font-family-almarai;
+  }
+}
+
+// Form Fields
+.form-group {
+  margin-bottom: $spacing-md;
+  
+  label {
+    display: block;
+    margin-bottom: $spacing-xs;
+    color: $gray-800;
+    font-weight: $font-weight-medium;
+    font-family: $font-family-almarai;
+  }
+  
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: $spacing-sm $spacing-sm;
+    border-radius: $border-radius-md;
+    border: $border-width solid $gray-400;
+    background: var(--card-bg, $gray-100);
+    font-size: $font-size-sm;
+    box-sizing: border-box;
+    transition: all $transition-base;
+    font-family: $font-family-almarai;
+    
+    &:focus {
+      border-color: $primary-blue;
+      box-shadow: 0 0 6px rgba($primary-blue, 0.3);
+      outline: none;
+    }
+  }
+}
+
+// Textarea
+.form-group textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+// Buttons
+.submit-btn,
+.cancel-btn,
+.edit-btn,
+.delete-btn {
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  border: none;
+  font-size: $font-size-sm;
+  transition: all $transition-base;
+  font-family: $font-family-almarai;
+}
+
+.submit-btn {
+  background: $primary-blue;
+  color: $white;
+  font-weight: $font-weight-semibold;
+  
+  &:hover {
+    background: $primary-blue-600;
+    transform: translateY(-2px);
+  }
+}
+
+.cancel-btn {
+  background: $gray-300;
+  color: $gray-800;
+  
+  &:hover {
+    background: $gray-400;
+  }
+}
+
+// Button Row
+.button-row {
+  display: flex;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+}
+
+// Edit & Delete Buttons
+.edit-btn {
+  background: $warning;
+  color: $gray-900;
+  
+  &:hover {
+    background: color.adjust($warning, $lightness: -10%);
+  }
+}
+
+.delete-btn {
+  background: $danger;
+  color: $white;
+  
+  &:hover {
+    background: color.adjust($danger, $lightness: -10%);
+  }
+}
+
+// Table Column
+.table-column {
+  flex: 1;
+  background: var(--card-bg, $white);
+  padding: $spacing-lg;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-lg;
+  animation: fadeIn 0.3s ease-out;
+  
+  h2 {
+    margin-bottom: $spacing-md;
+    color: $gray-900;
+    font-family: $font-family-almarai;
+  }
+}
+
+// Table
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: $border-radius-lg;
+  font-family: $font-family-almarai;
+  
+  thead {
+    background: $primary-blue;
+    color: $white;
+  }
+  
+  th,
+  td {
+    padding: $spacing-sm $spacing-sm;
+    border-bottom: $border-width solid $gray-300;
+    text-align: left;
+    font-size: $font-size-sm;
+  }
+  
+  tbody tr {
+    transition: all $transition-base;
+    
+    &:hover {
+      background: $primary-blue-50;
+    }
+  }
+}
+
+// Actions column
+.custom-table td:last-child {
+  white-space: nowrap;
+  display: flex;
+  gap: $spacing-xs;
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive Design
+@media (max-width: $breakpoint-md) {
+  .page-layout {
+    flex-direction: column;
+    padding: $spacing-md;
+  }
+  
+  .form-column {
+    width: 100%;
+  }
+}
+

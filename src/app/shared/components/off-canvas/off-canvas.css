@@ -1,0 +1,188 @@
+/* ============================================
+   OFF-CANVAS (DRAWER) GLOBAL STYLING
+   ============================================ */
+
+::ng-deep .app-off-canvas.p-drawer {
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  z-index: 1100;
+}
+
+::ng-deep .app-off-canvas.p-drawer.p-drawer-left {
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+}
+
+::ng-deep .app-off-canvas.p-drawer.p-drawer-top {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+::ng-deep .app-off-canvas.p-drawer.p-drawer-bottom {
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Header Styling */
+::ng-deep .app-off-canvas .p-drawer-header {
+  background: linear-gradient(135deg, #003A70 0%, #004a8f 100%);
+  color: white;
+  padding: 20px 24px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+::ng-deep .app-off-canvas .p-drawer-header .p-drawer-title {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Almarai', sans-serif;
+  margin: 0;
+  flex: 1;
+}
+
+::ng-deep .app-off-canvas .p-drawer-header .p-drawer-header-icon {
+  color: white;
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+::ng-deep .app-off-canvas .p-drawer-header .p-drawer-header-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+/* Content Styling */
+::ng-deep .app-off-canvas .p-drawer-content {
+  padding: 0;
+  background: #ffffff;
+  overflow: hidden;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Drawer Wrapper */
+.drawer-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: calc(100vh - 80px);
+}
+
+.drawer-content-area {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* Form inputs full width */
+::ng-deep .app-off-canvas .drawer-content-area input,
+::ng-deep .app-off-canvas .drawer-content-area textarea,
+::ng-deep .app-off-canvas .drawer-content-area .p-inputtext,
+::ng-deep .app-off-canvas .drawer-content-area .p-inputtextarea {
+  width: 100% !important;
+}
+
+/* Form fields spacing */
+::ng-deep .app-off-canvas .drawer-content-area .field {
+  margin-bottom: 20px;
+}
+
+/* Footer Styling */
+.drawer-footer {
+  padding: 20px 24px;
+  background: #f8f9fa;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+/* Mask/Backdrop Styling */
+::ng-deep .app-off-canvas ~ .p-drawer-mask {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 1099;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  ::ng-deep .app-off-canvas.p-drawer.p-drawer-right,
+  ::ng-deep .app-off-canvas.p-drawer.p-drawer-left {
+    width: 100% !important;
+    max-width: 100%;
+  }
+  
+  ::ng-deep .app-off-canvas .p-drawer-header {
+    padding: 16px 20px;
+  }
+  
+  ::ng-deep .app-off-canvas .p-drawer-header .p-drawer-title {
+    font-size: 18px;
+  }
+  
+  ::ng-deep .app-off-canvas .p-drawer-content {
+    padding: 20px;
+  }
+}
+
+/* Animation Enhancements */
+::ng-deep .app-off-canvas.p-drawer.p-drawer-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+::ng-deep .app-off-canvas.p-drawer.p-drawer-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+::ng-deep .app-off-canvas.p-drawer.p-drawer-top {
+  animation: slideInTop 0.3s ease-out;
+}
+
+::ng-deep .app-off-canvas.p-drawer.p-drawer-bottom {
+  animation: slideInBottom 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInTop {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInBottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+

@@ -22,11 +22,19 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
               }
             ],
             "styles": [
+              "node_modules/primeicons/primeicons.css",
               "src/styles.css",
-              "src/app/shared/styles/azm-theme.css"
+              "src/app/shared/styles/azm-theme.css",
+              "src/app/shared/styles/primeng-azm-theme.css",
+              "src/app/shared/styles/buttons.css"
             ]
           },
           "configurations": {
@@ -80,11 +88,18 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
               }
             ],
             "styles": [
+              "node_modules/primeicons/primeicons.css",
               "src/styles.css",
-              "src/app/shared/styles/azm-theme.css"
+              "src/app/shared/styles/azm-theme.css",
+              "src/app/shared/styles/primeng-azm-theme.css"
             ]
           }
         }

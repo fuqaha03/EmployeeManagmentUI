@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EmployeeService } from '../../../core/services/employee';
 import { EmployeeResponseDto } from '../../../core/models/employee.model';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-employee-profile',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TagModule],
   templateUrl: './employee-profile.html',
   styleUrls: ['./employee-profile.css']
 })

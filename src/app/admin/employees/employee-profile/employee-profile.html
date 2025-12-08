@@ -37,9 +37,12 @@
       </div>
 
       <div *ngIf="employee.employeeSkills.length > 0; else noSkills" class="skills-container">
-        <div *ngFor="let skill of employee.employeeSkills; trackBy: trackById" class="skill-tag">
-          <i class="fas fa-check-circle"></i> {{ skill.skillName }}
-        </div>
+        <p-tag 
+          *ngFor="let skill of employee.employeeSkills; trackBy: trackById" 
+          severity="info"
+          styleClass="skill-tag">
+          <i class="pi pi-check-circle"></i> {{ skill.skillName }}
+        </p-tag>
       </div>
 
       <ng-template #noSkills>

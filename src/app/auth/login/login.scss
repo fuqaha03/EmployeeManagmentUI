@@ -1,0 +1,127 @@
+@use '../../../assets/scss/variables' as *;
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, $primary-blue 0%, $secondary-blue 50%, $accent-purple 100%);
+  margin: 0;
+  padding: $spacing-lg;
+  font-family: $font-family-primary;
+}
+
+.login-card-wrapper {
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-card {
+  animation: fadeIn 0.9s ease;
+}
+
+.login-card ::ng-deep .p-card {
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-xl;
+  border-top: 5px solid $secondary-blue;
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+}
+
+.login-logo {
+  height: 80px;
+  width: auto;
+  margin-bottom: $spacing-lg;
+  object-fit: contain;
+}
+
+.title {
+  margin: 0;
+  margin-bottom: $spacing-xs;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  color: $primary-blue;
+}
+
+.subtitle {
+  font-size: $font-size-sm;
+  color: $gray-700;
+  margin-bottom: 0;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.input-label {
+  font-weight: $font-weight-semibold;
+  color: $primary-blue;
+  font-size: $font-size-sm;
+}
+
+.input-group ::ng-deep .p-inputtext,
+.input-group ::ng-deep .p-password {
+  width: 100%;
+}
+
+.input-group ::ng-deep .p-password input {
+  width: 100%;
+}
+
+.input-group ::ng-deep .p-inputtext.ng-invalid.ng-touched,
+.input-group ::ng-deep .p-password.ng-invalid.ng-touched input {
+  border-color: $error;
+}
+
+.p-error {
+  color: $error;
+  font-size: $font-size-xs;
+  margin-top: $spacing-xs;
+}
+
+.login-btn {
+  margin-top: $spacing-md;
+}
+
+.login-btn ::ng-deep .p-button {
+  width: 100%;
+  background: $primary-blue;
+  border-color: $primary-blue;
+  padding: $spacing-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  border-radius: $border-radius-md;
+  
+  &:hover:not(:disabled) {
+    background: $primary-blue-600;
+    border-color: $primary-blue-600;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@keyframes fadeIn {
+  0% { 
+    opacity: 0; 
+    transform: translateY(15px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+

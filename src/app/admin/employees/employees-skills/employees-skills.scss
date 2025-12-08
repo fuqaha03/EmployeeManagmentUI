@@ -1,0 +1,168 @@
+@use '../../../../assets/scss/variables' as *;
+@use 'sass:color';
+
+// Page Layout
+.page-layout {
+  display: flex;
+  gap: $spacing-xl;
+  max-width: 1300px;
+  margin: $spacing-2xl auto;
+  flex-wrap: wrap;
+  font-family: $font-family-almarai;
+  color: $gray-800;
+}
+
+// Filter Column
+.filter-column {
+  flex: 0 0 300px;
+  position: sticky;
+  top: $spacing-md;
+}
+
+.filters-card {
+  background-color: var(--card-bg, $gray-100);
+  border-radius: $border-radius-lg;
+  padding: $spacing-md;
+  box-shadow: $shadow-md;
+  font-family: $font-family-almarai;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+  
+  h2 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    margin: 0;
+    font-family: $font-family-almarai;
+    color: $gray-900;
+  }
+}
+
+.reset-btn {
+  background-color: $danger;
+  color: $white;
+  border: none;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+  font-size: $font-size-sm;
+  transition: background-color $transition-base;
+  font-family: $font-family-almarai;
+  
+  &:hover {
+    background-color: color.adjust($danger, $lightness: -10%);
+  }
+}
+
+.filter-group {
+  margin-bottom: $spacing-md;
+}
+
+.filter-label {
+  display: block;
+  margin-bottom: $spacing-xs;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-sm;
+  font-family: $font-family-almarai;
+  color: $gray-700;
+}
+
+select,
+input[type="text"],
+input[type="date"] {
+  width: 100%;
+  padding: $spacing-sm $spacing-sm;
+  border-radius: $border-radius-sm;
+  border: $border-width solid $gray-400;
+  font-size: $font-size-sm;
+  transition: border-color $transition-base;
+  font-family: $font-family-almarai;
+  background: var(--card-bg, $white);
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-blue;
+    box-shadow: 0 0 0 2px rgba($primary-blue, 0.2);
+  }
+}
+
+// Table Column
+.table-column {
+  flex: 1;
+}
+
+.table-container {
+  background-color: var(--card-bg, $white);
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  padding: $spacing-md;
+  font-family: $font-family-almarai;
+}
+
+.employee-header h2 {
+  margin-bottom: $spacing-md;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+  font-family: $font-family-almarai;
+  color: $gray-900;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: $font-size-sm;
+  font-family: $font-family-almarai;
+  
+  th,
+  td {
+    text-align: center;
+    vertical-align: middle;
+    padding: $spacing-sm $spacing-md;
+    border-bottom: $border-width solid $gray-300;
+  }
+  
+  th {
+    background-color: $gray-200;
+    font-weight: $font-weight-semibold;
+  }
+  
+  tr:nth-child(even) td {
+    background-color: $gray-100;
+  }
+  
+  tr:hover td {
+    background-color: $primary-blue-50;
+  }
+}
+
+.no-data {
+  text-align: center;
+  color: $gray-600;
+  font-style: italic;
+  font-family: $font-family-almarai;
+}
+
+// Responsive Design
+@media (max-width: $breakpoint-lg) {
+  .page-layout {
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+  
+  .filter-column {
+    position: static;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .table-container,
+  .filters-card {
+    padding: $spacing-sm;
+  }
+}
+

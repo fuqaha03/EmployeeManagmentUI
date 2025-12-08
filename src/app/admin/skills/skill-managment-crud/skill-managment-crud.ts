@@ -3,11 +3,39 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SkillsService } from '../../../core/services/skill';
 import { Skill, SkillDto, CategorySkillDto } from '../../../core/models/skill.model';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { OffCanvasComponent } from '../../../shared/components/off-canvas/off-canvas';
+import { TextareaModule } from 'primeng/textarea';
+import { SelectModule } from 'primeng/select';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { TooltipModule } from 'primeng/tooltip';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-skill-managment-crud',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule, 
+    FormsModule,
+    TableModule,
+    ButtonModule,
+    InputTextModule,
+    OffCanvasComponent,
+    TextareaModule,
+    SelectModule,
+    CheckboxModule,
+    ToastModule,
+    ConfirmDialogModule,
+    TooltipModule,
+    TagModule
+  ],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './skill-managment-crud.html',
   styleUrls: ['./skill-managment-crud.css'],
 })
@@ -17,6 +45,8 @@ export class SkillManagmentCRUD implements OnInit {
   filteredSkills: Skill[] = []; // <-- for search & pagination
   categories: CategorySkillDto[] = [];
   filteredCategories: CategorySkillDto[] = [];
+  loading: boolean = false;
+  saving: boolean = false;
 
   stacks: any[] = [];
   selectedStackId: number = 0;
@@ -38,8 +68,13 @@ export class SkillManagmentCRUD implements OnInit {
   currentPage: number = 1;
   pageSize: number = 13;
   totalPages: number = 1;
+  visible: boolean = false;
 
-  constructor(private skillsService: SkillsService) {}
+  constructor(
+    private skillsService: SkillsService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit(): void {
     this.loadSkills();
@@ -48,23 +83,36 @@ export class SkillManagmentCRUD implements OnInit {
   }
 
   loadSkills() {
-    this.skillsService.getAllSkills().subscribe(res => {
-      this.skills = res;
-      this.totalPages = Math.ceil(this.skills.length / this.pageSize);
-      this.applyFilter();
+    this.loading = true;
+    this.skillsService.getAllSkills().subscribe({
+      next: (res) => {
+        this.skills = res;
+        this.totalPages = Math.ceil(this.skills.length / this.pageSize);
+        this.applyFilter();
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+      }
     });
   }
 
   loadCategories() {
-    this.skillsService.getCatgorySkills().subscribe(res => {
-      this.categories = res;
-      this.filteredCategories = res;
+    this.skillsService.getCatgorySkills().subscribe({
+      next: (res) => {
+        this.categories = res;
+        this.filteredCategories = res;
+      },
+      error: () => {}
     });
   }
 
   loadStacks() {
-    this.skillsService.getAllStacks().subscribe(res => {
-      this.stacks = res;
+    this.skillsService.getAllStacks().subscribe({
+      next: (res) => {
+        this.stacks = res;
+      },
+      error: () => {}
     });
   }
 
@@ -116,17 +164,39 @@ export class SkillManagmentCRUD implements OnInit {
   }
 
   submitForm() {
-    if (!this.isFormValid()) return;
+    if (!this.isFormValid()) {
+      this.messageService.add({ severity: 'warn', summary: 'Validation', detail: 'Please fill in all required fields' });
+      return;
+    }
 
+    this.saving = true;
     if (this.isEditMode && this.editId !== null) {
-      this.skillsService.update(this.editId, this.form).subscribe(() => {
-        this.loadSkills();
-        this.resetForm();
+      this.skillsService.update(this.editId, this.form).subscribe({
+        next: () => {
+          this.loadSkills();
+          this.resetForm();
+          this.visible = false;
+          this.saving = false;
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Skill updated successfully' });
+        },
+        error: () => {
+          this.saving = false;
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update skill' });
+        }
       });
     } else {
-      this.skillsService.add(this.form).subscribe(() => {
-        this.loadSkills();
-        this.resetForm();
+      this.skillsService.add(this.form).subscribe({
+        next: () => {
+          this.loadSkills();
+          this.resetForm();
+          this.visible = false;
+          this.saving = false;
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Skill added successfully' });
+        },
+        error: () => {
+          this.saving = false;
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to add skill' });
+        }
       });
     }
   }
@@ -138,14 +208,28 @@ export class SkillManagmentCRUD implements OnInit {
 
     this.selectedStackId = this.categories.find(c => c.id === skill.categoryId)?.stackId ?? 0;
     this.onStackChange();
+    this.visible = true;
   }
 
   delete(id: number) {
-    if (confirm('Are you sure you want to delete this skill?')) {
-      this.skillsService.delete(id).subscribe(() => {
-        this.loadSkills();
-      });
-    }
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this skill?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.loading = true;
+        this.skillsService.delete(id).subscribe({
+          next: () => {
+            this.loadSkills();
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Skill deleted successfully' });
+          },
+          error: () => {
+            this.loading = false;
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete skill' });
+          }
+        });
+      }
+    });
   }
 
   resetForm() {
@@ -161,6 +245,15 @@ export class SkillManagmentCRUD implements OnInit {
       isActive: true,
       createdOn: new Date()
     };
+  }
+
+  openDialog() {
+    this.visible = true;
+  }
+
+  closeDialog() {
+    this.visible = false;
+    this.resetForm();
   }
 
   isFormValid(): boolean {

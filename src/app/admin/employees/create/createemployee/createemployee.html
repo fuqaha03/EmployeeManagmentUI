@@ -8,10 +8,16 @@
     <!-- Row for Employee Number and Position -->
     <div class="form-row">
       <input type="number" placeholder="Employee Number" [(ngModel)]="newEmployee.employeeNumber" name="employeeNumber" />
-      <select [(ngModel)]="newEmployee.positionId" name="positionId" required>
-        <option value="" disabled selected>Select Position</option>
-        <option *ngFor="let pos of positions" [value]="pos.id">{{ pos.name }}</option>
-      </select>
+      <p-select 
+        [(ngModel)]="newEmployee.positionId" 
+        name="positionId"
+        [options]="positions" 
+        optionLabel="name" 
+        optionValue="id"
+        placeholder="Select Position"
+        [style]="{'width': '100%'}"
+        required>
+      </p-select>
     </div>
 
     <input type="text" placeholder="Email" [(ngModel)]="newEmployee.email" name="email" />

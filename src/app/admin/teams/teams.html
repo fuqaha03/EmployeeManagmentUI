@@ -1,86 +1,162 @@
-<div class="page-layout">
-
-  <!-- LEFT: Add / Edit Form (Admin only) -->
-  <div class="form-column" *ngIf="userRole === 'Admin'">
-    <h3>{{ isEditMode ? 'Edit Team' : 'Add New Team' }}</h3>
-
-    <form (ngSubmit)="submitForm()">
-
-      <div class="form-group">
-        <label>Team Name:</label>
-        <input type="text" [(ngModel)]="form.name" name="name" required placeholder="Enter team name">
-      </div>
-
-      <div class="checkbox-group">
-        <input type="checkbox" [(ngModel)]="form.isActive" name="isActive" id="isActive">
-        <label for="isActive">Active</label>
-      </div>
-
-      <button class="submit-btn" type="submit" [disabled]="!isFormValid()">
-        {{ isEditMode ? 'Update Team' : 'Add Team' }}
-      </button>
-
-      <button 
-        class="cancel-btn" 
-        type="button" 
-        (click)="resetForm()" 
-        *ngIf="isEditMode">
-        Cancel
-      </button>
-
-    </form>
-  </div>
+<div class="page-layout no-filter-column">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
 
   <!-- RIGHT: Teams Table -->
   <div class="table-column">
     <div class="table-container">
-
-      <h2>Teams List</h2>
+      <div class="table-header">
+        <h2>Teams List</h2>
+        <p-button 
+          *ngIf="userRole === 'Admin'"
+          label="Add New Team" 
+          icon="pi pi-plus" 
+          (onClick)="openDialog()">
+        </p-button>
+      </div>
 
       <!-- SEARCH -->
-      <input
-        type="text"
-        placeholder="Search by team name..."
-        [(ngModel)]="searchText"
-        (input)="applyFilter()"
-        class="search-input"
-      />
+      <form [formGroup]="searchForm" class="search-form-group">
+        <label class="search-label">Search</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input 
+            type="text" 
+            pInputText 
+            placeholder="Search by team name..." 
+            formControlName="searchText" />
+        </span>
+      </form>
 
-      <table class="custom-table">
-        <thead>
+      <p-table 
+        [value]="filteredTeams" 
+        [paginator]="true" 
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} teams"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        styleClass="p-datatable-striped"
+        [loading]="loading"
+        [tableStyle]="{'min-width': '50rem'}">
+        
+        <ng-template pTemplate="header">
           <tr>
             <th>Name</th>
             <th>Active</th>
-            <th>Actions</th>
+            <th style="width: 200px;">Actions</th>
           </tr>
-        </thead>
+        </ng-template>
 
-        <tbody>
-          <tr *ngFor="let team of filteredTeams">
+        <ng-template pTemplate="body" let-team>
+          <tr>
             <td>{{ team.name }}</td>
-            <td>{{ team.isActive ? 'Yes' : 'No' }}</td>
             <td>
-              <ng-container *ngIf="userRole === 'Admin'">
-                <button class="icon-btn edit-icon" (click)="edit(team)">
-                  <i class="bi bi-pencil-square"></i>
-                </button>
-                <button class="icon-btn delete-icon" (click)="delete(team.id!)">
-                  <i class="bi bi-trash-fill"></i>
-                </button>
-                <button class="icon-btn members-icon" (click)="getMemebers(team.id!)">
-                  <i class="bi bi-people-fill"></i>
-                </button>
-              </ng-container>
+              <p-tag [value]="team.isActive ? 'Yes' : 'No'" [severity]="team.isActive ? 'success' : 'danger'"></p-tag>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <ng-container *ngIf="userRole === 'Admin'">
+                  <p-button 
+                    icon="pi pi-pencil" 
+                    [rounded]="true" 
+                    [text]="true"
+                    severity="info"
+                    (onClick)="edit(team)"
+                    [pTooltip]="'Edit Team'"
+                    tooltipPosition="top">
+                  </p-button>
+
+                  <p-button 
+                    icon="pi pi-trash" 
+                    [rounded]="true" 
+                    [text]="true"
+                    severity="danger"
+                    (onClick)="delete(team.id!)"
+                    [pTooltip]="'Delete Team'"
+                    tooltipPosition="top">
+                  </p-button>
+                </ng-container>
+
+                <p-button 
+                  icon="pi pi-users" 
+                  [rounded]="true" 
+                  [text]="true"
+                  severity="success"
+                  (onClick)="getMemebers(team.id!)"
+                  [pTooltip]="'View Members'"
+                  tooltipPosition="top">
+                </p-button>
+              </div>
             </td>
           </tr>
+        </ng-template>
 
-          <tr *ngIf="filteredTeams.length === 0">
-            <td colspan="3" class="no-data">No teams found.</td>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="3" style="text-align: center; padding: 20px;">
+              <div class="no-data">No teams found.</div>
+            </td>
           </tr>
-        </tbody>
-      </table>
-
+        </ng-template>
+      </p-table>
     </div>
   </div>
-
 </div>
+
+<!-- Footer Template for Off-Canvas -->
+<ng-template #footerTemplate>
+  <div class="flex gap-2 justify-content-end">
+    <p-button 
+      label="Cancel" 
+      icon="pi pi-times" 
+      [text]="true"
+      severity="secondary"
+      (onClick)="closeDialog()">
+    </p-button>
+    <p-button 
+      [label]="isEditMode ? 'Update Team' : 'Add Team'" 
+      icon="pi pi-check" 
+      type="button"
+      (onClick)="submitForm()"
+      [disabled]="!isFormValid() || saving"
+      [loading]="saving">
+    </p-button>
+  </div>
+</ng-template>
+
+<!-- Off-Canvas for Add/Edit Form (Admin only) -->
+<app-off-canvas 
+  *ngIf="userRole === 'Admin'"
+  [(visible)]="visible" 
+  [header]="isEditMode ? 'Edit Team' : 'Add New Team'"
+  [width]="'500px'"
+  [position]="'right'"
+  [footerTemplate]="footerTemplate"
+  (onHide)="closeDialog()">
+  
+  <form (ngSubmit)="submitForm()">
+    <!-- Team Name -->
+    <div class="field">
+      <label for="name" class="block mb-2 font-semibold">Team Name *</label>
+      <input 
+        id="name"
+        type="text" 
+        pInputText 
+        [(ngModel)]="form.name" 
+        name="name" 
+        placeholder="Enter team name"
+        required />
+    </div>
+
+    <!-- Active Checkbox -->
+    <div class="field">
+      <p-checkbox 
+        [(ngModel)]="form.isActive" 
+        name="isActive"
+        inputId="isActive"
+        [binary]="true">
+      </p-checkbox>
+      <label for="isActive" class="ml-2">Active</label>
+    </div>
+  </form>
+</app-off-canvas>

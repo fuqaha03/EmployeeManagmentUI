@@ -6,17 +6,23 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EmployeeResponseDto } from '../../../core/models/employee.model';
+import { TableModule } from 'primeng/table';
+import { DatePipe } from '@angular/common';
+import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
+import { DatePickerModule } from 'primeng/datepicker';
 
 @Component({
   selector: 'app-employees-skills',
   templateUrl: './employees-skills.html',
   styleUrls: ['./employees-skills.css'],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TableModule, DatePipe, InputTextModule, SelectModule, DatePickerModule],
   standalone: true,
 })
 export class EmployeesSkillsComponent implements OnInit {
   employees: any[] = [];
   filteredEmployees: any[] = [];
+  tableData: any[] = []; // Flattened data for PrimeNG table
   loading: boolean = false;
   errorMessage: string = '';
 
@@ -78,10 +84,12 @@ export class EmployeesSkillsComponent implements OnInit {
 
   // ===== Load Data =====
   loadEmployees() {
+    this.loading = true;
     this.employeeService.getAll().subscribe({
       next: (data) => {
         this.employees = data;
         this.filteredEmployees = data;
+        this.prepareTableData();
 
         // Populate teams and products
 this.teamNames = Array.from(
@@ -108,8 +116,13 @@ this.productNames = Array.from(
           this.filterEmployeesByName(this.prefillName);
           this.prefillName = null;
         }
+        this.loading = false;
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+        this.errorMessage = 'Failed to load employees';
+      },
     });
   }
 
@@ -141,12 +154,44 @@ this.productNames = Array.from(
   }
 
   loadPositions() {
-    this.positionService.getAll().subscribe(res => this.positions = res);
+    this.positionService.getAll().subscribe({
+      next: (res) => this.positions = res,
+      error: (err) => console.error(err)
+    });
+  }
+
+  // Prepare flattened data for PrimeNG table
+  prepareTableData() {
+    this.tableData = [];
+    this.filteredEmployees.forEach(emp => {
+      if (emp.employeeSkills && emp.employeeSkills.length > 0) {
+        emp.employeeSkills.forEach((skill: any) => {
+          this.tableData.push({
+            employeeName: `${emp.firstName} ${emp.lastName}`,
+            skillName: skill.skillName,
+            lastUsed: skill.lastUsed,
+            selfRating: skill.selfRating ?? 'N/A',
+            yearsOfExperience: skill.yearsOfExperience ?? 'N/A',
+            notes: skill.notes ?? '-'
+          });
+        });
+      } else {
+        // Include employees even if they have no skills
+        this.tableData.push({
+          employeeName: `${emp.firstName} ${emp.lastName}`,
+          skillName: '-',
+          lastUsed: null,
+          selfRating: 'N/A',
+          yearsOfExperience: 'N/A',
+          notes: '-'
+        });
+      }
+    });
   }
 
   // ===== Dropdown Handlers =====
   onStackChange(event: any) {
-    this.selectedStackId = +event.target.value || null;
+    this.selectedStackId = event.value || null;
     this.filteredCategories = this.selectedStackId
       ? this.allCategories.filter(cat => cat.stackId === this.selectedStackId)
       : this.allCategories;
@@ -157,7 +202,7 @@ this.productNames = Array.from(
   }
 
   onCategoryChange(event: any) {
-    this.selectedCategoryId = +event.target.value || null;
+    this.selectedCategoryId = event.value || null;
     this.filteredSkills = this.selectedCategoryId
       ? this.allSkills.filter(s => s.categoryId === this.selectedCategoryId)
       : [];
@@ -166,22 +211,22 @@ this.productNames = Array.from(
   }
 
   onSkillChangeDropdown(event: any) {
-    this.selectedSkillId = +event.target.value || null;
+    this.selectedSkillId = event.value || null;
     this.filterEmployees();
   }
 
   onPositionDropdownChange(event: any) {
-    this.selectedPosition = event.target.value;
+    this.selectedPosition = event.value || '';
     this.filterEmployees();
   }
 
   onTeamChange(event: any) {
-    this.selectedTeam = event.target.value;
+    this.selectedTeam = event.value || '';
     this.filterEmployees();
   }
 
   onProductChange(event: any) {
-    this.selectedProduct = event.target.value;
+    this.selectedProduct = event.value || '';
     this.filterEmployees();
   }
 
@@ -209,12 +254,14 @@ this.productNames = Array.from(
 
       return skillMatch && positionMatch && lastUsedMatch && searchMatch && teamMatch && productMatch;
     });
+    this.prepareTableData();
   }
 
   // Filter specifically by exact name from query param
   filterEmployeesByName(name: string) {
     const term = name.toLowerCase();
     this.filteredEmployees = this.employees.filter(emp => `${emp.firstName} ${emp.lastName}`.toLowerCase() === term);
+    this.prepareTableData();
   }
 
   selectName(name: string) {
@@ -238,6 +285,7 @@ this.productNames = Array.from(
     this.filteredCategories = this.allCategories;
     this.filteredSkills = this.allSkills;
     this.filteredEmployees = [...this.employees];
+    this.prepareTableData();
   }
 
   isLast(array: any[], item: any): boolean {

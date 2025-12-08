@@ -5,7 +5,7 @@ import { AuthService } from './core/services/auth';
 import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header , CommonModule],
+  imports: [RouterOutlet, Header, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

@@ -1,6 +1,9 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeuix/themes/aura';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { routes } from './app/app.routes';
 import { LoginComponent } from './app/auth/login/login';
@@ -12,6 +15,12 @@ bootstrapApplication(App, {
   providers: [
     provideHttpClient(withInterceptorsFromDi()), 
     provideRouter(routes),
+    provideAnimations(),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    }),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } 
   ]
 }).catch(console.error);

@@ -7,10 +7,11 @@ import { OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-employee-details',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule , RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule , RouterLink, TagModule],
   templateUrl: './employee-details.html',
   styleUrl: './employee-details.css',
 })

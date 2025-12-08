@@ -1,0 +1,236 @@
+/* =========================================
+   Global Button Styles - Consistent UI
+   ========================================= */
+
+/* Primary/Confirm/Save Button - Standard Blue */
+.p-button-primary,
+.p-button[style*="background: #0094D8"],
+.p-button[style*="background:#0094D8"],
+.p-button.confirm-btn,
+.p-button.save-btn,
+.p-button.submit-btn {
+  background: #0094D8 !important;
+  border-color: #0094D8 !important;
+  color: #ffffff !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+}
+
+.p-button-primary:hover:not(:disabled),
+.p-button[style*="background: #0094D8"]:hover:not(:disabled),
+.p-button[style*="background:#0094D8"]:hover:not(:disabled),
+.p-button.confirm-btn:hover:not(:disabled),
+.p-button.save-btn:hover:not(:disabled),
+.p-button.submit-btn:hover:not(:disabled) {
+  background: #007bb8 !important;
+  border-color: #007bb8 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 148, 216, 0.3) !important;
+}
+
+.p-button-primary:focus:not(:disabled),
+.p-button.confirm-btn:focus:not(:disabled),
+.p-button.save-btn:focus:not(:disabled),
+.p-button.submit-btn:focus:not(:disabled) {
+  box-shadow: 0 0 0 0.2rem rgba(0, 148, 216, 0.5) !important;
+}
+
+/* Secondary/Cancel Button - Gray */
+.p-button-secondary,
+.p-button.cancel-btn,
+.p-button[severity="secondary"]:not(.p-button-text) {
+  background: #6b7280 !important;
+  border-color: #6b7280 !important;
+  color: #ffffff !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+}
+
+.p-button-secondary:hover:not(:disabled),
+.p-button.cancel-btn:hover:not(:disabled),
+.p-button[severity="secondary"]:not(.p-button-text):hover:not(:disabled) {
+  background: #4b5563 !important;
+  border-color: #4b5563 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3) !important;
+}
+
+.p-button-secondary:focus:not(:disabled),
+.p-button.cancel-btn:focus:not(:disabled) {
+  box-shadow: 0 0 0 0.2rem rgba(107, 114, 128, 0.5) !important;
+}
+
+/* Text Button (Cancel/Secondary) */
+.p-button-text,
+.p-button.p-button-text {
+  background: transparent !important;
+  border: none !important;
+  color: #6b7280 !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+}
+
+.p-button-text:hover:not(:disabled),
+.p-button.p-button-text:hover:not(:disabled) {
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+}
+
+/* Danger/Delete Button */
+.p-button-danger,
+.p-button[severity="danger"]:not(.p-button-text),
+.p-button.delete-btn {
+  background: #ef4444 !important;
+  border-color: #ef4444 !important;
+  color: #ffffff !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+}
+
+.p-button-danger:hover:not(:disabled),
+.p-button[severity="danger"]:not(.p-button-text):hover:not(:disabled),
+.p-button.delete-btn:hover:not(:disabled) {
+  background: #dc2626 !important;
+  border-color: #dc2626 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+}
+
+/* Success Button - Using Logo Color */
+.p-button-success,
+.p-button[severity="success"]:not(.p-button-text) {
+  background: #0094D8 !important;
+  border-color: #0094D8 !important;
+  color: #ffffff !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+}
+
+.p-button-success:hover:not(:disabled),
+.p-button[severity="success"]:not(.p-button-text):hover:not(:disabled) {
+  background: #007bb8 !important;
+  border-color: #007bb8 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 148, 216, 0.3) !important;
+}
+
+/* Info Button */
+.p-button-info,
+.p-button[severity="info"]:not(.p-button-text) {
+  background: #0094D8 !important;
+  border-color: #0094D8 !important;
+  color: #ffffff !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+}
+
+.p-button-info:hover:not(:disabled),
+.p-button[severity="info"]:not(.p-button-text):hover:not(:disabled) {
+  background: #007bb8 !important;
+  border-color: #007bb8 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 148, 216, 0.3) !important;
+}
+
+/* Warning Button */
+.p-button-warning,
+.p-button[severity="warning"]:not(.p-button-text) {
+  background: #f59e0b !important;
+  border-color: #f59e0b !important;
+  color: #ffffff !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+}
+
+.p-button-warning:hover:not(:disabled),
+.p-button[severity="warning"]:not(.p-button-text):hover:not(:disabled) {
+  background: #d97706 !important;
+  border-color: #d97706 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3) !important;
+}
+
+/* Disabled State */
+.p-button:disabled,
+.p-button.p-disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* Button with icon */
+.p-button .p-button-icon {
+  margin-right: 8px;
+}
+
+.p-button-icon-only .p-button-icon {
+  margin: 0;
+}
+
+/* Loading State */
+.p-button.p-button-loading {
+  opacity: 0.8;
+  cursor: wait;
+}
+
+/* Rounded Button */
+.p-button-rounded,
+.p-button.p-button-rounded {
+  border-radius: 50% !important;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 !important;
+}
+
+/* =========================================
+   GLOBAL OVERRIDE - NO GREEN BUTTONS
+   Ensure all buttons use logo color instead of green
+   ========================================= */
+
+/* Override any green success buttons - catch inline styles */
+.p-button[style*="background: #10b981"],
+.p-button[style*="background:#10b981"],
+.p-button[style*="background: #28a745"],
+.p-button[style*="background:#28a745"],
+.p-button[style*="background: #059669"],
+.p-button[style*="background:#059669"],
+.p-button[style*="background-color: #10b981"],
+.p-button[style*="background-color:#10b981"],
+.p-button[style*="background-color: #28a745"],
+.p-button[style*="background-color:#28a745"],
+.p-button[style*="background-color: #059669"],
+.p-button[style*="background-color:#059669"] {
+  background: #0094D8 !important;
+  border-color: #0094D8 !important;
+}
+
+.p-button[style*="background: #10b981"]:hover,
+.p-button[style*="background:#10b981"]:hover,
+.p-button[style*="background: #28a745"]:hover,
+.p-button[style*="background:#28a745"]:hover,
+.p-button[style*="background: #059669"]:hover,
+.p-button[style*="background:#059669"]:hover,
+.p-button[style*="background-color: #10b981"]:hover,
+.p-button[style*="background-color:#10b981"]:hover,
+.p-button[style*="background-color: #28a745"]:hover,
+.p-button[style*="background-color:#28a745"]:hover,
+.p-button[style*="background-color: #059669"]:hover,
+.p-button[style*="background-color:#059669"]:hover {
+  background: #007bb8 !important;
+  border-color: #007bb8 !important;
+}
+

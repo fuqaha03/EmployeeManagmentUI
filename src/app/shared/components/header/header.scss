@@ -1,0 +1,106 @@
+@use '../../../../assets/scss/variables' as *;
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-lg $spacing-2xl;
+  background: $primary-blue;
+  backdrop-filter: blur(10px);
+  color: $white;
+  box-shadow: $shadow-2xl;
+  position: sticky;
+  top: 0;
+  z-index: $z-index-sticky;
+  border-bottom: $border-width solid rgba(255, 255, 255, 0.2);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+}
+
+.app-header nav a {
+  color: $white;
+  text-decoration: none;
+  font-weight: $font-weight-medium;
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+  transition: $transition-base;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+    transform: translateY(-3px);
+  }
+}
+
+.app-header nav a.active {
+  background: rgba(255, 255, 255, 0.25);
+  font-weight: $font-weight-semibold;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  margin-left: auto;
+}
+
+.logout-container {
+  margin-left: 0;
+}
+
+.logout-btn {
+  background: $error;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $border-radius-md;
+  font-weight: $font-weight-semibold;
+  transition: $transition-base;
+  color: $white;
+  text-decoration: none;
+  cursor: pointer;
+  
+  &:hover {
+    background: #dc2626;
+    transform: translateY(-3px);
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .app-header {
+    flex-wrap: wrap;
+    gap: $spacing-md;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

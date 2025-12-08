@@ -1,0 +1,305 @@
+@use '../../../assets/scss/variables' as *;
+@use 'sass:color';
+
+// Page Layout
+.page-layout {
+  display: flex;
+  gap: $spacing-xl;
+  max-width: 1250px;
+  margin: $spacing-2xl auto;
+  padding: 0 $spacing-md;
+  flex-wrap: wrap;
+  font-family: $font-family-almarai;
+}
+
+// Search Input
+.search-input {
+  width: 100%;
+  padding: $spacing-sm $spacing-sm;
+  margin-bottom: $spacing-md;
+  border: $border-width solid $gray-400;
+  border-radius: $border-radius-lg;
+  font-size: $font-size-sm;
+  background: var(--card-bg, $gray-100);
+  transition: all $transition-base;
+  font-family: $font-family-almarai;
+  
+  &:focus {
+    background: $white;
+    border-color: $primary-blue;
+    box-shadow: 0 0 8px rgba($primary-blue, 0.45);
+    transform: scale(1.02);
+    outline: none;
+  }
+}
+
+// Disabled Button
+.submit-btn:disabled {
+  background: $gray-500;
+  cursor: not-allowed;
+  opacity: 0.7;
+  
+  &:hover {
+    background: $gray-500;
+    transform: none;
+  }
+}
+
+// Left Panel (Form)
+.form-column {
+  flex: 0 0 340px;
+  background: var(--card-bg, $white);
+  padding: $spacing-xl $spacing-lg;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-xl;
+  position: sticky;
+  top: $spacing-lg;
+  height: fit-content;
+  transition: all $transition-base;
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: $shadow-2xl;
+  }
+  
+  h3 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+    margin-bottom: $spacing-lg;
+    font-family: $font-family-almarai;
+  }
+}
+
+// Form Elements
+.form-group {
+  margin-bottom: $spacing-md;
+  
+  label {
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $gray-700;
+    margin-bottom: $spacing-xs;
+    font-family: $font-family-almarai;
+  }
+  
+  input,
+  textarea {
+    width: 100%;
+    padding: $spacing-sm $spacing-sm;
+    border: $border-width solid $gray-400;
+    border-radius: $border-radius-md;
+    font-size: $font-size-sm;
+    background: var(--card-bg, $gray-100);
+    transition: all $transition-base;
+    font-family: $font-family-almarai;
+    
+    &:focus {
+      background: $white;
+      border-color: $primary-blue;
+      box-shadow: 0 0 8px rgba($primary-blue, 0.45);
+      transform: scale(1.02);
+      outline: none;
+    }
+  }
+}
+
+// Checkbox group
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  
+  input {
+    width: 18px;
+    height: 18px;
+    accent-color: $primary-blue;
+  }
+}
+
+// Buttons
+.submit-btn,
+.cancel-btn {
+  width: 100%;
+  padding: $spacing-sm $spacing-sm;
+  margin-top: $spacing-sm;
+  border-radius: $border-radius-lg;
+  border: none;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-base;
+  cursor: pointer;
+  transition: all $transition-base;
+  font-family: $font-family-almarai;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, $primary-blue, $secondary-blue);
+  color: $white;
+  
+  &:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, $primary-blue-600, $secondary-blue-600);
+    box-shadow: $shadow-md;
+  }
+}
+
+.cancel-btn {
+  background: $danger;
+  color: $white;
+  
+  &:hover {
+    background: color.adjust($danger, $lightness: -10%);
+    transform: translateY(-2px);
+  }
+}
+
+// Right Column (Table)
+.table-column {
+  flex: 1;
+}
+
+.table-container {
+  background: var(--card-bg, $white);
+  padding: $spacing-xl $spacing-lg;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-xl;
+  
+  h2 {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+    margin-bottom: $spacing-lg;
+    font-family: $font-family-almarai;
+  }
+}
+
+// Table Style
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  font-family: $font-family-almarai;
+  
+  thead {
+    background: linear-gradient(135deg, $primary-blue, $secondary-blue);
+    color: $white;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+  }
+  
+  th,
+  td {
+    padding: $spacing-md $spacing-md;
+    font-size: $font-size-sm;
+    text-align: left;
+  }
+  
+  tbody tr {
+    border-bottom: $border-width solid $gray-300;
+    transition: all $transition-base;
+    
+    &:hover {
+      background-color: $primary-blue-50;
+      transform: translateX(4px);
+      box-shadow: inset 0 0 8px rgba($primary-blue, 0.2);
+    }
+    
+    &:nth-child(even) {
+      background-color: $gray-100;
+    }
+  }
+}
+
+// Icon-only buttons
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: $border-radius-sm;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-xs;
+  cursor: pointer;
+  transition: all $transition-fast;
+  color: $white;
+  font-size: $font-size-lg;
+}
+
+.edit-icon {
+  background-color: $primary-blue;
+  
+  &:hover {
+    background-color: $primary-blue-600;
+    transform: scale(1.08);
+  }
+}
+
+.delete-icon {
+  background-color: $danger;
+  
+  &:hover {
+    background-color: color.adjust($danger, $lightness: -10%);
+    transform: scale(1.08);
+  }
+}
+
+.members-icon {
+  background-color: $success;
+  
+  &:hover {
+    background-color: color.adjust($success, $lightness: -10%);
+    transform: scale(1.08);
+  }
+}
+
+// No data
+.no-data {
+  text-align: center;
+  color: $gray-600;
+  font-size: $font-size-base;
+  font-style: italic;
+  padding: $spacing-md;
+  font-family: $font-family-almarai;
+}
+
+// Responsive Design
+@media (max-width: $breakpoint-lg) {
+  .page-layout {
+    flex-direction: column;
+  }
+  
+  .form-column,
+  .table-column {
+    flex: 1 1 100%;
+    position: static;
+    margin-bottom: $spacing-md;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .table-container {
+    padding: $spacing-md;
+  }
+  
+  .custom-table {
+    th,
+    td {
+      padding: $spacing-sm;
+      font-size: $font-size-xs;
+    }
+  }
+  
+  .table-container h2 {
+    font-size: $font-size-xl;
+  }
+  
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    font-size: $font-size-base;
+  }
+}
+

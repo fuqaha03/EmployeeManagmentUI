@@ -1,35 +1,65 @@
 <div class="page-layout">
   <h2>Update Product Members</h2>
 
-  <input
-    type="text"
-    placeholder="Search employees..."
-    [(ngModel)]="searchTerm"
-    class="search-input"
-  />
+  <!-- Search Box -->
+  <div style="margin-bottom: 20px;">
+    <span class="p-input-icon-left" style="width: 100%;">
+      <i class="pi pi-search"></i>
+      <input
+        type="text"
+        pInputText
+        placeholder="Search employees..."
+        [(ngModel)]="searchTerm"
+        (input)="applyFilter()"
+        style="width: 100%;" />
+    </span>
+  </div>
 
-  <table class="custom-table">
-    <thead>
+  <p-table 
+    [value]="filteredEmployees" 
+    [paginator]="true" 
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} employees"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    styleClass="p-datatable-striped"
+    [tableStyle]="{'min-width': '50rem'}">
+    
+    <ng-template pTemplate="header">
       <tr>
         <th>Name</th>
         <th>Email</th>
-        <th>Assigned</th>
+        <th style="width: 150px;">Assigned</th>
       </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let emp of filteredEmployees()">
+    </ng-template>
+
+    <ng-template pTemplate="body" let-emp>
+      <tr>
         <td>{{ emp.firstName }} {{ emp.lastName }}</td>
         <td>{{ emp.email }}</td>
         <td>
-          <input
-            type="checkbox"
-            [checked]="emp.isJoined"
-            (change)="onCheckboxChange(emp, $event)"
-          />
+          <p-checkbox 
+            [(ngModel)]="emp.isJoined" 
+            [binary]="true"
+            (onChange)="onCheckboxChange(emp, $event)">
+          </p-checkbox>
         </td>
       </tr>
-    </tbody>
-  </table>
+    </ng-template>
 
-  <button class="submit-btn" (click)="saveChanges()">Save Changes</button>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="3" style="text-align: center; padding: 20px;">
+          <div class="no-data">No employees found.</div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-button 
+    label="Save Changes" 
+    icon="pi pi-check"
+    (onClick)="saveChanges()"
+    [style]="{'margin-top': '20px'}">
+  </p-button>
 </div>

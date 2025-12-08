@@ -1,0 +1,322 @@
+@use '../../../../assets/scss/variables' as *;
+
+.profile-container {
+  max-width: 980px;
+  margin: $spacing-xl auto;
+  background: var(--card-bg, $white);
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-xl;
+  overflow: hidden;
+  animation: fadeIn 0.5s ease;
+}
+
+// HEADER
+.profile-header {
+  position: relative;
+  background: linear-gradient(135deg, $primary-blue, $secondary-blue);
+  color: $white;
+  padding: $spacing-2xl $spacing-xl;
+}
+
+.header-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  gap: $spacing-xl;
+  align-items: center;
+}
+
+.avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: $border-radius-full;
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  background: $white;
+  color: $primary-blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid rgba(255,255,255,0.5);
+  box-shadow: $shadow-lg;
+  font-family: $font-family-almarai;
+}
+
+// CONTACT INFO
+.contact-info {
+  display: flex;
+  gap: $spacing-md;
+  background: rgba(255,255,255,0.15);
+  padding: $spacing-md $spacing-md;
+  border-radius: $border-radius-lg;
+  backdrop-filter: blur(5px);
+  flex-wrap: wrap;
+}
+
+.email, .number {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  font-family: $font-family-almarai;
+  
+  i {
+    font-size: $font-size-base;
+  }
+}
+
+.position {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  font-family: $font-family-almarai;
+  margin-bottom: $spacing-md;
+  
+  i {
+    font-size: $font-size-lg;
+  }
+}
+
+// BODY
+.profile-body {
+  padding: $spacing-xl;
+}
+
+// SECTION CARDS
+.section-card {
+  background: var(--card-bg, $white);
+  padding: $spacing-lg;
+  border-radius: $border-radius-xl;
+  margin-bottom: $spacing-xl;
+  border: $border-width solid var(--border-color, $gray-300);
+  box-shadow: $shadow-sm;
+  transition: transform $transition-base, box-shadow $transition-base;
+  font-family: $font-family-almarai;
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: $shadow-md;
+  }
+}
+
+// HEADER (inside card)
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 2px solid $gray-200;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  
+  .left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    
+    h3 {
+      margin: 0;
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      font-family: $font-family-almarai;
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      
+      i {
+        font-size: $font-size-lg;
+        color: $primary-blue;
+      }
+    }
+  }
+}
+
+// BADGES
+.badge {
+  background: linear-gradient(135deg, $primary-blue, $secondary-blue);
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-lg;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $white;
+  font-family: $font-family-almarai;
+}
+
+// MANAGE BUTTON
+.btn-manage {
+  background: $primary-blue;
+  color: $white;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-md;
+  border: none;
+  cursor: pointer;
+  transition: all $transition-base;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
+  font-family: $font-family-almarai;
+  
+  i {
+    font-size: $font-size-sm;
+  }
+  
+  &:hover {
+    background: $primary-blue-600;
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+}
+
+// SKILL TAGS
+.skills-container {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.skill-tag {
+  background: $primary-blue-50;
+  color: $primary-blue;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-lg;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-size: $font-size-sm;
+  border: $border-width solid $primary-blue-200;
+  transition: all $transition-base;
+  font-weight: $font-weight-medium;
+  font-family: $font-family-almarai;
+  
+  i {
+    color: $secondary-blue;
+  }
+  
+  &:hover {
+    background: $primary-blue-100;
+    transform: translateY(-2px);
+  }
+}
+
+// LIST ITEMS
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.list-item {
+  padding: $spacing-sm $spacing-md;
+  background: var(--hover-bg, $gray-100);
+  border-radius: $border-radius-lg;
+  border: $border-width solid var(--border-color, $gray-300);
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  transition: all $transition-base;
+  font-weight: $font-weight-medium;
+  font-family: $font-family-almarai;
+  
+  &:hover {
+    transform: translateX(5px);
+    background: $primary-blue-50;
+  }
+}
+
+.team-icon, .product-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: $border-radius-lg;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: $font-size-lg;
+  color: $white;
+}
+
+.team-icon {
+  background: linear-gradient(135deg, $accent-purple-400, $accent-purple-300);
+}
+
+.product-icon {
+  background: linear-gradient(135deg, $secondary-blue-400, $secondary-blue-300);
+}
+
+// EMPTY STATES
+.empty-state {
+  text-align: center;
+  padding: $spacing-xl $spacing-md;
+  color: $gray-600;
+  
+  i {
+    font-size: 2.5rem;
+    margin-bottom: $spacing-sm;
+    color: $gray-400;
+  }
+  
+  p {
+    margin: 0;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    font-family: $font-family-almarai;
+  }
+}
+
+// ANIMATION
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+// Responsive Design
+@media (max-width: $breakpoint-md) {
+  .profile-container {
+    margin: $spacing-md;
+    border-radius: $border-radius-lg;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+    gap: $spacing-md;
+  }
+  
+  .contact-info {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile-body {
+    padding: $spacing-md;
+  }
+  
+  .section-card {
+    padding: $spacing-md;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .avatar {
+    width: 90px;
+    height: 90px;
+    font-size: $font-size-3xl;
+  }
+  
+  .list-item {
+    font-size: $font-size-sm;
+    padding: $spacing-sm;
+  }
+}
+
+

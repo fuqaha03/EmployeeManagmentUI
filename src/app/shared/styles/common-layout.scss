@@ -1,0 +1,341 @@
+/* ============================================
+   COMMON LAYOUT & TABLE STYLES
+   Shared across all admin components
+   ============================================ */
+
+/* ===== GLOBAL FONT ===== */
+.page-layout {
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ===== PAGE LAYOUT ===== */
+.page-layout {
+  display: flex !important;
+  gap: 35px;
+  max-width: 1250px;
+  margin: 45px auto;
+  padding: 0 15px;
+  flex-wrap: wrap;
+}
+
+/* ===== PAGE LAYOUT WITHOUT FILTER COLUMN ===== */
+.page-layout.no-filter-column {
+  padding: 0 40px !important;
+  justify-content: center !important;
+}
+
+.page-layout.no-filter-column .table-column {
+  max-width: 100% !important;
+  flex: 1 1 100% !important;
+}
+
+/* ===== TABLE COLUMN ===== */
+.table-column {
+  flex: 1;
+  min-width: 0; /* Prevents flex item overflow */
+}
+
+/* ===== TABLE CONTAINER ===== */
+.table-container {
+  background: #ffffff;
+  padding: 30px 25px;
+  border-radius: 18px;
+  box-shadow: 0px 12px 40px rgba(0, 0, 0, 0.07);
+}
+
+/* ===== TABLE HEADER ===== */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.table-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  flex: 1;
+}
+
+.table-header p-button {
+  flex-shrink: 0;
+}
+
+/* ===== SEARCH FORM GROUP ===== */
+.search-form-group,
+form[formGroup] {
+  width: 100%;
+  margin-bottom: 20px;
+  display: block;
+}
+
+/* Search Title/Label */
+.search-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 8px;
+}
+
+.search-form-group label,
+form[formGroup] label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 8px;
+}
+
+.search-form-group .p-input-icon-left,
+form[formGroup] .p-input-icon-left {
+  width: 100%;
+  position: relative;
+  display: block;
+}
+
+.search-form-group .p-input-icon-left i,
+form[formGroup] .p-input-icon-left i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  z-index: 1;
+}
+
+.search-form-group .p-input-icon-left input,
+form[formGroup] .p-input-icon-left input {
+  width: 100%;
+  padding: 10px 14px 10px 40px;
+  border: 1px solid #d2d6dc;
+  border-radius: 10px;
+  font-size: 14px;
+  background: #fafafa;
+  transition: all 0.25s ease;
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+}
+
+.search-form-group .p-input-icon-left input:focus,
+form[formGroup] .p-input-icon-left input:focus {
+  background: #fff;
+  border-color: #0094D8;
+  box-shadow: 0 0 8px rgba(0, 148, 216, 0.2);
+  outline: none;
+}
+
+.search-form-group .p-input-icon-left input::placeholder,
+form[formGroup] .p-input-icon-left input::placeholder {
+  color: #9ca3af;
+}
+
+/* ===== SEARCH INPUT (Legacy Support) ===== */
+.p-input-icon-left {
+  width: 100%;
+  margin-bottom: 20px;
+  display: block;
+  position: relative;
+}
+
+.p-input-icon-left i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  z-index: 1;
+}
+
+.p-input-icon-left input {
+  width: 100%;
+  padding-left: 40px;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+
+.action-buttons p-button,
+.action-buttons .p-button {
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-buttons p-button .p-button,
+.action-buttons .p-button {
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
+  padding: 0;
+  margin: 0;
+}
+
+/* ===== NO DATA MESSAGE ===== */
+.no-data {
+  text-align: center;
+  color: #6b7280;
+  font-size: 15px;
+  font-style: italic;
+  padding: 20px;
+}
+
+/* ===== PRIMENG TABLE CUSTOMIZATION ===== */
+::ng-deep .p-datatable {
+  .p-datatable-thead > tr > th {
+    background: #003A70;
+    color: white;
+    border-color: #002a54;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 16px 20px;
+  }
+
+  .p-datatable-tbody > tr {
+    transition: all 0.25s ease;
+    
+    &:hover {
+      background-color: rgba(0, 148, 216, 0.05);
+    }
+
+    &:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    > td {
+      padding: 16px 20px;
+      font-size: 14px;
+      color: #1f2937;
+    }
+  }
+
+  .p-datatable-tbody > tr.p-highlight {
+    background: rgba(0, 148, 216, 0.1);
+  }
+
+  .p-datatable-loading-overlay {
+    background: rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* ===== PAGINATOR STYLING ===== */
+::ng-deep .p-paginator {
+  padding: 16px 20px;
+  background: #fafafa;
+  border-top: 1px solid #e5e7eb;
+  border-radius: 0 0 18px 18px;
+
+  .p-paginator-pages .p-paginator-page {
+    min-width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+
+    &.p-highlight {
+      background: #0094D8;
+      border-color: #0094D8;
+      color: white;
+    }
+
+    &:not(.p-highlight):hover {
+      background: rgba(0, 148, 216, 0.1);
+      border-color: rgba(0, 148, 216, 0.2);
+    }
+  }
+
+  .p-paginator-first,
+  .p-paginator-prev,
+  .p-paginator-next,
+  .p-paginator-last {
+    min-width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+
+    &:hover {
+      background: rgba(0, 148, 216, 0.1);
+    }
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .page-layout {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .page-layout.no-filter-column {
+    padding: 0 20px;
+  }
+
+  .table-column {
+    flex: 1 1 100%;
+  }
+
+  .table-container {
+    padding: 20px 15px;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .table-header h2 {
+    font-size: 22px;
+  }
+
+  .table-header p-button {
+    width: 100%;
+  }
+
+  .action-buttons {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-layout {
+    padding: 0 10px;
+    margin: 20px auto;
+  }
+
+  .page-layout.no-filter-column {
+    padding: 0 15px;
+  }
+
+  .table-container {
+    padding: 15px 12px;
+    border-radius: 12px;
+  }
+
+  .table-header h2 {
+    font-size: 20px;
+  }
+
+  .table-header p-button {
+    width: 100%;
+  }
+
+  ::ng-deep .p-datatable {
+    .p-datatable-thead > tr > th,
+    .p-datatable-tbody > tr > td {
+      padding: 12px 10px;
+      font-size: 13px;
+    }
+  }
+}
+

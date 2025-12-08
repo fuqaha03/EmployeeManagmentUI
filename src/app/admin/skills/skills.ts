@@ -1,14 +1,53 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder } from '@angular/forms';
 import { SkillsService } from '../../core/services/skill';
 import { Skill } from '../../core/models/skill.model';
 import { AuthService } from '../../core/services/auth';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { DrawerModule } from 'primeng/drawer';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { SelectModule } from 'primeng/select';
+import { DatePickerModule } from 'primeng/datepicker';
+import { TextareaModule } from 'primeng/textarea';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { CardModule } from 'primeng/card';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 
 @Component({
   selector: 'app-skills-management',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule, 
+    FormsModule,
+    ReactiveFormsModule,
+    TableModule,
+    ButtonModule,
+    DrawerModule,
+    InputTextModule,
+    InputNumberModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    SelectModule,
+    DatePickerModule,
+    TextareaModule,
+    ToastModule,
+    ConfirmDialogModule,
+    CardModule,
+    TagModule,
+    TooltipModule,
+    ToggleButtonModule
+  ],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './skills.html',
   styleUrls: ['./skills.css']
 })
@@ -18,8 +57,11 @@ export class SkillsManagementComponent implements OnInit {
   // DATA COLLECTIONS
   // ----------------------
   stacks: string[] = [];
+  stackOptions: any[] = [];
   categoriesByStack: string[] = [];
+  categoryOptions: any[] = [];
   skillsByCategory: Skill[] = [];
+  skillOptions: any[] = [];
 
   selectedStack = '';
   selectedCategory = '';
@@ -38,11 +80,11 @@ export class SkillsManagementComponent implements OnInit {
   // ----------------------
   // SEARCH & FILTERS
   // ----------------------
-  searchText: string = '';
+  searchForm!: FormGroup;
   filterStack: string = '';
   filterCategory: string = '';
   filterRating: number | null = null;
-  viewMode: 'cards' | 'table' = 'cards';
+  viewMode: boolean = true; // true = cards, false = table
 
   // ----------------------
   // FORM SETTINGS
@@ -60,11 +102,26 @@ export class SkillsManagementComponent implements OnInit {
 
   Math = Math; // Expose Math to template
 
-  constructor(private skillsService: SkillsService, private authServices: AuthService) {}
+  constructor(
+    private skillsService: SkillsService, 
+    private authServices: AuthService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private fb: FormBuilder
+  ) {
+    this.searchForm = this.fb.group({
+      searchText: ['']
+    });
+  }
 
   ngOnInit(): void {
     this.fetchSkills();
     this.isAdmin = this.authServices.isAdmin();
+    
+    // Subscribe to search form changes
+    this.searchForm.get('searchText')?.valueChanges.subscribe(() => {
+      this.applyFilters();
+    });
   }
 
   // -------------------------------------
@@ -127,11 +184,10 @@ export class SkillsManagementComponent implements OnInit {
         this.assignedSkills = data.filter(s => s.isAssigned);
         this.applyFilters();
         this.loading = false;
-        this.showSuccessMessage('Skills loaded successfully!');
       },
       error: () => {
         this.loading = false;
-        this.showErrorMessage('Failed to load skills. Please try again.');
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load skills. Please try again.' });
       }
     });
 
@@ -139,6 +195,7 @@ export class SkillsManagementComponent implements OnInit {
     this.skillsService.getAllStacks().subscribe({
       next: (data: any[]) => {
         this.stacks = data.map(stack => stack.name);
+        this.stackOptions = this.stacks.map(s => ({ label: s, value: s }));
       },
       error: err => console.error('Failed to fetch stacks', err)
     });
@@ -147,9 +204,8 @@ export class SkillsManagementComponent implements OnInit {
   // -------------------------------------
   // STACK SELECTION
   // -------------------------------------
-  onStackChange(event: Event) {
-    const select = event.target as HTMLSelectElement | null;
-    this.selectedStack = select?.value || '';
+  onStackChange(event: any) {
+    this.selectedStack = event.value || '';
 
     this.categoriesByStack = Array.from(
       new Set(
@@ -158,35 +214,35 @@ export class SkillsManagementComponent implements OnInit {
           .map(s => s.category)
       )
     );
+    this.categoryOptions = this.categoriesByStack.map(c => ({ label: c, value: c }));
 
     this.selectedCategory = '';
     this.skillsByCategory = [];
     this.filteredSkills = [];
+    this.skillOptions = [];
     this.form = this.resetForm();
   }
 
   // -------------------------------------
   // CATEGORY SELECTION
   // -------------------------------------
-  onCategoryChange(event: Event) {
-    const select = event.target as HTMLSelectElement | null;
-    this.selectedCategory = select?.value || '';
+  onCategoryChange(event: any) {
+    this.selectedCategory = event.value || '';
 
     this.skillsByCategory = this.allSkills
       .filter(s => s.stack === this.selectedStack && s.category === this.selectedCategory)
       .filter(s => !this.assignedSkills.some(a => a.id === s.id));
 
     this.filteredSkills = this.skillsByCategory;
+    this.skillOptions = this.filteredSkills.map(s => ({ label: s.name, value: s }));
     this.form = this.resetForm();
   }
 
   // -------------------------------------
   // SKILL SELECTED
   // -------------------------------------
-  onSkillSelect(event: Event) {
-    const select = event.target as HTMLSelectElement | null;
-    const selectedSkill = this.filteredSkills.find(s => s.name === select?.value);
-
+  onSkillSelect(event: any) {
+    const selectedSkill = this.filteredSkills.find(s => s.name === event.value);
     if (selectedSkill) {
       this.form = { ...selectedSkill };
     }
@@ -231,7 +287,7 @@ export class SkillsManagementComponent implements OnInit {
   // -------------------------------------
   saveForm() {
     if (!this.form || !this.isFormValid()) {
-      this.showErrorMessage('Please fill in all required fields.');
+      this.messageService.add({ severity: 'warn', summary: 'Validation', detail: 'Please fill in all required fields.' });
       return;
     }
 
@@ -246,12 +302,13 @@ export class SkillsManagementComponent implements OnInit {
       this.skillsService.updateSkill(this.form).subscribe({
         next: () => {
           this.syncSkillsToBackend();
-          this.showSuccessMessage('Skill updated successfully!');
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Skill updated successfully!' });
           this.saving = false;
+          this.showForm = false;
         },
         error: err => {
           console.error('Failed to update skill', err);
-          this.showErrorMessage('Failed to update skill. Please try again.');
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update skill. Please try again.' });
           this.saving = false;
         }
       });
@@ -260,12 +317,13 @@ export class SkillsManagementComponent implements OnInit {
         next: (res: any) => {
           this.form.id = res.id;
           this.syncSkillsToBackend();
-          this.showSuccessMessage('Skill added successfully!');
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Skill added successfully!' });
           this.saving = false;
+          this.showForm = false;
         },
         error: err => {
           console.error('Failed to add skill', err);
-          this.showErrorMessage('Failed to add skill. Please try again.');
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to add skill. Please try again.' });
           this.saving = false;
         }
       });
@@ -278,18 +336,23 @@ export class SkillsManagementComponent implements OnInit {
   // DELETE SKILL
   // -------------------------------------
   deleteSkill(skillId: number) {
-    if (confirm('Are you sure you want to remove this skill?')) {
-      this.skillsService.deleteSkill(skillId).subscribe({
-        next: () => {
-          this.syncSkillsToBackend();
-          this.showSuccessMessage('Skill removed successfully!');
-        },
-        error: err => {
-          console.error('Failed to delete skill', err);
-          this.showErrorMessage('Failed to remove skill. Please try again.');
-        }
-      });
-    }
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to remove this skill?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.skillsService.deleteSkill(skillId).subscribe({
+          next: () => {
+            this.syncSkillsToBackend();
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Skill removed successfully!' });
+          },
+          error: err => {
+            console.error('Failed to delete skill', err);
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to remove skill. Please try again.' });
+          }
+        });
+      }
+    });
   }
 
   // -------------------------------------
@@ -319,8 +382,9 @@ export class SkillsManagementComponent implements OnInit {
     let filtered = [...this.assignedSkills];
 
     // Search filter
-    if (this.searchText.trim()) {
-      const search = this.searchText.toLowerCase();
+    const searchText = this.searchForm.get('searchText')?.value || '';
+    if (searchText.trim()) {
+      const search = searchText.toLowerCase();
       filtered = filtered.filter(s =>
         s.name.toLowerCase().includes(search) ||
         s.category?.toLowerCase().includes(search) ||
@@ -351,7 +415,7 @@ export class SkillsManagementComponent implements OnInit {
   }
 
   clearFilters() {
-    this.searchText = '';
+    this.searchForm.patchValue({ searchText: '' });
     this.filterStack = '';
     this.filterCategory = '';
     this.filterRating = null;
@@ -423,7 +487,7 @@ export class SkillsManagementComponent implements OnInit {
 
   getRatingColor(rating: number | undefined): string {
     if (!rating) return '#9ca3af';
-    if (rating >= 4) return '#10b981';
+    if (rating >= 4) return '#0094D8';
     if (rating >= 3) return '#f59e0b';
     return '#ef4444';
   }
@@ -435,5 +499,12 @@ export class SkillsManagementComponent implements OnInit {
     } catch {
       return date;
     }
+  }
+
+  getRatingSeverity(rating: number | undefined): "success" | "info" | "warn" | "danger" | "secondary" | null {
+    if (!rating) return 'secondary';
+    if (rating >= 4) return 'success';
+    if (rating >= 3) return 'warn';
+    return 'danger';
   }
 }

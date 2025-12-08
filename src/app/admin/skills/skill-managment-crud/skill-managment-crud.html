@@ -1,111 +1,199 @@
-<div class="page-layout">
-
-  <!-- LEFT: Add / Edit Form -->
-  <div class="form-column">
-    <h3>{{ isEditMode ? "Update Skill" : "Add Skill" }}</h3>
-
-    <form (ngSubmit)="submitForm()">
-
-      <div class="form-group">
-        <label>Stack:</label>
-        <select [(ngModel)]="selectedStackId" name="stack" (change)="onStackChange()">
-          <option [value]="0">All Stacks</option>
-          <option *ngFor="let s of stacks" [value]="s.id">{{ s.name }}</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Category:</label>
-        <select [(ngModel)]="form.categoryId" name="categoryId" required>
-          <option value="0" disabled>Select Category</option>
-          <option *ngFor="let c of filteredCategories" [value]="c.id">{{ c.name }}</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Skill Name:</label>
-        <input type="text" [(ngModel)]="form.name" name="name" required>
-      </div>
-
-      <div class="form-group">
-        <label>Description:</label>
-        <textarea [(ngModel)]="form.description" name="description"></textarea>
-      </div>
-
-      <div class="checkbox-group">
-        <input type="checkbox" [(ngModel)]="form.isActive" name="isActive">
-        <label>Active</label>
-      </div>
-
-      <button type="submit" class="submit-btn" [disabled]="!isFormValid()">
-        {{ isEditMode ? 'Update Skill' : 'Add Skill' }}
-      </button>
-
-      <button type="button" class="cancel-btn" (click)="resetForm()" *ngIf="isEditMode">
-        Cancel
-      </button>
-
-    </form>
-  </div>
+<div class="page-layout no-filter-column">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
 
   <!-- RIGHT: Table -->
   <div class="table-column">
     <div class="table-container">
-      <h2>Skills List</h2>
+      <div class="table-header">
+        <h2>Skills List</h2>
+        <p-button 
+          label="Add New Skill" 
+          icon="pi pi-plus" 
+          (onClick)="openDialog()">
+        </p-button>
+      </div>
 
       <!-- SEARCH -->
-      <input 
-        type="text" 
-        placeholder="Search by name or description..." 
-        [(ngModel)]="searchText" 
-        (input)="applyFilter()"
-        class="search-input"
-      />
+      <div class="search-form-group">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input 
+            type="text" 
+            pInputText 
+            placeholder="Search by name or description..." 
+            [(ngModel)]="searchText"
+            (input)="applyFilter()" />
+        </span>
+      </div>
 
-      <table class="custom-table">
-        <thead>
+      <p-table 
+        [value]="filteredSkills" 
+        [paginator]="true" 
+        [rows]="13"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} skills"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        styleClass="p-datatable-striped"
+        [loading]="loading"
+        [tableStyle]="{'min-width': '50rem'}">
+        
+        <ng-template pTemplate="header">
           <tr>
             <th>Name</th>
             <th>Description</th>
             <th>Active</th>
-            <th>Actions</th>
+            <th style="width: 150px;">Actions</th>
           </tr>
-        </thead>
+        </ng-template>
 
-        <tbody>
-          <tr *ngFor="let s of filteredSkills">
-            <td>{{ s.name }}</td>
-            <td>{{ s.description }}</td>
-            <td>{{ s.isActive ? 'Yes' : 'No' }}</td>
-            <td class="action-buttons">
-              <button class="icon-btn edit" (click)="edit(s)" title="Edit">
-                <i class="bi bi-pencil-square"></i>
-              </button>
-              <button class="icon-btn delete" (click)="delete(s.id)" title="Delete">
-                <i class="bi bi-trash"></i>
-              </button>
+        <ng-template pTemplate="body" let-skill>
+          <tr>
+            <td>{{ skill.name }}</td>
+            <td>{{ skill.description }}</td>
+            <td>
+              <p-tag [value]="skill.isActive ? 'Yes' : 'No'" [severity]="skill.isActive ? 'success' : 'danger'"></p-tag>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <p-button 
+                  icon="pi pi-pencil" 
+                  [rounded]="true" 
+                  [text]="true"
+                  severity="info"
+                  (onClick)="edit(skill)"
+                  [pTooltip]="'Edit Skill'"
+                  tooltipPosition="top">
+                </p-button>
+
+                <p-button 
+                  icon="pi pi-trash" 
+                  [rounded]="true" 
+                  [text]="true"
+                  severity="danger"
+                  (onClick)="delete(skill.id!)"
+                  [pTooltip]="'Delete Skill'"
+                  tooltipPosition="top">
+                </p-button>
+              </div>
             </td>
           </tr>
-        </tbody>
-      </table>
+        </ng-template>
 
-      <div *ngIf="filteredSkills.length === 0" class="no-data">
-        No skills found.
-      </div>
-
-      <!-- PAGINATION -->
-      <div class="pagination" *ngIf="totalPages > 1">
-        <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
-        <button 
-          *ngFor="let page of [].constructor(totalPages); let i = index" 
-          [class.active]="currentPage === i + 1" 
-          (click)="goToPage(i + 1)">
-          {{ i + 1 }}
-        </button>
-        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
-      </div>
-
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="4" style="text-align: center; padding: 20px;">
+              <div class="no-data">No skills found.</div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
   </div>
-
 </div>
+
+<!-- Off-Canvas for Add/Edit Form -->
+<app-off-canvas 
+  [(visible)]="visible" 
+  [header]="isEditMode ? 'Edit Skill' : 'Add New Skill'"
+  [width]="'500px'"
+  [position]="'right'"
+  (onHide)="closeDialog()">
+  
+  <form (ngSubmit)="submitForm()">
+    <!-- Stack -->
+    <div class="field mb-4">
+      <label for="stack" class="block mb-2 font-semibold">Stack</label>
+      <p-select 
+        id="stack"
+        [options]="stacks" 
+        [(ngModel)]="selectedStackId" 
+        name="stack"
+        optionLabel="name" 
+        optionValue="id"
+        placeholder="Select Stack"
+        [showClear]="true"
+        (onChange)="onStackChange()"
+        style="width: 100%;">
+        <ng-template pTemplate="item" let-stack>
+          <div>{{ stack.name }}</div>
+        </ng-template>
+      </p-select>
+    </div>
+
+    <!-- Category -->
+    <div class="field mb-4">
+      <label for="categoryId" class="block mb-2 font-semibold">Category *</label>
+      <p-select 
+        id="categoryId"
+        [options]="filteredCategories" 
+        [(ngModel)]="form.categoryId" 
+        name="categoryId"
+        optionLabel="name" 
+        optionValue="id"
+        placeholder="Select Category"
+        required
+        style="width: 100%;">
+        <ng-template pTemplate="item" let-category>
+          <div>{{ category.name }}</div>
+        </ng-template>
+      </p-select>
+    </div>
+
+    <!-- Skill Name -->
+    <div class="field mb-4">
+      <label for="name" class="block mb-2 font-semibold">Skill Name *</label>
+      <input 
+        id="name"
+        type="text" 
+        pInputText 
+        [(ngModel)]="form.name" 
+        name="name" 
+        required
+        style="width: 100%;" />
+    </div>
+
+    <!-- Description -->
+    <div class="field mb-4">
+      <label for="description" class="block mb-2 font-semibold">Description</label>
+      <textarea 
+        id="description"
+        pTextarea 
+        [(ngModel)]="form.description" 
+        name="description"
+        [rows]="4"
+        style="width: 100%;">
+      </textarea>
+    </div>
+
+    <!-- Active Checkbox -->
+    <div class="field mb-4">
+      <p-checkbox 
+        [(ngModel)]="form.isActive" 
+        name="isActive"
+        inputId="isActive"
+        [binary]="true">
+      </p-checkbox>
+      <label for="isActive" class="ml-2">Active</label>
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex gap-2 justify-content-end mt-4">
+      <p-button 
+        label="Cancel" 
+        icon="pi pi-times" 
+        [text]="true"
+        severity="secondary"
+        (onClick)="closeDialog()">
+      </p-button>
+      <p-button 
+        [label]="isEditMode ? 'Update Skill' : 'Add Skill'" 
+        icon="pi pi-check" 
+        type="submit"
+        [disabled]="!isFormValid() || saving"
+        [loading]="saving"
+        >
+      </p-button>
+    </div>
+  </form>
+</app-off-canvas>

@@ -1,97 +1,167 @@
-<div class="page-layout">
-
-  <!-- LEFT: Add / Edit Form -->
-  <div class="form-column">
-    <h3>{{ isEditMode ? 'Edit Product' : 'Add New Product' }}</h3>
-
-    <form (ngSubmit)="submitForm()">
-
-      <!-- Name -->
-      <div class="form-group">
-        <label>Name:</label>
-        <input type="text" [(ngModel)]="form.name" name="name" required>
-      </div>
-
-      <!-- Description -->
-      <div class="form-group">
-        <label>Description:</label>
-        <textarea [(ngModel)]="form.description" name="description"></textarea>
-      </div>
-
-      <!-- Active Checkbox -->
-      <div class="checkbox-group">
-        <input type="checkbox" [(ngModel)]="form.isActive" name="isActive">
-        <label>Active</label>
-      </div>
-
-      <!-- Buttons -->
-      <button class="submit-btn" type="submit" [disabled]="!isFormValid()">
-        {{ isEditMode ? 'Update Product' : 'Add Product' }}
-      </button>
-
-      <button 
-        class="cancel-btn" 
-        type="button" 
-        (click)="resetForm()" 
-        *ngIf="isEditMode">
-        Cancel
-      </button>
-
-    </form>
-  </div>
+<div class="page-layout no-filter-column">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
 
   <!-- RIGHT: Table -->
   <div class="table-column">
     <div class="table-container">
-
-      <h2>Products List</h2>
+      <div class="table-header">
+        <h2>Products List</h2>
+        <p-button 
+          label="Add New Product" 
+          icon="pi pi-plus" 
+          (onClick)="openDialog()">
+        </p-button>
+      </div>
 
       <!-- SEARCH -->
-      <input
-        type="text"
-        placeholder="Search by name or description..."
-        [(ngModel)]="searchText"
-        (input)="applyFilter()"
-        class="search-input"
-      />
+      <form [formGroup]="searchForm" class="search-form-group">
+        <label class="search-label">Search</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input 
+            type="text" 
+            pInputText 
+            placeholder="Search by name or description..." 
+            formControlName="searchText" />
+        </span>
+      </form>
 
-      <table class="custom-table">
-        <thead>
+      <p-table 
+        [value]="filteredProducts" 
+        [paginator]="true" 
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        styleClass="p-datatable-striped"
+        [loading]="loading"
+        [tableStyle]="{'min-width': '50rem'}">
+        
+        <ng-template pTemplate="header">
           <tr>
             <th>Name</th>
             <th>Description</th>
-            <th style="width: 160px;">Actions</th>
+            <th style="width: 200px;">Actions</th>
           </tr>
-        </thead>
+        </ng-template>
 
-        <tbody>
-          <tr *ngFor="let product of filteredProducts">
+        <ng-template pTemplate="body" let-product>
+          <tr>
             <td>{{ product.name }}</td>
             <td>{{ product.description }}</td>
             <td>
               <div class="action-buttons">
-                <button class="icon-btn edit-icon" (click)="edit(product)">
-                  <i class="bi bi-pencil-square"></i>
-                </button>
+                <p-button 
+                  icon="pi pi-pencil" 
+                  [rounded]="true" 
+                  [text]="true"
+                  severity="info"
+                  (onClick)="edit(product)"
+                  [pTooltip]="'Edit Product'"
+                  tooltipPosition="top">
+                </p-button>
 
-                <button class="icon-btn delete-icon" (click)="delete(product.id!)">
-                  <i class="bi bi-trash-fill"></i>
-                </button>
+                <p-button 
+                  icon="pi pi-trash" 
+                  [rounded]="true" 
+                  [text]="true"
+                  severity="danger"
+                  (onClick)="delete(product.id!)"
+                  [pTooltip]="'Delete Product'"
+                  tooltipPosition="top">
+                </p-button>
 
-                <button class="icon-btn members-icon" (click)="getMembers(product.id!)">
-                  <i class="bi bi-people-fill"></i>
-                </button>
+                <p-button 
+                  icon="pi pi-users" 
+                  [rounded]="true" 
+                  [text]="true"
+                  severity="success"
+                  (onClick)="getMembers(product.id!)"
+                  [pTooltip]="'View Members'"
+                  tooltipPosition="top">
+                </p-button>
               </div>
             </td>
           </tr>
+        </ng-template>
 
-          <tr *ngIf="filteredProducts.length === 0">
-            <td colspan="4" class="no-data">No products found.</td>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="3" style="text-align: center; padding: 20px;">
+              <div class="no-data">No products found.</div>
+            </td>
           </tr>
-        </tbody>
-      </table>
-
+        </ng-template>
+      </p-table>
     </div>
   </div>
-
 </div>
+
+<!-- Footer Template for Off-Canvas -->
+<ng-template #footerTemplate>
+  <div class="flex gap-2 justify-content-end">
+    <p-button 
+      label="Cancel" 
+      icon="pi pi-times" 
+      [text]="true"
+      severity="secondary"
+      (onClick)="closeDialog()">
+    </p-button>
+      <p-button 
+        [label]="isEditMode ? 'Update Product' : 'Add Product'" 
+        icon="pi pi-check" 
+        type="button"
+        (onClick)="submitForm()"
+        [disabled]="!isFormValid() || saving"
+        [loading]="saving">
+      </p-button>
+  </div>
+</ng-template>
+
+<!-- Off-Canvas for Add/Edit Form -->
+<app-off-canvas 
+  [(visible)]="visible" 
+  [header]="isEditMode ? 'Edit Product' : 'Add New Product'"
+  [width]="'500px'"
+  [position]="'right'"
+  [footerTemplate]="footerTemplate"
+  (onHide)="closeDialog()">
+  
+  <form (ngSubmit)="submitForm()">
+    <!-- Name -->
+    <div class="field">
+      <label for="name" class="block mb-2 font-semibold">Name *</label>
+      <input 
+        id="name"
+        type="text" 
+        pInputText 
+        [(ngModel)]="form.name" 
+        name="name" 
+        required />
+    </div>
+
+    <!-- Description -->
+    <div class="field">
+      <label for="description" class="block mb-2 font-semibold">Description</label>
+      <textarea 
+        id="description"
+        pInputTextarea 
+        [(ngModel)]="form.description" 
+        name="description"
+        [rows]="4">
+      </textarea>
+    </div>
+
+    <!-- Active Checkbox -->
+    <div class="field">
+      <p-checkbox 
+        [(ngModel)]="form.isActive" 
+        name="isActive"
+        inputId="isActive"
+        [binary]="true">
+      </p-checkbox>
+      <label for="isActive" class="ml-2">Active</label>
+    </div>
+  </form>
+</app-off-canvas>

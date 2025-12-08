@@ -1,0 +1,299 @@
+/* =========================================
+   PrimeNG AZM Theme Customization
+   ========================================= */
+
+/* Primary Colors */
+:root {
+  --azm-blue-dark: #003A70;
+  --azm-blue-light: #0094D8;
+  --azm-purple: #7F3F98;
+}
+
+/* Override PrimeNG Primary Colors */
+.p-button-primary,
+.p-button.p-button-primary {
+  background: #0094D8;
+  border-color: #0094D8;
+}
+
+.p-button-primary:hover,
+.p-button.p-button-primary:hover {
+  background: #007bb8;
+  border-color: #007bb8;
+}
+
+.p-button-primary:focus,
+.p-button.p-button-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 148, 216, 0.5);
+}
+
+/* Dialog Header */
+.p-dialog:not(.p-confirm-dialog) .p-dialog-header {
+  background: #003A70;
+  color: white;
+  border-radius: 6px 6px 0 0;
+}
+
+.p-dialog:not(.p-confirm-dialog) .p-dialog-header .p-dialog-header-icon {
+  color: white;
+}
+
+.p-dialog:not(.p-confirm-dialog) .p-dialog-header .p-dialog-header-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Table Header */
+.p-datatable .p-datatable-thead > tr > th {
+  background: #003A70;
+  color: white;
+  border-color: #002a54;
+}
+
+.p-datatable .p-datatable-tbody > tr.p-highlight {
+  background: rgba(0, 148, 216, 0.1);
+  color: #003A70;
+}
+
+/* Dropdown */
+.p-dropdown:not(.p-disabled).p-focus {
+  border-color: #0094D8;
+  box-shadow: 0 0 0 0.2rem rgba(0, 148, 216, 0.2);
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+  background: rgba(0, 148, 216, 0.1);
+  color: #003A70;
+}
+
+/* Input Focus */
+.p-inputtext:enabled:focus,
+.p-inputtextarea:enabled:focus,
+.p-calendar:not(.p-calendar-disabled).p-inputwrapper-focus {
+  border-color: #0094D8;
+  box-shadow: 0 0 0 0.2rem rgba(0, 148, 216, 0.2);
+}
+
+/* Calendar */
+.p-datepicker .p-datepicker-header {
+  background: #003A70;
+  color: white;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-prev,
+.p-datepicker .p-datepicker-header .p-datepicker-next {
+  color: white;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-prev:hover,
+.p-datepicker .p-datepicker-header .p-datepicker-next:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.p-datepicker table td > span.p-highlight {
+  background: #0094D8;
+  color: white;
+}
+
+/* Datepicker Select Year and Month */
+.p-datepicker .p-datepicker-select-year,
+.p-datepicker .p-datepicker-select-month {
+  color: white !important;
+  background-color: transparent !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.p-datepicker .p-datepicker-select-year option,
+.p-datepicker .p-datepicker-select-month option {
+  color: #003A70;
+  background: white;
+}
+
+/* Toast */
+.p-toast .p-toast-message.p-toast-message-success {
+  background: #dbeafe;
+  border-color: #0094D8;
+  color: #003A70;
+}
+
+.p-toast .p-toast-message.p-toast-message-error {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+.p-toast .p-toast-message.p-toast-message-warn {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.p-toast .p-toast-message.p-toast-message-info {
+  background: #dbeafe;
+  border-color: #0094D8;
+  color: #003A70;
+}
+
+/* Confirm Dialog - Remove Blue Background (Higher Specificity) */
+.p-confirm-dialog.p-dialog .p-dialog-header,
+.p-confirm-dialog .p-dialog-header,
+.p-confirmdialog.p-dialog .p-dialog-header,
+.p-confirmdialog .p-dialog-header,
+p-confirmdialog .p-dialog-header {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #1f2937 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+.p-confirm-dialog .p-dialog-header .p-dialog-title,
+.p-confirmdialog .p-dialog-header .p-dialog-title {
+  color: #1f2937 !important;
+}
+
+/* Remove background overlay/mask for confirm dialog */
+.p-confirm-dialog-mask,
+.p-confirmdialog-mask {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.p-confirm-dialog-overlay,
+.p-confirmdialog-overlay {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Ensure dialog content is visible without background */
+.p-confirm-dialog .p-dialog-content,
+.p-confirmdialog .p-dialog-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: none !important;
+  padding-top: 1rem !important;
+}
+
+/* Center confirm dialog footer buttons */
+.p-confirm-dialog .p-dialog-footer,
+.p-confirmdialog .p-dialog-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Style confirm dialog buttons with different colors */
+.p-confirm-dialog .p-confirmdialog-reject-button,
+.p-confirmdialog .p-confirmdialog-reject-button {
+  background: #6b7280 !important;
+  border-color: #6b7280 !important;
+  color: #ffffff !important;
+}
+
+.p-confirm-dialog .p-confirmdialog-reject-button:hover,
+.p-confirmdialog .p-confirmdialog-reject-button:hover {
+  background: #4b5563 !important;
+  border-color: #4b5563 !important;
+}
+
+.p-confirm-dialog .p-confirmdialog-accept-button,
+.p-confirmdialog .p-confirmdialog-accept-button {
+  background: #ef4444 !important;
+  border-color: #ef4444 !important;
+  color: #ffffff !important;
+}
+
+.p-confirm-dialog .p-confirmdialog-accept-button:hover,
+.p-confirmdialog .p-confirmdialog-accept-button:hover {
+  background: #dc2626 !important;
+  border-color: #dc2626 !important;
+}
+
+.p-confirm-dialog .p-dialog-header .p-dialog-header-icon,
+.p-confirmdialog .p-dialog-header .p-dialog-header-icon {
+  color: #6b7280 !important;
+}
+
+.p-confirm-dialog .p-dialog-header .p-dialog-header-icon:hover,
+.p-confirmdialog .p-dialog-header .p-dialog-header-icon:hover {
+  background: #f3f4f6 !important;
+  color: #1f2937 !important;
+}
+
+/* Action Buttons - Consistent Height and Spacing */
+.action-buttons p-button,
+.action-buttons .p-button {
+  height: 40px !important;
+  width: 40px !important;
+  min-width: 40px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-buttons p-button .p-button,
+.action-buttons .p-button.p-button-icon-only {
+  height: 40px !important;
+  width: 40px !important;
+  min-width: 40px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Paginator */
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: #0094D8;
+  border-color: #0094D8;
+  color: white;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page:not(.p-highlight):hover {
+  background: rgba(0, 148, 216, 0.1);
+  border-color: rgba(0, 148, 216, 0.2);
+}
+
+/* Tag */
+.p-tag.p-tag-success {
+  background: #0094D8;
+  color: white;
+}
+
+.p-tag.p-tag-warning {
+  background: #f59e0b;
+  color: white;
+}
+
+.p-tag.p-tag-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.p-tag.p-tag-info {
+  background: #0094D8;
+  color: white;
+}
+
+/* Checkbox */
+.p-checkbox .p-checkbox-box.p-highlight {
+  background: #0094D8;
+  border-color: #0094D8;
+}
+
+.p-checkbox .p-checkbox-box.p-highlight:not(.p-disabled):hover {
+  background: #007bb8;
+  border-color: #007bb8;
+}
+
+/* Toggle Button */
+.p-togglebutton.p-button.p-highlight {
+  background: #0094D8;
+  border-color: #0094D8;
+  color: white;
+}
+
+.p-togglebutton.p-button.p-highlight:hover {
+  background: #007bb8;
+  border-color: #007bb8;
+}
+

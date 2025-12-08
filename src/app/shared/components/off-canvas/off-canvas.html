@@ -1,0 +1,34 @@
+<p-drawer 
+  [(visible)]="visible"
+  [position]="position"
+  [modal]="modal"
+  [closable]="closable"
+  [dismissible]="dismissible"
+  [showCloseIcon]="showCloseIcon"
+  [blockScroll]="blockScroll"
+  [baseZIndex]="baseZIndex"
+  [autoZIndex]="autoZIndex"
+  [style]="position === 'left' || position === 'right' ? {width: width} : {height: height}"
+  [header]="header"
+  [styleClass]="'app-off-canvas ' + styleClass"
+  (onShow)="onShowEvent()"
+  (onHide)="onHideEvent()">
+  
+  <div class="drawer-wrapper">
+    <!-- Content -->
+    <div class="drawer-content-area">
+      <ng-container *ngIf="contentTemplate; else defaultContent">
+        <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+      </ng-container>
+      <ng-template #defaultContent>
+        <ng-content></ng-content>
+      </ng-template>
+    </div>
+    
+    <!-- Footer -->
+    <div class="drawer-footer" *ngIf="footerTemplate">
+      <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+    </div>
+  </div>
+</p-drawer>
+

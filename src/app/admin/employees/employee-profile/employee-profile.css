@@ -110,22 +110,34 @@
   transform: translateY(-2px);
 }
 
-/* SKILL TAGS */
-.skill-tag {
+/* SKILL TAGS - PrimeNG Tag Component */
+::ng-deep .skills-container .p-tag.skill-tag {
   background: #eef4ff;
   color: #4c6ef5;
   padding: 10px 18px;
   border-radius: 16px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
   font-size: 14px;
   border: 1px solid #d7e3ff;
   transition: 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
-.skill-tag:hover {
+
+::ng-deep .skills-container .p-tag.skill-tag i {
+  font-size: 14px;
+}
+
+::ng-deep .skills-container .p-tag.skill-tag:hover {
   background: #e1ecff;
   transform: translateY(-2px);
+}
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
 }
 
 /* LIST ITEMS */

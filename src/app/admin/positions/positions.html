@@ -1,90 +1,162 @@
-<div class="page-layout">
-
-  <!-- LEFT: Add / Edit Form -->
-  <div class="form-column">
-    <h3>{{ isEditMode ? 'Edit Position' : 'Add New Position' }}</h3>
-
-    <form (ngSubmit)="submitForm()">
-
-      <div class="form-group">
-        <label>Name:</label>
-        <input type="text" [(ngModel)]="form.name" name="name" required>
-      </div>
-
-      <div class="form-group">
-        <label>Description:</label>
-        <textarea [(ngModel)]="form.description" name="description" required></textarea>
-      </div>
-
-      <div class="checkbox-group">
-        <input type="checkbox" [(ngModel)]="form.isActive" name="isActive">
-        <label>Active</label>
-      </div>
-
-      <button class="submit-btn" type="submit" [disabled]="!isFormValid()">
-        {{ isEditMode ? 'Update Position' : 'Add Position' }}
-      </button>
-
-      <button 
-        class="cancel-btn" 
-        type="button" 
-        (click)="resetForm()" 
-        *ngIf="isEditMode">
-        Cancel
-      </button>
-
-    </form>
-  </div>
+<div class="page-layout no-filter-column">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
 
   <!-- RIGHT: Table -->
   <div class="table-column">
     <div class="table-container">
+      <div class="table-header">
+        <h2>Positions List</h2>
+        <p-button 
+          label="Add New Position" 
+          icon="pi pi-plus" 
+          (onClick)="openDialog()">
+        </p-button>
+      </div>
 
-      <h2>Positions List</h2>
+      <!-- SEARCH -->
+      <form [formGroup]="searchForm" class="search-form-group">
+        <label class="search-label">Search</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input 
+            type="text" 
+            pInputText 
+            placeholder="Search by name or description..." 
+            formControlName="searchText" />
+        </span>
+      </form>
 
-     <!-- Search -->
-<input 
-  type="text" 
-  placeholder="Search by name or description..." 
-  [(ngModel)]="searchText" 
-  (input)="applyFilter()"
-  class="search-input"
-/>
-
-
-      <table class="custom-table">
-        <thead>
+      <p-table 
+        [value]="filteredPositions" 
+        [paginator]="true" 
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} positions"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        styleClass="p-datatable-striped"
+        [loading]="loading"
+        [tableStyle]="{'min-width': '50rem'}">
+        
+        <ng-template pTemplate="header">
           <tr>
             <th>Name</th>
             <th>Description</th>
             <th>Active</th>
-            <th style="width: 160px;">Actions</th>
+            <th style="width: 150px;">Actions</th>
           </tr>
-        </thead>
+        </ng-template>
 
-        <tbody>
-          <tr *ngFor="let pos of filteredPositions">
-            <td>{{ pos.name }}</td>
-            <td>{{ pos.description }}</td>
-            <td>{{ pos.isActive ? 'Yes' : 'No' }}</td>
+        <ng-template pTemplate="body" let-position>
+          <tr>
+            <td>{{ position.name }}</td>
+            <td>{{ position.description }}</td>
             <td>
-              <button class="icon-btn edit-icon" (click)="edit(pos)">
-                <i class="bi bi-pencil-square"></i>
-              </button>
+              <p-tag [value]="position.isActive ? 'Yes' : 'No'" [severity]="position.isActive ? 'success' : 'danger'"></p-tag>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <p-button 
+                  icon="pi pi-pencil" 
+                  [rounded]="true" 
+                  [text]="true"
+                  severity="info"
+                  (onClick)="edit(position)"
+                  [pTooltip]="'Edit Position'"
+                  tooltipPosition="top">
+                </p-button>
 
-              <button class="icon-btn delete-icon" (click)="delete(pos.id!)">
-                <i class="bi bi-trash-fill"></i>
-              </button>
+                <p-button 
+                  icon="pi pi-trash" 
+                  [rounded]="true" 
+                  [text]="true"
+                  severity="danger"
+                  (onClick)="delete(position.id!)"
+                  [pTooltip]="'Delete Position'"
+                  tooltipPosition="top">
+                </p-button>
+              </div>
             </td>
           </tr>
+        </ng-template>
 
-          <tr *ngIf="filteredPositions.length === 0">
-            <td colspan="4" class="no-data">No positions found.</td>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="4" style="text-align: center; padding: 20px;">
+              <div class="no-data">No positions found.</div>
+            </td>
           </tr>
-        </tbody>
-      </table>
-
+        </ng-template>
+      </p-table>
     </div>
   </div>
-
 </div>
+
+<!-- Footer Template for Off-Canvas -->
+<ng-template #footerTemplate>
+  <div class="flex gap-2 justify-content-end">
+    <p-button 
+      label="Cancel" 
+      icon="pi pi-times" 
+      [text]="true"
+      severity="secondary"
+      (onClick)="closeDialog()">
+    </p-button>
+    <p-button 
+      [label]="isEditMode ? 'Update Position' : 'Add Position'" 
+      icon="pi pi-check" 
+      type="button"
+      (onClick)="submitForm()"
+      [disabled]="!isFormValid() || saving"
+      [loading]="saving">
+    </p-button>
+  </div>
+</ng-template>
+
+<!-- Off-Canvas for Add/Edit Form -->
+<app-off-canvas 
+  [(visible)]="visible" 
+  [header]="isEditMode ? 'Edit Position' : 'Add New Position'"
+  [width]="'500px'"
+  [position]="'right'"
+  [footerTemplate]="footerTemplate"
+  (onHide)="closeDialog()">
+  
+  <form (ngSubmit)="submitForm()">
+    <!-- Name -->
+    <div class="field">
+      <label for="name" class="block mb-2 font-semibold">Name *</label>
+      <input 
+        id="name"
+        type="text" 
+        pInputText 
+        [(ngModel)]="form.name" 
+        name="name" 
+        required />
+    </div>
+
+    <!-- Description -->
+    <div class="field">
+      <label for="description" class="block mb-2 font-semibold">Description *</label>
+      <textarea 
+        id="description"
+        pInputTextarea 
+        [(ngModel)]="form.description" 
+        name="description"
+        [rows]="4"
+        required>
+      </textarea>
+    </div>
+
+    <!-- Active Checkbox -->
+    <div class="field">
+      <p-checkbox 
+        [(ngModel)]="form.isActive" 
+        name="isActive"
+        inputId="isActive"
+        [binary]="true">
+      </p-checkbox>
+      <label for="isActive" class="ml-2">Active</label>
+    </div>
+  </form>
+</app-off-canvas>

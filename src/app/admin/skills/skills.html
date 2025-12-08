@@ -9,10 +9,12 @@
       </h1>
       <p class="page-subtitle">Manage and showcase your technical skills</p>
     </div>
-    <button *ngIf="!isAdmin && !showForm" class="btn-primary add-skill-btn" (click)="openAddForm()">
-      <span class="btn-icon">+</span>
-      Add New Skill
-    </button>
+    <p-button 
+      *ngIf="!isAdmin && !showForm" 
+      label="Add New Skill" 
+      icon="pi pi-plus" 
+      (onClick)="openAddForm()">
+    </p-button>
   </div>
 
   <!-- Statistics Cards -->
@@ -58,185 +60,165 @@
     </div>
   </div>
 
-  <!-- Messages -->
-  <div class="messages-container">
-    <div *ngIf="successMessage" class="message success-message">
-      <span class="message-icon">✓</span>
-      {{ successMessage }}
-    </div>
-    <div *ngIf="errorMessage" class="message error-message">
-      <span class="message-icon">✕</span>
-      {{ errorMessage }}
-    </div>
-  </div>
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
 
-  <!-- Modal Overlay for Add/Edit Skill Form -->
-  <div class="modal-overlay" *ngIf="showForm && !isAdmin" (click)="closeForm()">
-    <div class="modal-dialog" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h3>{{ isEditMode ? '✏️ Edit Skill' : '➕ Add New Skill' }}</h3>
-        <button class="modal-close-btn" (click)="closeForm()" type="button" aria-label="Close">
-          <span>×</span>
-        </button>
-      </div>
-
+  <!-- PrimeNG Drawer (Offcanvas) for Add/Edit Skill Form -->
+  <p-drawer 
+    [(visible)]="showForm" 
+    [position]="'right'"
+    [modal]="true"
+    [style]="{width: '500px'}"
+    [header]="isEditMode ? 'Edit Skill' : 'Add New Skill'"
+    *ngIf="!isAdmin"
+    (onHide)="closeForm()">
+    
       <form (ngSubmit)="saveForm()" class="skill-form">
         <!-- Stack Dropdown -->
-        <div class="form-group" *ngIf="!isEditMode">
-          <label class="form-label">
-            <span class="label-icon">📚</span>
-            Technology Stack
-          </label>
-          <select
+        <div class="field mb-4" *ngIf="!isEditMode">
+          <label for="stack" class="block mb-2 font-semibold">Technology Stack *</label>
+          <p-select 
+            id="stack"
+            [(ngModel)]="selectedStack" 
             name="stack"
-            [(ngModel)]="selectedStack"
-            (change)="onStackChange($event)"
-            class="form-select"
+            [options]="stackOptions" 
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Select Stack"
+            (onChange)="onStackChange($event)"
+            [style]="{'width': '100%'}"
             required>
-            <option value="">-- Select Stack --</option>
-            <option *ngFor="let stack of stacks" [value]="stack">
-              {{ stack }}
-            </option>
-          </select>
+          </p-select>
         </div>
 
         <!-- Category Dropdown -->
-        <div class="form-group" *ngIf="!isEditMode && categoriesByStack.length > 0">
-          <label class="form-label">
-            <span class="label-icon">📁</span>
-            Category
-          </label>
-          <select
+        <div class="field mb-4" *ngIf="!isEditMode && categoriesByStack.length > 0">
+          <label for="category" class="block mb-2 font-semibold">Category *</label>
+          <p-select 
+            id="category"
+            [(ngModel)]="selectedCategory" 
             name="category"
-            [(ngModel)]="selectedCategory"
-            (change)="onCategoryChange($event)"
-            class="form-select"
+            [options]="categoryOptions" 
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Select Category"
+            (onChange)="onCategoryChange($event)"
+            [style]="{'width': '100%'}"
             required>
-            <option value="">-- Select Category --</option>
-            <option *ngFor="let cat of categoriesByStack" [value]="cat">
-              {{ cat }}
-            </option>
-          </select>
+          </p-select>
         </div>
 
         <!-- Skill Dropdown -->
-        <div class="form-group" *ngIf="!isEditMode && filteredSkills.length > 0">
-          <label class="form-label">
-            <span class="label-icon">⚡</span>
-            Skill
-          </label>
-          <select
+        <div class="field mb-4" *ngIf="!isEditMode && filteredSkills.length > 0">
+          <label for="skill" class="block mb-2 font-semibold">Skill *</label>
+          <p-select 
+            id="skill"
+            [(ngModel)]="form.name" 
             name="skill"
-            [(ngModel)]="form.name"
-            (change)="onSkillSelect($event)"
-            class="form-select"
+            [options]="skillOptions" 
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Select Skill"
+            (onChange)="onSkillSelect($event)"
+            [style]="{'width': '100%'}"
             required>
-            <option value="">-- Select Skill --</option>
-            <option *ngFor="let skill of filteredSkills" [value]="skill.name">
-              {{ skill.name }}
-            </option>
-          </select>
+          </p-select>
         </div>
 
         <!-- Skill Name (Edit Mode) -->
-        <div class="form-group" *ngIf="isEditMode">
-          <label class="form-label">
-            <span class="label-icon">⚡</span>
-            Skill Name
-          </label>
+        <div class="field mb-4" *ngIf="isEditMode">
+          <label for="skillName" class="block mb-2 font-semibold">Skill Name</label>
           <input
+            id="skillName"
             type="text"
+            pInputText
             [(ngModel)]="form.name"
             name="skillName"
-            class="form-input"
-            readonly>
+            [readonly]="true"
+            [style]="{'width': '100%'}">
         </div>
 
         <!-- Self Rating -->
-        <div class="form-group">
-          <label class="form-label">
-            <span class="label-icon">⭐</span>
-            Self Rating (1-5)
-          </label>
-          <div class="rating-input-container">
-            <input
-              type="number"
-              min="1"
-              max="5"
-              [(ngModel)]="form.selfRating"
+        <div class="field mb-4">
+          <label for="selfRating" class="block mb-2 font-semibold">Self Rating (1-5) *</label>
+          <div class="rating-input-wrapper">
+            <p-inputNumber 
+              id="selfRating"
+              [(ngModel)]="form.selfRating" 
               name="selfRating"
-              (ngModelChange)="validateSelfRating()"
-              class="form-input rating-input"
-              required>
-            <div class="rating-preview" [style.color]="getRatingColor(form.selfRating)">
+              [min]="1" 
+              [max]="5" 
+              [showButtons]="true"
+              (onInput)="validateSelfRating()"
+              [style]="{'width': '100%'}">
+            </p-inputNumber>
+            <span [style.color]="getRatingColor(form.selfRating)" class="rating-stars-display">
               {{ getRatingStars(form.selfRating) }}
-            </div>
+            </span>
           </div>
         </div>
 
         <!-- Years of Experience -->
-        <div class="form-group">
-          <label class="form-label">
-            <span class="label-icon">📅</span>
-            Years of Experience
-          </label>
-          <input
-            type="number"
-            min="0"
-            step="0.5"
-            [(ngModel)]="form.yearsOfExperience"
+        <div class="field mb-4">
+          <label for="yearsOfExperience" class="block mb-2 font-semibold">Years of Experience *</label>
+          <p-inputNumber 
+            id="yearsOfExperience"
+            [(ngModel)]="form.yearsOfExperience" 
             name="yearsOfExperience"
-            class="form-input"
-            required>
+            [min]="0" 
+            [step]="0.5"
+            [showButtons]="true"
+            [style]="{'width': '100%'}">
+          </p-inputNumber>
         </div>
 
         <!-- Last Used -->
-        <div class="form-group">
-          <label class="form-label">
-            <span class="label-icon">📆</span>
-            Last Used
-          </label>
-          <input
-            type="date"
-            [(ngModel)]="form.lastUsed"
+        <div class="field mb-4">
+          <label for="lastUsed" class="block mb-2 font-semibold">Last Used *</label>
+          <p-datepicker 
+            id="lastUsed"
+            [(ngModel)]="form.lastUsed" 
             name="lastUsed"
-            class="form-input"
+            dateFormat="yy-mm-dd"
+            [showIcon]="true"
+            [style]="{'width': '100%'}"
             required>
+          </p-datepicker>
         </div>
 
         <!-- Notes -->
-        <div class="form-group">
-          <label class="form-label">
-            <span class="label-icon">📝</span>
-            Notes
-          </label>
+        <div class="field mb-4">
+          <label for="notes" class="block mb-2 font-semibold">Notes</label>
           <textarea
+            id="notes"
+            pTextarea
             [(ngModel)]="form.notes"
             name="notes"
-            class="form-textarea"
-            placeholder="Add any additional notes about this skill..."></textarea>
+            [rows]="4"
+            placeholder="Add any additional notes about this skill..."
+            [style]="{'width': '100%'}">
+          </textarea>
         </div>
 
         <!-- Form Actions -->
-        <div class="form-actions">
-          <button
-            type="submit"
-            class="btn-submit"
-            [disabled]="!isFormValid() || saving">
-            <span *ngIf="!saving">{{ isEditMode ? '💾 Update Skill' : '➕ Add Skill' }}</span>
-            <span *ngIf="saving">⏳ Saving...</span>
-          </button>
-          <button
-            type="button"
-            class="btn-cancel"
-            (click)="closeForm()"
+        <div class="flex gap-2 justify-content-end mt-4">
+          <p-button 
+            label="Cancel" 
+            icon="pi pi-times" 
+            [text]="true"
+            severity="secondary"
+            (onClick)="closeForm()"
             [disabled]="saving">
-            Cancel
-          </button>
+          </p-button>
+          <p-button 
+            [label]="isEditMode ? 'Update Skill' : 'Add Skill'" 
+            [icon]="saving ? 'pi pi-spin pi-spinner' : (isEditMode ? 'pi pi-check' : 'pi pi-plus')" 
+            type="submit"
+            [disabled]="!isFormValid() || saving">
+          </p-button>
         </div>
       </form>
-    </div>
-  </div>
+  </p-drawer>
 
   <!-- Main Content Layout -->
   <div class="main-layout">
@@ -245,68 +227,83 @@
       
       <!-- Filters and Search Bar -->
       <div class="filters-section">
-        <div class="search-container">
-          <span class="search-icon">🔍</span>
-          <input
-            type="text"
-            [(ngModel)]="searchText"
-            (input)="applyFilters()"
-            placeholder="Search skills by name, category, or stack..."
-            class="search-input">
-          <button *ngIf="searchText || filterStack || filterCategory || filterRating !== null" 
-                  class="clear-filter-btn" 
-                  (click)="clearFilters()">
-            ✕ Clear
-          </button>
-        </div>
-
-        <div class="filter-controls">
-          <select
+        <div class="filters-row">
+          <form [formGroup]="searchForm" style="flex: 1; min-width: 250px;">
+            <p-inputGroup>
+              <p-inputGroupAddon>
+                <i class="pi pi-search"></i>
+              </p-inputGroupAddon>
+              <input 
+                type="text" 
+                pInputText 
+                formControlName="searchText"
+                placeholder="Search skills by name, category, or stack..."
+                class="search-input-field" />
+            </p-inputGroup>
+          </form>
+          
+          <p-select
             [(ngModel)]="filterStack"
-            (change)="applyFilters()"
-            class="filter-select">
-            <option value="">All Stacks</option>
-            <option *ngFor="let stack of stacks" [value]="stack">
-              {{ stack }}
-            </option>
-          </select>
+            [options]="stackOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="All Stacks"
+            (onChange)="applyFilters()"
+            [showClear]="true"
+            styleClass="filter-select"
+            [style]="{'width': '12rem'}">
+          </p-select>
 
-          <select
+          <p-select
             [(ngModel)]="filterCategory"
-            (change)="applyFilters()"
-            class="filter-select">
-            <option value="">All Categories</option>
-            <option *ngFor="let cat of categoriesByStack" [value]="cat">
-              {{ cat }}
-            </option>
-          </select>
+            [options]="categoryOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="All Categories"
+            (onChange)="applyFilters()"
+            [showClear]="true"
+            styleClass="filter-select"
+            [style]="{'width': '12rem'}">
+          </p-select>
 
-          <select
+          <p-select
             [(ngModel)]="filterRating"
-            (change)="applyFilters()"
-            class="filter-select">
-            <option [value]="null">All Ratings</option>
-            <option [value]="5">5 Stars</option>
-            <option [value]="4">4 Stars</option>
-            <option [value]="3">3 Stars</option>
-            <option [value]="2">2 Stars</option>
-            <option [value]="1">1 Star</option>
-          </select>
+            [options]="[
+              {label: 'All Ratings', value: null},
+              {label: '5 Stars', value: 5},
+              {label: '4 Stars', value: 4},
+              {label: '3 Stars', value: 3},
+              {label: '2 Stars', value: 2},
+              {label: '1 Star', value: 1}
+            ]"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="All Ratings"
+            (onChange)="applyFilters()"
+            [showClear]="true"
+            styleClass="filter-select"
+            [style]="{'width': '12rem'}">
+          </p-select>
 
-          <div class="view-toggle">
-            <button
-              class="view-btn"
-              [class.active]="viewMode === 'cards'"
-              (click)="viewMode = 'cards'">
-              🎴 Cards
-            </button>
-            <button
-              class="view-btn"
-              [class.active]="viewMode === 'table'"
-              (click)="viewMode = 'table'">
-              📋 Table
-            </button>
-          </div>
+          <p-toggleButton
+            [(ngModel)]="viewMode"
+            onLabel="Cards"
+            offLabel="Table"
+            onIcon="pi pi-th-large"
+            offIcon="pi pi-list"
+            styleClass="view-toggle-btn">
+          </p-toggleButton>
+        </div>
+        
+        <div class="clear-filters-row" *ngIf="searchForm.get('searchText')?.value || filterStack || filterCategory || filterRating !== null">
+          <p-button 
+            icon="pi pi-times" 
+            label="Clear Filters"
+            [text]="true"
+            severity="secondary"
+            (onClick)="clearFilters()"
+            styleClass="clear-button">
+          </p-button>
         </div>
       </div>
 
@@ -317,7 +314,7 @@
       </div>
 
       <!-- Skills Cards View -->
-      <div *ngIf="!loading && viewMode === 'cards'" class="skills-grid">
+      <div *ngIf="!loading && viewMode" class="skills-grid">
         <div *ngFor="let skill of displayedSkills" class="skill-card">
           <div class="skill-card-header">
             <div class="skill-badge" [style.background]="getRatingColor(skill.selfRating) + '20'">
@@ -370,10 +367,10 @@
         <div *ngIf="displayedSkills.length === 0 && !loading" class="empty-state">
           <div class="empty-icon">📭</div>
           <h3>No skills found</h3>
-          <p *ngIf="searchText || filterStack || filterCategory || filterRating !== null">
+          <p *ngIf="searchForm.get('searchText')?.value || filterStack || filterCategory || filterRating !== null">
             Try adjusting your filters or search terms.
           </p>
-          <p *ngIf="!searchText && !filterStack && !filterCategory && filterRating === null">
+          <p *ngIf="!searchForm.get('searchText')?.value && !filterStack && !filterCategory && filterRating === null">
             Start by adding your first skill!
           </p>
           <button *ngIf="!isAdmin" class="btn-primary" (click)="openAddForm()">
@@ -382,10 +379,20 @@
         </div>
       </div>
 
-      <!-- Skills Table View -->
-      <div *ngIf="!loading && viewMode === 'table'" class="table-container">
-        <table class="skills-table">
-          <thead>
+      <!-- Skills Table View with PrimeNG -->
+      <div *ngIf="!loading && !viewMode">
+        <p-table 
+          [value]="filteredSkills" 
+          [paginator]="true" 
+          [rows]="pageSize"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} skills"
+          [rowsPerPageOptions]="[5, 10, 25, 50]"
+          styleClass="p-datatable-striped"
+          [loading]="loading"
+          [tableStyle]="{'min-width': '50rem'}">
+          
+          <ng-template pTemplate="header">
             <tr>
               <th>Skill</th>
               <th>Stack</th>
@@ -393,77 +400,67 @@
               <th>Rating</th>
               <th>Experience</th>
               <th>Last Used</th>
-              <th *ngIf="!isAdmin">Actions</th>
+              <th *ngIf="!isAdmin" style="width: 150px;">Actions</th>
             </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let skill of displayedSkills">
-              <td class="skill-name-cell">
+          </ng-template>
+
+          <ng-template pTemplate="body" let-skill>
+            <tr>
+              <td>
                 <strong>{{ skill.name }}</strong>
-                <div *ngIf="skill.notes" class="skill-notes-preview">{{ skill.notes }}</div>
+                <div *ngIf="skill.notes" class="text-sm text-gray-500 mt-1">{{ skill.notes }}</div>
               </td>
               <td>{{ skill.stack || 'N/A' }}</td>
               <td>{{ skill.category || 'N/A' }}</td>
               <td>
-                <span class="rating-badge" [style.color]="getRatingColor(skill.selfRating)">
-                  {{ getRatingStars(skill.selfRating) }}
-                </span>
+                <p-tag [value]="getRatingStars(skill.selfRating)" [severity]="getRatingSeverity(skill.selfRating)"></p-tag>
               </td>
               <td>{{ skill.yearsOfExperience || 0 }} yrs</td>
               <td>{{ formatDate(skill.lastUsed) }}</td>
-              <td *ngIf="!isAdmin" class="actions-cell">
-                <button class="table-action-btn edit-action" (click)="openEditForm(skill)">
-                  ✏️
-                </button>
-                <button class="table-action-btn delete-action" (click)="deleteSkill(skill.id)">
-                  🗑️
-                </button>
+              <td *ngIf="!isAdmin">
+                <div class="flex gap-2">
+                  <p-button 
+                    icon="pi pi-pencil" 
+                    [rounded]="true" 
+                    [text]="true"
+                    severity="info"
+                    (onClick)="openEditForm(skill)"
+                    [pTooltip]="'Edit Skill'"
+                    tooltipPosition="top">
+                  </p-button>
+                  <p-button 
+                    icon="pi pi-trash" 
+                    [rounded]="true" 
+                    [text]="true"
+                    severity="danger"
+                    (onClick)="deleteSkill(skill.id)"
+                    [pTooltip]="'Delete Skill'"
+                    tooltipPosition="top">
+                  </p-button>
+                </div>
               </td>
             </tr>
-            <tr *ngIf="displayedSkills.length === 0">
-              <td [attr.colspan]="isAdmin ? 6 : 7" class="empty-table-cell">
+          </ng-template>
+
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td [attr.colspan]="isAdmin ? 6 : 7" style="text-align: center; padding: 40px;">
                 <div class="empty-state">
                   <div class="empty-icon">📭</div>
                   <h3>No skills found</h3>
                   <p>Try adjusting your filters or add a new skill.</p>
+                  <p-button 
+                    *ngIf="!isAdmin"
+                    label="Add Your First Skill" 
+                    icon="pi pi-plus" 
+                    (onClick)="openAddForm()"
+                    [style]="{'margin-top': '20px'}">
+                  </p-button>
                 </div>
               </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Pagination -->
-      <div *ngIf="totalPages > 1 && !loading" class="pagination-container">
-        <button
-          class="pagination-btn"
-          (click)="prevPage()"
-          [disabled]="currentPage === 1">
-          ← Previous
-        </button>
-        
-        <div class="pagination-pages">
-          <button
-            *ngFor="let page of [].constructor(totalPages); let i = index"
-            class="page-number"
-            [class.active]="currentPage === i + 1"
-            (click)="goToPage(i + 1)">
-            {{ i + 1 }}
-          </button>
-        </div>
-        
-        <button
-          class="pagination-btn"
-          (click)="nextPage()"
-          [disabled]="currentPage === totalPages">
-          Next →
-        </button>
-        
-        <div class="pagination-info">
-          Showing {{ (currentPage - 1) * pageSize + 1 }} - 
-          {{ Math.min(currentPage * pageSize, filteredSkills.length) }} 
-          of {{ filteredSkills.length }} skills
-        </div>
+          </ng-template>
+        </p-table>
       </div>
     </div>
   </div>
