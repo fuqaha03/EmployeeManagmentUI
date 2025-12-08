@@ -21,6 +21,25 @@
   border-top: 5px solid #0094D8;
 }
 
+/* Logo Section */
+.logo-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.login-logo {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  border: 2px solid #0094D8;
+  border-radius: 12px;
+  padding: 8px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 148, 216, 0.15);
+}
+
 /* Titles */
 .title {
   margin: 0;
@@ -28,12 +47,14 @@
   font-size: 26px;
   font-weight: 700;
   color: #333;
+  text-align: center;
 }
 
 .subtitle {
   font-size: 14px;
   color: #777;
   margin-bottom: 25px;
+  text-align: center;
 }
 
 /* Inputs */

@@ -27,15 +27,21 @@
 }
 
 .logo-section {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: $spacing-xl;
 }
 
 .login-logo {
   height: 80px;
   width: auto;
-  margin-bottom: $spacing-lg;
   object-fit: contain;
+  border: 2px solid $secondary-blue;
+  border-radius: $border-radius-lg;
+  padding: $spacing-sm;
+  background: $white;
+  box-shadow: 0 2px 8px rgba(0, 148, 216, 0.15);
 }
 
 .title {
@@ -44,12 +50,14 @@
   font-size: $font-size-3xl;
   font-weight: $font-weight-bold;
   color: $primary-blue;
+  text-align: center;
 }
 
 .subtitle {
   font-size: $font-size-sm;
   color: $gray-700;
   margin-bottom: 0;
+  text-align: center;
 }
 
 .login-form {
